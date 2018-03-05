@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html style='height:100%;'>
+    <head>
+	<link href="//db.onlinewebfonts.com/c/7ad138835c0cf9f05a9f0ab343247612?family=ProximaNovaSoftW03-Bold" rel="stylesheet" type="text/css"/>
+        <!--
+        Customize this policy to fit your own app's needs. For more guidance, see:
+            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+        Some notes:
+            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+                * Enable inline JS: add 'unsafe-inline' to default-src
+        -->
+			<meta charset="utf-8">
+			<meta http-equiv="X-UA-Compatible" content="IE=edge">
+			
+			<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"/> -->
+			<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />			
+
+			<meta name="description" content="">
+			<meta name="author" content="">
+			
+			
+			
+	<link href="css/sandbox.css" rel="stylesheet">
+	<link href="css/drawer.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link href="css/bootstrap/bootstrap.css" rel="stylesheet">
+	<link href="css/bootstrap/bootstrap-theme.css" rel="stylesheet">
+	<!-- include the core styles -->
+		  <link rel="stylesheet" href="css/alertify.core.css" />
+		  <!-- include a theme, can be included into the core instead of 2 separate files -->
+		  <link rel="stylesheet" href="css/alertify.default.css" />
+			<script src="js/alertify.min.js"></script>
+	<script src="js/jqueryfile/jquery1113.js"></script>
+	<script type="text/javascript" src="js/index.js"></script>
+	<script type="text/javascript" src="cordova.js"></script>
+	
+			
+		<style type="text/css">
+		@font-face {
+			font-family:ProximaNovaSoft;
+			src: url(ProximaNovaSoft-Bold.otf);
+			font-weight: normal;
+			font-style: normal;
+			}
+			@font-face {
+			font-family: "Roboto_Medium";
+				src: url("Roboto_Medium.ttf") format("opentype");
+				font-weight: normal;
+				font-style: normal;
+			}
+			body
+			{
+				font-family: "Roboto_Medium";
+				background: rgba(246,255,219,1); /* For browsers that do not support gradients */
+				  background: -webkit-linear-gradient(rgba(246,255,219,1) 30%, rgba(212,255,82,1) 100%); /* For Safari 5.1 to 6.0 */
+				  background: -o-linear-gradient(rgba(246,255,219,1) 30%, rgba(212,255,82,1) 100%); /* For Opera 11.1 to 12.0 */
+				  background: -moz-linear-gradient(rgba(246,255,219,1) 30%, rgba(212,255,82,1) 100%); /* For Firefox 3.6 to 15 */
+				  background: linear-gradient(rgba(246,255,219,1) 30%, rgba(212,255,82,1) 100%); /* Standard syntax (must be last) */
+			}
+		</style>
+		
+		 
+		<script type="text/javascript">
+			var step = "1";
+			var captain = 0;
+			var noofteam ;
+			var userId = "";
+            var firstTimeLoadQuiz = "";
+			  $( document ).ready(function() {
+				//alert('load');
+				// set current language
+				
+				// change statusbar color
+				/*setTimeout(function()
+				{
+					//alert('change color:==>');
+						StatusBar.backgroundColorByHexString('#3E52B5'); 
+				},200); */
+				setTimeout(function()
+				{
+					//alert('change color:==>');
+						StatusBar.backgroundColorByHexString('#3E52B5'); 
+				},200);
+				
+				
+				languageChanged(window.localStorage.getItem("language"));
+				searchopenclose();
+				userId = window.localStorage.getItem("userId");
+				
+				var appfirst = window.localStorage.getItem("appFirst");
+				
+				if(!window.localStorage.getItem("userId") == "" && appfirst == "1")
+				{
+					alertify.alert("Welcome back " + window.localStorage.getItem("userName"));
+					window.localStorage.setItem("appFirst","2");
+				}
+				
+				firstTimeLoadQuiz = window.localStorage.getItem("firstTimeLoadQuiz");
+				if(firstTimeLoadQuiz == null)
+				{
+					displayQuiz();
+				}
+				else
+				{
+					setTimeout(function(){SelectQuiz();},500);
+				}
+				
+			});
+			
+			function help()
+			{
+					window.location = "help.html";
+			}
+			function onGameStart(id)
+			{
+				//selectUserDetail();
+				var quiz_id = $("#"+id).attr("data-qid") ;
+				window.localStorage.setItem("quiz_id",quiz_id);
+				//getQuiz();
+				
+				var getFirstTimeQuestion = window.localStorage.getItem("getFirstTimeQuestion");
+				//alert(getFirstTimeQuestion)
+					if(getFirstTimeQuestion == null)
+					{
+						getQuiz();
+					}
+					else
+					{
+						window.location='gamesetting.html';
+					}
+				
+				
+				//window.location='gamesetting.html';
+			}
+			function getQuiz()
+			{
+					
+						$("#loading").css("display","block");
+						$.ajax({url:APIURL + GETQUESTION,
+									type:"GET",
+									dataType:"json",
+									error:function(jqXHR,text_status,strError)
+									{
+											
+											 alertify.alert("No connection");
+											 $("#loading").css("display","none");
+											
+									},
+										success:function(data)
+										{	
+												 var i = data;
+												var data_string = JSON.stringify(i);
+												var jsonData = JSON.parse(data_string);
+												
+												console.log(data_string);
+												
+													//alert(jsonData[0].q_id);
+													for(var i=0; i<jsonData.length ; i++)
+													{
+														insertQuestions(jsonData[i].q_id,jsonData[i].quize_id,jsonData[i].topic1,jsonData[i].topic2,jsonData[i].level,jsonData[i].question,jsonData[i].correct_ans,jsonData[i].wrong_ans1,jsonData[i].wrong_ans2,jsonData[i].wrong_ans3,jsonData[i].hint,jsonData[i].reference,jsonData[i].language);
+														if( i == jsonData.length - 1)
+														{
+															//SelectQuiz();
+															//alert('success')
+															setTimeout(function(){$("#loading").css("display","none");},10000);
+															 window.localStorage.setItem("getFirstTimeQuestion","1");
+														}
+													}
+													
+										}
+							   
+								});
+			}
+			  
+        </script>
+    </head>
+    <body style="line-height: 1;background-color:#F6F6F6;" class="drawer drawer--left">
+         
+		 <div id='loading' style="display: none;top:0;left:0; position:fixed; width:100%; height:100%;z-index:2;opacity:0.5;background-color:black;" >
+			<img src="img/progresbarImg.gif" style="margin-top:50%;margin-left:35%;" width="100" height="100" title="Loading" />
+		</div>
+		
+		<!-- <div class="flow-root">
+			<div id="gameLandingPage" class="fullPage">
+				<img class="landingLogo" src="img/jeopardyrockslogo.png">
+				<div class="playNowBox">
+					<h2 class="playNowTitle"></h2>
+					<a class="playNowButton" href="team.html">Play Now!</a>
+					<a class="returnToEdit" href="/edit/sggame2">Edit</a>
+				</div>
+			</div>
+		</div> 
+		-->
+		<!-- <div id="gameLandingPage">
+		<img class="imglog" src="img/jeopardyrockslogo.png">
+			<center>
+					<div style="margin-top:30vh">
+						<a>Play Now</a>
+						<a>Edit</a>
+					</div>
+			</center>
+			
+		</div>
+		-->
+		<!-- <header>
+			   <div class="row row2">
+			   <div class="hd_menu"></div>
+				<div class="hd_group"></div>
+				<div class="hd_help" onclick="help();"></div>
+				<div class="hd_trophy"></div>
+				
+				 <div class="hd_title"><h3>Novasyon Quiz</h3></div>
+				 
+			   </div>
+				
+			</header> -->
+			
+			
+		 <header role="banner">
+    
+				<div class="row row2">
+					  <div class="hd_menu drawer-toggle "></div>
+					  <div class='hd_refresh' onclick='refreshQuiz();'></div>
+						<!--<div class="hd_group"></div>-->
+						 <!--<div class="hd_srch"> 
+						 
+						<div class="hd_title"><h3>Novasyon Quiz</h3></div>
+						<!--<input class="srcinput"  type="text"  id="txtsrc" name="" value="" placeholder="" onkeyup='search(this.id)'/> -->
+					
+					 <!--  <div class="srcimg"></div>
+				</div> -->
+
+				<nav class="drawer-nav" role="navigation" style='z-index:5000'>
+					   <ul class="drawer-menu">
+							 <li id='profileMenu'><a href="profile.html" class="normaltext" ><img src="img/profile.png" class='drwericon'/><span id='profile'>Profile</span></a></li>
+							 <li><a href="gamesetting.html" class="normaltext"><img src="img/settings_big_1x.png" class='drwericon'/><span id='setting'>Setting</span></a></li>
+							 <li><a  class="normaltext" id='feedbackpopup'><img src="img/feedback-icon.png" class='drwericon' /><span id="feedback">Feedback</span></a></li>
+							 <li><a href="sendQuestion.html" class="normaltext"><img src="img/feedback-icon.png" class='drwericon' /><span id="shareQuestion">Share Question</span></a></li>
+							 <li><a href="#" class="normaltext" onclick="window.plugins.socialsharing.share('Novasyon Quiz')"><img src="img/Share-512.png" class='drwericon'/><span id="sharing">Sharing</span></a></li>
+							 <li><a href="#" class="normaltext" onclick="rate()"><img src="img/rating_star-512.png" class='drwericon'/><span id="rate">Rate</span></a></li>
+							 <li id='loginMenu'><a href="#" class="normaltext" onclick="login()"><img src="img/login-256.png" class='drwericon'/><span id="login">Login</span></a></li>	
+							 <li id='logoutMenu'><a href="#" class="normaltext" onclick="logout()"><img src="img/logout-256.png" class='drwericon'/><span id="logout">Logout</span></a></li>	
+						</ul>
+				</nav>
+		</header>
+		  <!-- content -->
+		<main role="main">
+	<!--			<div id="gameLandingPage" class="vertical-center">
+	
+					<div class="container" >
+					<br />
+					<br />
+					<br />
+						<div class="containertopmargin">
+							<div class="text-center">
+								<br><br><br><br>
+							<h2 class="playNowTitledul" style="font-family:ProximaNovaSoft"><!--Jepadi --></h2>
+		<!--					<a class="playNowButton translate" href="team.html" id="playnow">Play Now!</a>
+			
+						</div>
+					</div>
+				</div>
+			</div> -->
+			
+			<div class='maindivcontainer col-xs-12' style="margin-top:50px;">
+				
+				<!--<div class="quizdiv col-xs-12" id='quizContainer'> 
+				<!--	<div class='quizimagediv' onclick="window.location='gamesetting.html'";>
+					<p class='quiztitle'><u>Bible Quiz</u></p>
+					<p class='quizdescription'>English Bible quiz on history, bible verses, prophecy...Based on the modern version New World Translation of the Holy Scripture, published by the Jehovah's Witnesses.</p>
+					<!-- <p  class='quizdescription'>prophecy...Based on the mdem New World Translation of the holy scriptures. published by the Jehovh's Witnesses.</p>  -->
+				<!--	</div>
+					<div class="quizbuttondiv">
+							<img class='heartimage' src='img/heart-68-128.png' onclick='onClickFavorite()'  />
+							<img class='heartimage' src='img/tag-512.png'  />
+							<img class='tagimage' src='img/arrow-58-128.png' onclick='onClickShare()'/>
+					</div> -->
+						
+			<!--	</div> 
+				
+				<!--<div class="quizdivsec col-xs-12" onclick="window.location='gamesetting.html'">
+					<div class="col-xs-6 divboxtw">
+						<div class='quizimagediv' >
+							<p class='quiztitlebottom'>Quiz biblique</p>
+						</div>
+						<div class="quizbuttondiv">
+							<img class='heartimage' src='img/heart-68-128.png'/>
+							<img class='heartimage' src='img/tag-512.png'/>
+							<img class='tagimage' src='img/arrow-58-128.png'/>
+						</div>
+					</div>	
+						<div class="col-xs-6 divboxtw">
+							
+							<div class='quizimagediv' >
+								<p class='quiztitlebottom'>kwiz biblik</p>
+							</div>
+							<div class="quizbuttondiv">
+								<img class='heartimage' src='img/heart-68-128.png'/>
+								<img class='heartimage' src='img/tag-512.png'/>
+								<img class='tagimage' src='img/arrow-58-128.png'/>
+							</div>
+						</div>	
+				</div>
+				<div class="quizdiv col-xs-12" onclick="window.location='gamesetting.html'"> 
+					<div class='quizimagediv '>
+					<p class='quiztitle'><u>Bible Quiz</u></p>
+					<p class='quizdescription'>English Bible question on history.Bible verses.</p>
+					<p  class='quizdescription'>prophecy...Based on the mdem New World Translation of the holy scriptures. published by the Jehovh's Witnesses.</p> 
+					</div>
+					<div class="quizbuttondiv">
+							<img class='heartimage' src='img/heart-68-128.png'  />
+							<img class='heartimage' src='img/tag-512.png'  />
+							<img class='tagimage' src='img/arrow-58-128.png'  />
+					</div>
+						
+				</div> -->
+			</div>
+		</main>  
+       <!-- The Modal -->
+				<div id="myModal" class="modal">
+
+					  <!-- Modal content -->
+					  <div class="modal-content">
+							<div class="modal-header">
+								  <span class="close">×</span>
+								  <h4 id='feedbackheader'>Feedback</h4>
+							</div>
+							<div class="modal-body">
+								 
+								  <textarea class="txtfeedback" cols="40" value="" rows="5" id="feedbackpopup"></textarea>
+								  <input class='buttonsubmit' value="send" type="button" id="btnsend" onclick='sendFeedback()'>
+							</div>
+							
+					  </div>
+				</div>
+     <script src="js/jqueryfile/jquery1113.js"></script>
+	 <script src="js/iscroll.min.js"></script>
+	 <script src="js/drawer.min.js" charset="utf-8"></script>
+	 <script src="js/url_min.js"></script>
+  <script>
+		$(document).ready(function() {
+		  $('.drawer').drawer();
+				 if(window.localStorage.getItem("userId") == "")
+				 {
+						$('#profileMenu').hide();
+						$('#logoutMenu').hide();
+				 }
+				 else
+				 {
+						$('#loginMenu').hide();
+				 }
+		});
+		// Get the modal
+			var modal = document.getElementById('myModal');
+
+			// Get the button that opens the modal
+			var feedbackpopup = document.getElementById("feedbackpopup");
+
+
+			// Get the <span> element that closes the modal
+			var span = document.getElementsByClassName("close")[0];
+
+			// When the user clicks the button, open the modal
+			feedbackpopup.onclick = function() {
+				$("textarea#feedbackpopup").val('');
+				modal.style.display = "block";
+				
+			}
+
+			// When the user clicks on <span> (x), close the modal
+			span.onclick = function() {
+				modal.style.display = "none";
+				
+			}
+
+			// When the user clicks anywhere outside of the modal, close it
+			window.onclick = function(event) {
+				if (event.target == modal) {
+					modal.style.display = "none";
+					
+				}
+			}
+			function rate()
+			{
+					AppRate.preferences = {
+					  openStoreInApp: true,
+					  displayAppName: 'My custom app title',
+					  usesUntilPrompt: 5,
+					  promptAgainForEachNewVersion: false,
+					  storeAppURL: {
+						
+						android: 'market://details?id=com.example.jeopardy',
+						
+					  },
+					  customLocale: {
+						title: "Rate Novasyon Quiz",
+						message: "If you enjoy using Novasyon Quiz, would you mind taking a moment to rate it? It won’t take more than a minute. Thanks for your support!",
+						cancelButtonLabel: "No, Thanks",
+						laterButtonLabel: "Remind Me Later",
+						rateButtonLabel: "Rate It Now"
+					  }
+					};
+					AppRate.promptForRating();
+			}
+			 function searchopenclose()
+			 {
+					  $('.srcimg').click(function(e) {
+							$('.srcinput').toggle('fast'); 
+							$('.srcimg').toggleClass('closesr');
+					  });
+			 }
+			function onClickFavorite()
+			{
+				//alert('Favorite');
+				
+				$.ajax({url:APIURL + FAVOURITE,
+									type:"POST",
+									data: {"u_id": userId,"quiz_id" : "1","is_favourite" : "1"},
+									dataType:"json",
+									error:function(jqXHR,text_status,strError)
+									{
+											alertify.alert("No connection");
+											
+											
+									},
+										success:function(data)
+										{	
+												var i = data;
+												var data_string = JSON.stringify(i);
+												var jsonData = JSON.parse(data_string);
+												//alert(data_string);
+													
+													
+												if(jsonData[0].success == "0")
+												{
+														
+												}	
+												else
+												{
+													alertify.alert("Quiz is added to favourite");
+												}
+										
+										}
+							   
+								});
+				
+			}
+			function onClickShare()
+			{
+				//alert('Share');
+				window.plugins.socialsharing.share('Bible Quiz');
+			}
+			// get user detail
+			function selectUserDetail()
+			{
+					var db = window.sqlitePlugin.openDatabase({name: "NovasyonQuiz.db", location: 'default'});
+					db.transaction(function(tx) 
+					{
+						tx.executeSql("SELECT *FROM login", [], function(tx, rs)
+						{
+							console.log(rs.toSource());
+						},
+						function(tx, error) 
+						{
+							 console.log('error select in table data:  ' + error.message);
+						});
+						
+					})
+			}
+			function logout()
+			{
+								var retVal = alertify.confirm( "Do yo want to logout", function (e) {
+								if (e)
+								 {
+										//after clicking OK
+											window.localStorage.setItem("userId", "");
+											window.localStorage.setItem("userName", "");
+											window.location="login.html";
+								  } else 
+								  {
+											// cancel click
+								  }
+								});
+								
+			}
+			function login()
+			{
+				window.location="login.html";
+			}
+				document.addEventListener('backbutton', function(event){
+				//alert("back");
+				
+					if(!window.localStorage.getItem("userId") == "")
+					{
+							event.preventDefault(); // EDIT
+							navigator.app.exitApp(); // exit the app
+					}
+					else
+					{
+						window.location="login.html";
+					}
+				
+				});
+				function displayQuiz()
+				{
+						$("#loading").css("display","block");
+						$(".maindivcontainer").empty();
+						$.ajax({url:APIURL + QUIZ,
+									type:"POST",
+									data: {"u_id": userId},
+									dataType:"json",
+									error:function(jqXHR,text_status,strError)
+									{
+											
+											setTimeout(function(){SelectQuiz();},100);
+											alertify.alert("No connection");
+											 $("#loading").css("display","none");
+											// append user favourite quiz
+									},
+										success:function(data)
+										{	
+												var i = data;
+												var data_string = JSON.stringify(i);
+												var jsonData = JSON.parse(data_string);
+												//alert(data_string);
+												deleteQuiz();	
+											setTimeout(function()
+											{
+												if(jsonData[0].status == "0")
+												{
+													SelectQuiz();
+													$("#loading").css("display","none");
+												}	
+												else
+												{
+													window.localStorage.setItem("firstTimeLoadQuiz","1");
+													
+													for(var i=0; i<jsonData.length ; i++)
+													{
+														insertQuiz(jsonData[i].is_favourite,jsonData[i].quize_id,jsonData[i].q_title,jsonData[i].q_image,jsonData[i].q_description,jsonData[i].u_jokes_count,jsonData[i].q_numberOfCategories,jsonData[i].q_categories,jsonData[i].q_note);
+														
+														if( i == jsonData.length - 1)
+														{
+															SelectQuiz();
+															$("#loading").css("display","none");
+														}
+													}
+												}
+											},200);	
+										}
+							   
+								});
+							
+						
+				}
+				function sendFeedback()
+				{
+					var feedback = $('textarea#feedbackpopup').val();
+					
+					
+					if(feedback == "")
+					{
+						alertify.alert('please enter feedback');
+					}
+					else
+					{
+								$.ajax({url:APIURL + FEEDBACK,
+									type:"POST",
+									data: {"u_id" : userId ,"f_description": feedback},
+									dataType:"json",
+									error:function(jqXHR,text_status,strError)
+									{
+											alertify.alert("No connection");
+											
+											
+									},
+									success:function(data)
+									{
+												
+												var i = data;
+					
+												var data_string = JSON.stringify(i);
+												var jsonData = JSON.parse(data_string);
+												//alert(data_string);
+																								
+												if(jsonData[0].success == 1)
+												{
+														alertify.alert('Feedback send successfully');
+														modal.style.display = "none";
+														
+												}	
+												else
+												{
+													alertify.alert(jsonData[0].error);
+												}
+										
+									}
+							   
+								});
+					}
+				}
+				
+				// insert quiz in to database
+				
+				function insertQuiz(is_favourite,quize_id,q_title,q_image,q_description,u_jokes_count,q_numberOfCategories,q_categories,q_note)
+				{
+							
+							var db = window.sqlitePlugin.openDatabase({name: "NovasyonQuiz.db", location: 'default'});
+							db.transaction(function(tx) 
+							{
+								// create table
+								tx.executeSql("CREATE TABLE IF NOT EXISTS Quiz(is_favourite,quize_id unique,q_title,q_image,q_description,u_jokes_count,q_numberOfCategories,q_categories,q_note)", [], function(tx, rs)
+								{
+									console.log('Quiz table create');
+								},
+								function(tx, error) 
+								{
+									 console.log('error in create Quiz table: ' + error.message);
+								});
+								
+								// insert quiz record
+								
+								tx.executeSql("INSERT INTO Quiz(is_favourite,quize_id,q_title,q_image,q_description,u_jokes_count,q_numberOfCategories,q_categories,q_note) VALUES("+is_favourite+",'"+quize_id+"','"+q_title+"','"+q_image+"','"+q_description+"','"+u_jokes_count+"','"+q_numberOfCategories+"','"+q_categories+"','"+q_note+"')", [], function(tx, rs)
+								{
+									console.log('Quiz table record insert');
+									
+								},
+								function(tx, error) 
+								{
+									 console.log('error in insert: ' + error.message);
+									
+								});
+							})						
+				}	
+				function deleteQuiz()
+				{
+							
+							var db = window.sqlitePlugin.openDatabase({name: "NovasyonQuiz.db", location: 'default'});
+							db.transaction(function(tx) 
+							{
+								
+								tx.executeSql("DELETE FROM Quiz", [], function(tx, rs)
+								{
+									console.log('Quiz table record delete');
+								},
+								function(tx, error) 
+								{
+									 console.log('error in delete Quiz table record: ' + error.message);
+								});
+							})						
+				}	
+				function SelectQuiz()
+				{
+							var db = window.sqlitePlugin.openDatabase({name: "NovasyonQuiz.db", location: 'default'});
+							db.transaction(function(tx) 
+							{
+								
+								tx.executeSql("SELECT *FROM Quiz", [], function(tx, rs)
+								{
+									
+									for(var r=0; r < rs.rows.length; r++)
+									{
+											//(rs.rows.item(r).Sequence);
+											$('.maindivcontainer').append("<div class='quizdiv col-xs-12' id='quizContainer'><div class='quizimagediv' id='img"+rs.rows.item(r).quize_id+"' data-qid='"+rs.rows.item(r).quize_id+"' data-qtitle='"+rs.rows.item(r).q_title+"' onclick='onGameStart(this.id)'>"+
+														"<p class='quiztitle'><u>"+ rs.rows.item(r).q_title+"</u></p>"+
+														"<p class='quizdescription'>"+rs.rows.item(r).q_description+"</p>"+
+														"</div>"+
+														"<div class='quizbuttondiv'>"+
+																"<img class='heartimage' src='img/heart-68-128.png' onclick='onClickFavorite()'/>"+
+																"<img class='heartimage' src='img/tag-512.png'/>"+
+																"<img class='tagimage' src='img/arrow-58-128.png' onclick='onClickShare()'/>"+
+														"</div>");
+												
+												$('#img'+rs.rows.item(r).quize_id).css("background-image","url("+ rs.rows.item(r).q_image +")");
+									}
+										
+								},
+								function(tx, error) 
+								{
+									 console.log('error in create Quiz table: ' + error.message);
+								});
+							})
+				}
+				function refreshQuiz()
+				{
+					displayQuiz();	
+					setTimeout(function()
+					{
+						getQuiz();
+					},1000)
+				}
+				function insertQuestions(Sequence,quize_id,Topic,Topic2,Level,Question,CorrectAnswer,WrongAnswer1,WrongAnswer2,WrongAnswer3,Hint,Reference,Language)
+				{
+						//Sequence = Sequence.replaceAll("'","\'");
+						//quize_id = quize_id.replaceAll("'","\'");
+						//Topic = ""+Topic.replaceAll("'","\'");
+						//Topic2 = ""+Topic2.replaceAll("'","\'");
+						//Level = ""+Level.replaceAll("'","\'");  replace(/o/g, 'dd')
+						Question = ""+Question.replace(/'/g,"\'");
+						CorrectAnswer = ""+CorrectAnswer.replace(/'/g,"\'");
+						WrongAnswer1 = ""+WrongAnswer1.replace(/'/g,"\'");
+						WrongAnswer2 = ""+WrongAnswer2.replace(/'/g,"\'");
+						WrongAnswer3 = ""+WrongAnswer3.replace(/'/g,"\'");
+						Hint = Hint.replace(/'/g,"\'");
+						Reference = Reference.replace(/'/g,"\'");
+						//Language = Language.replaceAll("'","\'");
+						
+						var db = window.sqlitePlugin.openDatabase({name: "NovasyonQuiz.db", location: 'default'});
+							db.transaction(function(tx) 
+							{
+								// create table
+								tx.executeSql("CREATE TABLE IF NOT EXISTS Questions(Sequence unique,quize_id,Topic,Topic2,Level,Question,CorrectAnswer,WrongAnswer1,WrongAnswer2,WrongAnswer3,Hint,Reference,Language)", [], function(tx, rs)
+								{
+									//console.log('Question table create');
+								},
+								function(tx, error) 
+								{
+									// console.log('error in create Question table: ' + error.message);
+								});
+								
+								// insert quiz record
+								
+								tx.executeSql("INSERT INTO Questions(Sequence,quize_id,Topic,Topic2,Level,Question,CorrectAnswer,WrongAnswer1,WrongAnswer2,WrongAnswer3,Hint,Reference,Language) VALUES("+Sequence+",'"+String(quize_id)+"','"+String(Topic)+"','"+String(Topic2)+"','"+String(Level)+"','"+String(Question)+"','"+String(CorrectAnswer)+"','"+String(WrongAnswer1)+"','"+String(WrongAnswer2)+"','"+String(WrongAnswer3)+"','"+String(Hint)+"','"+String(Reference)+"','"+String(Language)+"')", [], function(tx, rs)
+								{
+									//console.log('Question table record insert');
+									
+								},
+								function(tx, error) 
+								{
+									 //console.log('error in insert question: ' + error.message);
+									
+								});
+							})	
+				}
+  </script>
+    </body>
+</html>

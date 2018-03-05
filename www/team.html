@@ -1,0 +1,464 @@
+<html>
+    <head>
+		<meta charset="utf-8">
+		<!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *"> -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+		<meta name="viewport" content="height=device-height, initial-scale=1 , maximum-scale=1, user-scalable=no">
+		
+
+		
+		<link href="css/sandbox.css" rel="stylesheet">
+	<link href="css/drawer.min.css" rel="stylesheet">
+	
+	
+	
+	<script src="js/jqueryfile/jquery1113.js"></script>
+	<script type="text/javascript" src="js/index.js"></script>
+	<script type="text/javascript" src="cordova.js"></script>
+		
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+		
+		 <link href="css/bootstrap/bootstrap.css" rel="stylesheet">
+		<link href="css/bootstrap/bootstrap-theme.css" rel="stylesheet">
+		
+		
+		<link href="css/ninja-slider.css" rel="stylesheet" type="text/css" />
+		
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		<style type="text/css">
+		
+		.carousel .item img{
+			margin: 0 auto; /* Align slide image horizontally center */
+		}
+		.bs-example{
+			margin: 20px;
+		}
+		@font-face {
+			font-family:ProximaNovaSoft;
+			src: url(ProximaNovaSoft-Bold.otf);
+			font-weight: normal;
+			font-style: normal;
+			}
+		</style>
+		
+		
+		
+		<script src="js/ninja-slider.js" type="text/javascript"></script>
+		
+		
+		
+		
+		
+		
+		 <script type="text/javascript">
+			var step = "1";
+			var captain = 0;
+			var noofteam ;
+               $( document ).ready(function() {
+				//alert('load');
+				languageChanged(window.localStorage.getItem("language"));
+			});
+				
+			function help()
+			{
+					window.location = "help.html";
+			}
+			  
+        </script>
+    </head>
+    <body style="background-color:#008080;" class="drawer drawer--left">
+        
+		<!-- <header>
+			   <div class="row row2">
+			   <div class="hd_menu"></div>
+				<div class="hd_group"></div>
+				<div class="hd_help" onclick="help();"></div>
+				<div class="hd_trophy"></div>
+				
+				 <div class="hd_title"><h3>Nova Quiz</h3></div>
+				 
+			   </div>
+				
+			</header> -->
+		
+			 <header role="banner">
+    
+					<div class="row row2">
+						  <div class="hd_menu drawer-toggle "></div>
+							<div class="hd_group"></div>
+							<div class="hd_help" onclick="help();"></div>
+							<div class="hd_trophy"></div>
+							<div class="hd_title"><h3>Novasyon Quiz</h3></div>
+					</div>
+
+					<nav class="drawer-nav" role="navigation">
+						 <ul class="drawer-menu">
+							 <li><a href="" class="normaltext"><img src="img/profile.png" class='drwericon'/><span id='profile'>Profile</span></a></li>
+							 <li><a href="settings.html" class="normaltext"><img src="img/settings_big_1x.png" class='drwericon'/><span id='setting'>Setting</span></a></li>
+							 <li><a  class="normaltext" id='feedbackpopup'><img src="img/feedback-icon.png" class='drwericon' /><span id="feedback">Feedback</span></a></li>
+							 <li><a href="#" class="normaltext" onclick="window.plugins.socialsharing.share('Novasyon Quiz')"><img src="img/Share-512.png" class='drwericon'/><span id="sharing">Sharing</span></a></li>
+							 <li><a href="#" class="normaltext" onclick="rate()"><img src="img/rating_star-512.png" class='drwericon'/><span id="rate">Rate</rate></a></li>
+								
+						</ul>
+					</nav>
+			</header>
+			
+
+				
+				<div id="gameLandingPage">
+						
+						<div class="noofteam">
+						<!-- <img class="landingLogo" src="img/jeopardyrockslogo.png"> -->
+						<br>
+						<br>
+						<br>
+							
+							
+							<div class="container-table col-xs-12 containertopmargin">
+								<div class="vertical-center-row">
+								<!-- <h2 class="setupTitle">How many teams?</h2> -->
+									<!-- <h2 class="setupTitle" style="font-family:ProximaNovaSoft">How many teams?</h2> --> 
+									<h2 class="setupTitle translate" style="font-family:ProximaNovaSoft" id="numberofplayer"><!--Number of players --></h2>
+									<div class="gropboxcenter">
+										<span class="numTeamChoiceBox col-xs-2" data-numteams="1" id="1" onclick="selectteam(this.id);">1</span>
+										<span class="numTeamChoiceBox col-xs-2" data-numteams="2" id="2" onclick="selectteam(this.id);">2</span>
+										<span class="numTeamChoiceBox col-xs-2" data-numteams="3" id="3" onclick="selectteam(this.id);">3</span>
+										<span class="numTeamChoiceBox col-xs-2" data-numteams="4" id="4" onclick="selectteam(this.id);">4</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					
+					<!-- second div select group memeber image -->
+						<div class="groupimg container" id="memeberImage">
+							 
+							<div class="container-table">
+							
+								<div class="fulldiv">
+								<!--<img class="landingLogo" src="img/jeopardyrockslogo.png">  -->
+									
+									<br /><br />
+									<center>
+										<div class="containertop">
+											<h2 class="playNowTitledul translate" style="font-family:ProximaNovaSoft" id="playerinfoamtion"> <!-- Player's information --></h2>
+										
+											<form method="POST" class="playerinfromation">
+												
+												<div id="formcontainer">
+												<!--	<h4 class="playertitle">Player 1</h4>
+													<div class="input-control text">
+														<input name="p1" class='translate' id='player1' type="text" placeholder="Enter name" >
+														
+													</div>	-->
+														
+													
+													
+												 </div> 
+												 <a class="startgamebuttoon" onclick="startgameclick();" id="startgame">Start game</a>
+											</form>
+										</div>
+									</center>
+									
+								</div>
+							</div>
+						</div>
+						
+						
+						<!-- select level -->
+						
+						<div class="container" id="level">
+							 
+							<div class="container-table">
+							
+								<div class="fulldiv">
+							<!--	<img class="landingLogo" src="img/jeopardyrockslogo.png">  -->
+									
+									<br /><br />
+									<center>
+											<h2 class="playNowTitledul translate" style="font-family:ProximaNovaSoft" id="selectlevel"> <!--Select level --> </h2>
+											<div class="containertop translate">
+												<a class="levelbutton translate" id="veryeasy" onclick="levelselect(this.id);"><!-- Very easy --></a>
+												<a class="levelbutton translate" id="easy" onclick="levelselect(this.id);"><!-- Easy --></a>
+												<a class="levelbutton activelevel translate" id="medium" onclick="levelselect(this.id);"> <!-- Medium --> </a>
+												<a class="levelbutton translate" id="hard" onclick="levelselect(this.id);"><!-- Hard --></a>
+												<a class="levelbutton translate" id="surprise" onclick="levelselect(this.id);"><!-- Surprise --></a>
+											</div>
+									</center>
+								</div>
+							</div>
+						</div>
+						
+						<div class="sliderstep container" id="slider">
+							<div class="container-table col-xs-12">
+								
+								<div class="vertical-center-row">
+						
+									<div class="bs-example return=false">
+									<a class="skipToGame row-height" href="game.html">Skip To Game</a>
+										<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
+										<h2 class="setupTitlehow" style="font-family:ProximaNovaSoft">How to play?</h2>
+										
+											<!-- Carousel indicators -->
+											<ol class="carousel-indicators topmargin">
+												<!-- <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+												<li data-target="#myCarousel" data-slide-to="1"></li>
+												<li data-target="#myCarousel" data-slide-to="2"></li> -->
+												
+												
+													<li id="dotOne" class="howToPlayDot active"></li>
+													<li id="dotTwo" class="howToPlayDot"></li>
+													<li id="dotThree" class="howToPlayDot"></li>
+													<br>
+														<p class="howToPlayDescription" id="description1" style="font-family:ProximaNovaSoft">Select a question by category and dollar amount.</p>
+														<p class="howToPlayDescription inactiveStep" id="description2" style="font-family:ProximaNovaSoft">Click on the ✓ mark if a team gets the answer right.</p>
+														<p class="howToPlayDescription inactiveStep" id="description3" style="font-family:ProximaNovaSoft">Click on the ✗ mark if a team gets the answer wrong.</p>
+														<a id="nextbutton"  class="nextStepButton" onclick="nextClick();" href="#myCarousel" data-slide="next" >Next</a>
+											</ol>   
+											<!-- Wrapper for carousel items -->
+											<div class="carousel-inner">
+												<div class="item active">
+													<img src="img/step1.png" alt="First Slide" class="img-responsive sliderimdheight">
+												</div>
+												<div class="item">
+													<img src="img/step2.png" alt="Second Slide" class="img-responsive">
+												</div>
+												<div class="item">
+													<img src="img/step3.png" alt="Third Slide" class="img-responsive">
+												</div>
+											</div>
+											<!-- Carousel controls -->
+											<!-- <a class="carousel-control left" href="#myCarousel" data-slide="prev">
+												<span class="glyphicon glyphicon-chevron-left"></span>
+											</a> -->
+											
+											 
+											
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+				</div>
+				<!-- The Modal -->
+				<div id="myModal" class="modal">
+
+					  <!-- Modal content -->
+					  <div class="modal-content">
+							<div class="modal-header">
+								  <span class="close">×</span>
+								  <h4 id='feedbackheader'>Feedback</h4>
+							</div>
+							<div class="modal-body">
+								 
+								  <textarea class="txtfeedback" cols="40" value="" rows="5" id="feedbackpopup"></textarea>
+								  <input class='buttonsubmit' value="send" type="button" id="btnsend">
+							</div>
+							
+					  </div>
+				</div>
+				
+				
+				
+				
+			
+			
+        <script type="text/javascript" src="cordova.js"></script>
+		 <script type="text/javascript">
+
+        function selectteam(id)
+		{     
+           
+		   noofteam	= id;
+		   
+			for(var i = 1 ; i <= id ;i++)
+			{
+				
+				$('#formcontainer').append("<h4 class='playertitle translate' id='player_"+i+"'></h4>"+
+													"<div class='input-control text'>"+
+														"<input name='txtplayer' class='translate' id='player" + i + "' type='text' placeholder='Enter name' >"+
+													"</div>");
+													
+			}
+			languageChanged(window.localStorage.getItem("language"));
+			/*if(id==1)
+			{
+				
+				//$("#noofteam").text("One");
+			}
+			else if(id==2)
+			{
+				//$("#noofteam").text("Two");
+				
+			}
+			else if(id==3)
+			{
+				//$("#noofteam").text("Three");
+				
+			}
+			if(id==4)
+			{
+				//$("#noofteam").text("Four");
+				
+			}*/
+		    $(".noofteam").hide();
+			$(".groupimg").show();
+			
+        }
+		function selectteamimage(id)
+		{
+			//$("#memeberImage").hide();
+			//$("#slider").show();
+		
+			
+			
+			if( $("#"+id).hasClass('selectedCharacterBlockchange'))
+			{
+				$("#"+id).removeClass("selectedCharacterBlockchange");
+				captain --;
+			}
+			else
+			{
+				$("#"+id).addClass("selectedCharacterBlockchange");
+				captain ++;
+			}
+			
+			if(captain == noofteam)
+			{
+						$("#memeberImage").hide();
+						$("#slider").show();	
+			}
+			
+			
+			//alert(noofteam);
+			 
+		}
+		function nextClick()
+		{
+			if(step == "1")
+			{
+				step = "2";
+				$("#howToOne").addClass("inactiveStep");
+				$("#howToTwo").removeClass("inactiveStep");
+				$("#description1").addClass("inactiveStep");
+				$("#description2").removeClass("inactiveStep");
+				$("#dotOne").removeClass("activeDot");
+				$("#dotTwo").addClass("activeDot");
+			}
+			else if(step == "2")
+			{
+				step = "3";
+				$("#howToTwo").addClass("inactiveStep");
+				$("#howToThree").removeClass("inactiveStep");
+				$("#description2").addClass("inactiveStep");
+				$("#description3").removeClass("inactiveStep");
+				$("#dotTwo").removeClass("activeDot");
+				$("#dotThree").addClass("activeDot");
+				$("#nextbutton").text("Start Game");
+			}
+		
+			else if(step == "3")
+			{
+				startGame();
+			}
+			
+		}
+		function startGame()
+		{
+			window.location = "game.html";
+		}
+		function startgameclick()
+		{
+			 var values = "";
+			 var listvalues =[] ; //= { "1": "value1", "2": "value2", "3": "value3" }
+			 var listarrayvalue ;
+			$("input[name=txtplayer]").each(function () {
+				//values += $(this).val() + "\n";
+				listarrayvalue = {'player':$(this).val()};
+				listvalues.push(listarrayvalue);
+				
+			});
+			//alert(values);
+			
+			localStorage.setItem('lists', JSON.stringify(listvalues)); 
+			$("#memeberImage").hide();
+			$("#level").show();
+			
+		}
+		function levelselect(id)
+		{
+			$(".levelbutton").removeClass("activelevel");
+			$("#"+id).addClass("activelevel");
+			window.localStorage.setItem("level", id);
+			startGame();
+		}
+		// Get the modal
+			var modal = document.getElementById('myModal');
+
+			// Get the button that opens the modal
+			var feedbackpopup = document.getElementById("feedbackpopup");
+
+
+			// Get the <span> element that closes the modal
+			var span = document.getElementsByClassName("close")[0];
+
+			// When the user clicks the button, open the modal
+			feedbackpopup.onclick = function() {
+				$("textarea#feedbackpopup").val('');
+				modal.style.display = "block";
+				
+			}
+
+			// When the user clicks on <span> (x), close the modal
+			span.onclick = function() {
+				modal.style.display = "none";
+				
+			}
+
+			// When the user clicks anywhere outside of the modal, close it
+			window.onclick = function(event) {
+				if (event.target == modal) {
+					modal.style.display = "none";
+					
+				}
+			}
+			function rate()
+			{
+					AppRate.preferences = {
+					  openStoreInApp: true,
+					  displayAppName: 'My custom app title',
+					  usesUntilPrompt: 5,
+					  promptAgainForEachNewVersion: false,
+					  storeAppURL: {
+						
+						android: 'market://details?id=com.example.jeopardy',
+						
+					  },
+					  customLocale: {
+						title: "Rate Novasyon Quiz",
+						message: "If you enjoy using Novasyon Quiz, would you mind taking a moment to rate it? It won’t take more than a minute. Thanks for your support!",
+						cancelButtonLabel: "No, Thanks",
+						laterButtonLabel: "Remind Me Later",
+						rateButtonLabel: "Rate It Now"
+					  }
+					};
+					AppRate.promptForRating();
+			}
+    </script>
+<!-- navigation drawer script -->	
+ <script src="js/jqueryfile/jquery1113.js"></script>
+  <script src="js/iscroll.min.js"></script>
+ 
+  <script src="js/drawer.min.js" charset="utf-8"></script>
+  <script>
+    $(document).ready(function() {
+      $('.drawer').drawer();
+    });
+  </script>
+    </body>
+</html>

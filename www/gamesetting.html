@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+	<link href="//db.onlinewebfonts.com/c/7ad138835c0cf9f05a9f0ab343247612?family=ProximaNovaSoftW03-Bold" rel="stylesheet" type="text/css"/>
+        <!--
+        Customize this policy to fit your own app's needs. For more guidance, see:
+            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+        Some notes:
+            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+                * Enable inline JS: add 'unsafe-inline' to default-src
+        -->
+			<meta charset="utf-8">
+			
+			<meta http-equiv="X-UA-Compatible" content="IE=edge">
+			
+			<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"/> -->
+			 <meta name="viewport" content="width=device-width,  initial-scale=1, maximum-scale=1, user-scalable=no"> 
+
+			<meta name="description" content="">
+			<meta name="author" content="">
+			
+			
+			
+	<link href="css/sandbox.css" rel="stylesheet">
+	<link href="css/drawer.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link href="css/bootstrap/bootstrap.css" rel="stylesheet">
+	<link href="css/bootstrap/bootstrap-theme.css" rel="stylesheet">
+	<script src="js/jqueryfile/jquery1113.js"></script>
+	<script type="text/javascript" src="js/index.js"></script>
+	<script type="text/javascript" src="cordova.js"></script>
+	
+			<!-- include the core styles -->
+		  <link rel="stylesheet" href="css/alertify.core.css" />
+		  <!-- include a theme, can be included into the core instead of 2 separate files -->
+		  <link rel="stylesheet" href="css/alertify.default.css" />
+		<script src="js/alertify.min.js"></script>
+		<script src="js/url_min.js"></script>
+			
+		<style type="text/css">
+		@font-face {
+			font-family:ProximaNovaSoft;
+			src: url(ProximaNovaSoft-Bold.otf);
+			font-weight: normal;
+			font-style: normal;
+			}
+			@font-face {
+			font-family: "Roboto_Medium";
+				src: url("Roboto_Medium.ttf") format("opentype");
+				font-weight: normal;
+				font-style: normal;
+			}
+			body {
+				font-family: "Roboto_Medium";
+
+				background: rgba(246,255,219,1); /* For browsers that do not support gradients */
+				background: -webkit-linear-gradient(rgba(246,255,219,1) 30%, rgba(212,255,82,1) 100%); /* For Safari 5.1 to 6.0 */
+				background: -o-linear-gradient(rgba(246,255,219,1) 30%, rgba(212,255,82,1) 100%); /* For Opera 11.1 to 12.0 */
+				background: -moz-linear-gradient(rgba(246,255,219,1) 30%, rgba(212,255,82,1) 100%); /* For Firefox 3.6 to 15 */
+				background: linear-gradient(rgba(246,255,219,1) 30%, rgba(212,255,82,1) 100%); /* Standard syntax (must be last) */
+			}
+		</style>
+		
+		 
+		<script type="text/javascript">
+			var step = "1";
+			var captain = 0;
+			var noofteam ;
+			var sound = "";
+			var userId = "";
+               $( document ).ready(function() {
+				//alert('load');
+				// set current language
+				
+				languageChanged(window.localStorage.getItem("language"));
+				
+				sound = window.localStorage.getItem("sound");
+				
+				// set sound
+				if(sound == null || sound == "sound" )
+				{
+					$('#sound').attr('src', 'img/audio-add-128.png');
+					
+				}
+				else
+				{
+					$('#sound').attr('src', 'img/mute.png');
+				}
+				if(!window.localStorage.getItem("userId") == "")
+				{
+					$("#userPointBlock").css("display","block");
+					userId = window.localStorage.getItem("userId");
+					$('#txtplayername1').val(window.localStorage.getItem("userName"));
+					getUserPoint(userId);
+					
+				}
+				if(window.localStorage.getItem("userId") == "")
+				 {
+						$('#profileMenu').hide();
+						$('#logoutMenu').hide();
+				 }
+				 else
+				 {
+						$('#loginMenu').hide();
+				 }
+								 
+				 loadOldState();
+			});
+				function login()
+			{
+				window.location="login.html";
+			}
+			function help()
+			{
+					window.location = "help.html";
+			}
+			  
+			  function playAudio(id)
+			  {
+				var audioElement = document.getElementById(id);
+				var url = audioElement.getAttribute('src');
+				var my_media = new Media(url,
+						// success callback
+						 function () { console.log("playAudio():Audio Success"); },
+						// error callback
+						 function (err) { console.log("playAudio():Audio Error: " + err); }
+				);
+					   // Play audio
+				my_media.play();
+			}
+			
+        </script>
+    </head>
+    <body style="line-height: 1;" class="drawer drawer--left">
+        
+		
+			
+		 <header role="banner">
+    
+				<div class="row row2">
+				<div class="hd_title"><h3>Novasyon Quiz</h3></div>
+					  <div class="hd_menu drawer-toggle "></div>
+					  
+					  <div class="hd_option dropdown dropbtn" onclick="myFunction()">
+							 
+								<!-- <button onclick="myFunction()" class="dropbtn">Dropdown</button>-->
+								  <div id="myDropdown" class="dropdown-content">
+									<a onclick='displayScore();' style='text-decoration:none'>Score</a>
+									
+								  </div>
+							</div>
+							
+					  </div>
+						<!-- <div class="hd_group"></div>
+						 <div class="hd_help" onclick="help();"></div>
+						 <div class="hd_trophy"></div> -->
+						
+						
+				</div>
+
+				<nav class="drawer-nav" role="navigation">
+					   <ul class="drawer-menu">
+							 <li id='profileMenu'><a href="profile.html" class="normaltext" ><img src="img/profile.png" class='drwericon'/><span id='profile'>Profile</span></a></li>
+							 <li><a href="gamesetting.html" class="normaltext"><img src="img/settings_big_1x.png" class='drwericon'/><span id='setting'>Setting</span></a></li>
+							 <li><a  class="normaltext" id='feedbackpopup'><img src="img/feedback-icon.png" class='drwericon' /><span id="feedback">Feedback</span></a></li>
+							 <li><a href="sendQuestion.html" class="normaltext"><img src="img/feedback-icon.png" class='drwericon' /><span id="shareQuestion">Share Question</span></a></li>
+							 <li><a href="#" class="normaltext" onclick="window.plugins.socialsharing.share('Novasyon Quiz')"><img src="img/Share-512.png" class='drwericon'/><span id="sharing">Sharing</span></a></li>
+							 <li><a href="#" class="normaltext" onclick="rate()"><img src="img/rating_star-512.png" class='drwericon'/><span id="rate">Rate</span></a></li>
+							  <li id='loginMenu'><a href="#" class="normaltext" onclick="login()"><img src="img/login-256.png" class='drwericon'/><span id="login">Login</span></a></li>	
+							 <li id='logoutMenu'><a href="#" class="normaltext" onclick="logout()"><img src="img/logout-256.png" class='drwericon'/><span id="logout">Logout</span></a></li>	
+								
+						</ul>
+				</nav>
+		</header>
+		  <!-- content -->
+		<main role="main">
+	
+	
+
+        <audio id="successSound" src="/android_asset/www/sounds/correctans.MP3" type="audio/mpeg" ></audio>
+           <audio id="errorSound" src="/android_asset/www/sounds/wrongans.MP3" type="audio/mpeg" ></audio>
+			<!-- some more UI -->
+  
+			
+				
+			<div class='maindivcontainergamesetting col-xs-12'>
+				
+				
+					
+			<!-- left player or team block -->
+			
+				
+				
+				<div class="col-xs-12 playerblock" style='padding:0px;'>
+					<div class='col-xs-7'  style='padding-right:0px;'>
+						<div class='lblplayerteam' id='ID_playerorteam' style="color: 0000ff;">Player or Team</div>
+						<div>
+						<div class="gamesettingradio" ><span id='selectplayer'>Select player:</span>
+							<select class='drplayer'  id='player' onchange="GetNoOfPlayer(this);">
+								<option value="1" selected><span id='playerdrp1'>Player </span>1 </option>
+								<option value="2"><span>Player </span> 2</option>
+								<option value="3"><span>Player </span> 3</option>
+								<option value="4"><span>Player </span> 4</option>
+							</select>
+							
+						</div>
+							
+							<!-- <textarea class='txtplayer' id='txtplayername' rows="8">Player 1</textarea>-->
+						</div>
+						
+					</div>
+					
+					<!-- right player or Level block -->
+					<div class='col-xs-5' style='padding-left:5px;'>
+					<div class='lbllevel' id='ID_level'>Level</div>
+					<div>
+					 <select class='drpclass' id='level1'>
+							<option value="veryeasy">1 Very easy </option>
+							<option value="easy">2 Easy</option>
+							<option value="medium" selected>3 Medium</option>
+							<option value="hard">4 Hard</option>
+							<option value="surprise">5 Surprise</option>
+						</select>
+					</div>
+						<div>
+					 <select class='drpclass' id='level2' style="display:none">
+							<option value=""></option>
+							<option value="veryeasy">1 Very easy </option>
+							<option value="easy">2 Easy</option>
+							<option value="medium" >3 Medium</option>
+							<option value="hard" >4 Hard</option>
+							<option value="surprise">5 Surprise</option>
+						</select>
+					</div>
+						<div>
+					 <select class='drpclass' id='level3' style="display:none">
+							<option value=""></option>
+							<option value="veryeasy">1 Very easy </option>
+							<option value="easy">2 Easy</option>
+							<option value="medium">3 Medium</option>
+							<option value="hard">4 Hard</option>
+							<option value="surprise">5 Surprise</option>
+						</select>
+					</div>
+						<div>
+					 <select class='drpclass' id='level4' style="display:none">
+							<option value=""></option>
+							<option value="veryeasy">1 Very easy </option>
+							<option value="easy">2 Easy</option>
+							<option value="medium" >3 Medium</option>
+							<option value="hard" >4 Hard</option>
+							<option value="surprise">5 Surprise</option>
+						</select>
+					</div>
+					</div>
+				</div>
+				<div id='containerPlayer' class='col-xs-12' style='width:100%'>
+								<label class='col-xs-6 lblplayerName' id='playername'>Player Name :</label> <input type='text' class='txtplayer col-xs-6' id='txtplayername1' value='player 1'> 
+							</div>
+
+				<div class='col-xs-12'>
+					<hr>
+					<div class='col-xs-3.5'>
+						<img class='gamesound' id='sound' src='img/audio-add-128.png' width='25' height='25'  style='border:1px solid white !important;' onclick='soundcheck();'/>
+						<img class='gamehome' src='img/home.png' onclick="window.location='home.html'" />
+					</div>
+
+					<div class='col-xs-8.5'>
+					<input class="btngamecontinue" value="Continue" type="submit" id="btnContinue" onclick="clickonContinue();" />
+					<input class="btngamehelp" value="help" type="submit" id="btnHelp" onclick="window.location='help.html'">
+					</div>
+					<hr>
+				</div>
+				<div id='userPointBlock' class="col-xs-12" style='color:#797A7F;font-size:13px;font-weight:700;margin-top:15px;display:none'><span id='currentPoint'>Current Point : </span><span id='userPoint'></span></div>
+
+				<div class='col-xs-12 gamesettings' id='ID_gamesetting'>Game Settings</div>
+				<div class='col-xs-12'>
+					<div class='gamesettingradio borderbox'>
+						 <div><input type="radio" name="setting"  value="1" style='float:left;margin-right:10px;' checked>  <div id='ID_gamesettingoption1' >  2 tries; no penalty for wrong answer. Hints take one turn.</div><br /><br /></div>
+						<input type="radio" name="setting" value="2" style='float:left;margin-right:10px;'><div id='ID_gamesettingoption2'>  2 tries; loss of point for wrong answer. Hints reduce value by 50%.</div><br /><br />
+						<input type="radio" name="setting" value="3" style='float:left;margin-right:10px;'><div id='ID_gamesettingoption3'>  1 try; loss of points for wrong answer. Hints cost 50% of question points.</div>
+					</div>
+				</div>
+				<div class='col-xs-12 timeforquestion'>
+
+					<div class='borderbox col-xs-12'>
+						<div class='col-xs-6 nopaddingmargin'>
+							<div class='timetoread ' id='ID_timetoreadque'>Time to read question</div>
+						</div>
+						<div class='col-xs-6'>
+							<select class='drpclasstime' id='timetoreafdquestion'>
+								<option value="1" selected>1 seconds </option>
+								<option value="3">3 seconds</option>
+								<option value="5" >5 seconds</option>
+								<option value="10" >10 seconds</option>
+								<option value="15" >15 seconds</option>
+							</select>
+						</div>
+						
+						<div class='col-xs-6 nopaddingmargin'>
+							<div class='timetoread' id='ID_timetoansque'>Time to answer question</div>
+						</div>
+						<div class='col-xs-6'>
+								<select class='drpclasstime' id='timeanswerquestion'>
+								<option value="10">10 seconds </option>
+								<option value="20">20 seconds</option>
+								<option value="30" selected>30 seconds</option>
+							</select>
+						</div>
+						<div class='col-xs-6 nopaddingmargin'>
+							<div class='timetoread ' id='ID_numberofround'>Number of rounds</div>
+						</div>
+						<div class='col-xs-6'>
+							<select class='drpclasstime' id='noofround'> 
+								<option value="1">1 rounds </option>
+								<option value="2" selected>2 rounds</option>
+								<option value="3">3 rounds</option>
+								<option value="4">4 rounds</option>
+								<option value="5">5 rounds</option>
+							</select>
+						</div>
+						<div class='col-xs-6 nopaddingmargin'>
+							<div class='timetoread ' id='ID_queperround'>Question per round</div>
+						</div>
+						<div class='col-xs-6'>
+							<select class='drpclasstime' id='questionparround'>
+								<option value="3">3 questions </option>
+								<option value="4">4 questions </option>
+								<option value="5">5 questions </option>							
+							</select>
+						</div>
+						
+						<div class='col-xs-6 nopaddingmargin'>
+							<div class='timetoread ' id='ID_category'>Number of category</div>
+						</div>
+						<div class='col-xs-6'>
+							<select class='drpclasstime' id='numberofcategory'>
+								<option value="5">5 Category </option>
+								<option value="6">6 Category </option>					
+							</select>
+						</div>
+						
+					</div>
+
+				</div>
+				<div class='col-xs-12 otheroption' id='ID_otheroptions'>Other Options</div>
+				
+				<div class='col-xs-12 otheroptionchk'>
+					<input type="checkbox" name="explanations" id="explanations" value="explanations" style='float:left;margin-right:10px;'>
+					<div id='ID_alwaysdispexp' class='alwaydecls'>Always display explanations</div>
+				</div>
+				<div class='col-xs-12 randomQuestions'>
+					<input type="checkbox" name="Randomquestions" id="Randomquestions" value="Randomquestions" style='float:left;margin-right:10px;' checked>
+					<div id='randomquestionslabel' class='alwaydecls'>Random questions</div>
+				</div>
+				
+				<div id="wrapper">
+							<label  id="selectlanguage" class="col-xs-5 gameSettingLangeuage" style="font-family:ProximaNovaSoft;">Select Language :</label>
+							<select id="languages" class="col-xs-5 gamesettingLanguagedrp">
+								<option value="">--Select--</option>
+								<option value="english" id="englishLanguage" class="translate" >English</option>
+								<option value="french" id="frenchLanguage" class="translate" selected>French</option>
+								<option value="creole" id="creoleLanguage" class="translate">Creole</option>
+								<option value="spanish" id="spanishLanguage" class="translate">Spanish</option>
+							</select>
+													
+				</div>
+			</div>
+		</main>  
+       <!-- The Modal -->
+				<div id="myModal" class="modal">
+
+					  <!-- Modal content -->
+					  <div class="modal-content">
+							<div class="modal-header">
+								  <span class="close">x</span>
+								  <h4 id='feedbackheader'>Feedback</h4>
+							</div>
+							<div class="modal-body">
+								 
+								  <textarea class="txtfeedback" cols="40" value="" rows="5" id="feedbackpopup"></textarea>
+								  <input class='buttonsubmit' value="send" type="button" id="btnsend" onclick="sendFeedback()">
+							</div>
+							
+					  </div>
+				</div>
+				
+				
+				 <!-- ================================================= The Modal for game score ====================================-->
+				<div id="myModalScore" class="modal">
+
+					  <!-- Modal content -->
+					  <div class="modal-content"  style='width:300px;'>
+							<div class="modal-header">
+								  <span class="close" onclick='closeScorebord()'>x</span>
+								  <h4 id='feedbackheader'>Score</h4>
+							</div>
+							<div class="modal-body" style="background-color:#3E52B5;">
+								 
+								  <!-- <textarea class="txtfeedback" cols="40" value="" rows="5" id="feedbackpopup"></textarea>-->
+								  <center>
+								  <div style="text-align:left;height: 200px; width: 200px;">
+										<div class='scorebord'>Current Point :<span id='point'></span></div>
+										<div class='scorebord'>No of good answer : <span id='noOfGoodAnswer'></span> </div>
+										<div class='scorebord'>No of Wrong answer : <span id='noWrongAswer'></span></div>
+										<center><div class='sharediv' id='shareScore' onclick='ShareScore(this.id)'><img class='shraimg' src='img/Share-512.png' height="30px" width="30px" /><button class='btnShare'>Share</button></div></center>
+								  <!-- <input class='buttonsubmit' value="Ok" type="button" id="btnOk"> -->
+								</div></center>
+							
+							</div>
+					</div>
+				</div>
+     <script src="js/jqueryfile/jquery1113.js"></script>
+	 <script src="js/iscroll.min.js"></script>
+	 <script src="js/drawer.min.js" charset="utf-8"></script>
+  <script>
+		$(document).ready(function() {
+		  $('.drawer').drawer();
+		  // change language
+				 $('#languages').val(window.localStorage.getItem("language")).trigger('change');	
+                   
+					$('#languages').change(function(){
+					var language = $(this).val();
+					 //alert(language); 
+							selectlanguage(language);
+							setTimeout(function()
+							{
+								//alert('change color:==>');
+									StatusBar.backgroundColorByHexString('#3e3eb6');
+							},200);
+								});
+					
+					languageChanged(window.localStorage.getItem("language"));
+		});
+		// Get the modal
+			var modal = document.getElementById('myModal');
+
+			// Get the button that opens the modal
+			var feedbackpopup = document.getElementById("feedbackpopup");
+
+
+			// Get the <span> element that closes the modal
+			var span = document.getElementsByClassName("close")[0];
+
+			// When the user clicks the button, open the modal
+			feedbackpopup.onclick = function() {
+				$("textarea#feedbackpopup").val('');
+				modal.style.display = "block";
+				
+			}
+
+			// When the user clicks on <span> (x), close the modal
+			span.onclick = function() {
+				modal.style.display = "none";
+				
+			}
+			function selectlanguage(id)
+			{
+					$("#english").removeClass("langactive");
+					$("#creole").removeClass("langactive");
+					$("#french").removeClass("langactive");
+					$("#spanish").removeClass("langactive");
+					$("#"+id).addClass("langactive");
+					window.localStorage.setItem("language",id);	
+					languageChanged(id);
+			}
+			// When the user clicks anywhere outside of the modal, close it
+			window.onclick = function(event) {
+				if (event.target == modal) {
+					modal.style.display = "none";
+					
+				}
+				// opton menu close
+				if (!event.target.matches('.dropbtn')) 
+				{
+				var dropdowns = document.getElementsByClassName("dropdown-content");
+				var i;
+					for (i = 0; i < dropdowns.length; i++)
+					{
+					  var openDropdown = dropdowns[i];
+						  if (openDropdown.classList.contains('show')) 
+						  {
+							openDropdown.classList.remove('show');
+						  }
+					}
+				}
+			}
+			// ==========option menu
+			
+			/* When the user clicks on the button,
+			toggle between hiding and showing the dropdown content */
+			function myFunction() {
+			document.getElementById("myDropdown").classList.toggle("show");
+			}
+
+			// Close the dropdown if the user clicks outside of it
+			
+			// ==============
+			
+			function rate()
+			{
+					AppRate.preferences = {
+					  openStoreInApp: true,
+					  displayAppName: 'My custom app title',
+					  usesUntilPrompt: 5,
+					  promptAgainForEachNewVersion: false,
+					  storeAppURL: {
+						
+						android: 'market://details?id=com.example.jeopardy',
+						
+					  },
+					  customLocale: {
+						title: "Rate Novasyon Quiz",
+						message: "If you enjoy using Novasyon Quiz, would you mind taking a moment to rate it? It won�t take more than a minute. Thanks for your support!",
+						cancelButtonLabel: "No, Thanks",
+						laterButtonLabel: "Remind Me Later",
+						rateButtonLabel: "Rate It Now"
+					  }
+					};
+					AppRate.promptForRating();
+			}
+			function soundcheck(id)
+			{
+				
+				sound = window.localStorage.getItem("sound");
+				if(sound == "mute" )
+				{
+					$('#sound').attr('src', 'img/audio-add-128.png');
+					window.localStorage.setItem("sound", "sound");
+				}
+				else
+				{
+					$('#sound').attr('src', 'img/mute.png');
+					window.localStorage.setItem("sound", "mute");
+				}
+				
+			}
+			
+			
+			
+			
+			function clickonContinue()
+			{
+				
+				
+				
+				// checking selected level
+				// =================================================== check lelel ===========================================//
+				
+					var noOfplayer = $("#player").val();
+					
+					
+					for(var i = 1 ; i <= noOfplayer; i++)
+					{
+						//alert($('#txtplayername'+i).val());
+						window.localStorage.setItem("playername"+i, $('#txtplayername'+i).val());
+					}
+					
+					//var playername = $('#txtplayername').val();
+					
+					window.localStorage.setItem("noofPlayer", noOfplayer);
+					//window.localStorage.setItem("playername", playername);
+					window.localStorage.setItem("level1", $("#level1").val());
+					window.localStorage.setItem("level2", $("#level2").val());
+					window.localStorage.setItem("level3", $("#level3").val());
+					window.localStorage.setItem("level4", $("#level4").val());
+			  
+			  	  
+			  // =================================================== game settings ===========================================//
+			  
+			  var myRadio1 = $('input[name=setting]');
+			  var gamesetting = myRadio1.filter(':checked').val();
+			  window.localStorage.setItem("gamesetting", gamesetting);
+			  
+			 // =================================================== end game settings ===========================================// 
+			  //================================================== timing============================================//
+			 
+					window.localStorage.setItem("timetoreafdquestion", $("#timetoreafdquestion").val());
+					window.localStorage.setItem("timeanswerquestion", $("#timeanswerquestion").val());
+					window.localStorage.setItem("noofround", $("#noofround").val());
+					window.localStorage.setItem("questionparround", $("#questionparround").val());
+					
+					
+					// =============================================get other option ==================================//
+					if($('#explanations').is(':checked'))
+					{
+						window.localStorage.setItem("explanations", "true");
+					}
+					else
+					{
+						window.localStorage.setItem("explanations", "false");
+					}
+					// number of category 
+					window.localStorage.setItem("numberofcategory", $("#numberofcategory").val());
+					
+					//always display explanations
+					if ($('#explanations').is(":checked"))
+					{
+						  window.localStorage.setItem("displayexplanations", "true");
+					}
+					else
+					{
+						 window.localStorage.setItem("displayexplanations", "false");
+					}
+					
+			  window.location='game.html';
+			  
+			}
+			function GetNoOfPlayer(id)
+			{
+				var selectedText = id.options[id.selectedIndex].innerHTML;
+				var selectedValue = id.value;
+				//alert("Selected Text: " + selectedText + " Value: " + selectedValue);
+				$('#containerPlayer').empty();
+				for(var i = 1; i <= selectedValue ; i++  )
+				{
+					//$('#containerPlayer').append("<input type='text' class='txtplayer' id='txtplayername" + i + "' value='player " + i + "'>");window.localStorage.getItem("userName");
+					
+					if(i==1 && !window.localStorage.getItem("userId") == "")
+					$('#containerPlayer').append("<label class='col-xs-6 lblplayerName' id='playername'>Player Name :</label> <input type='text' class='txtplayer col-xs-6 ' id='txtplayername" + i + "' value='" + window.localStorage.getItem("userName") + "'>");
+					else
+					$('#containerPlayer').append("<label class='col-xs-6 lblplayerName' id='playername'>Player Name :</label> <input type='text' class='txtplayer col-xs-6 ' id='txtplayername" + i + "' value='player " + i + "'>");
+				}
+				languageChanged(window.localStorage.getItem("language"));
+			}
+				function getUserPoint(userId)
+				{
+						$.ajax({url:APIURL + RETRIEVE_USER_POINT,
+									type:"POST",
+									data: {"u_id": userId},
+									dataType:"json",
+									error:function(jqXHR,text_status,strError)
+									{
+											//alertify.alert("No connection");
+											setTimeout(function()
+											{	
+													getUserPointFromDb();
+											},1000);
+											
+									},
+										success:function(data)
+										{
+												var i = data;
+												var data_string = JSON.stringify(i);
+												var jsonData = JSON.parse(data_string);
+												//alert(data_string);
+																								
+												if(jsonData[0].status == 0)
+												{
+														//alertify.alert(jsonData[0].error);
+														getUserPointFromDb();
+												}	
+												else
+												{
+													  // insert record to lgin table
+													// alert(jsonData[0].u_highest_score);
+													$('#userPoint').text(jsonData[0].u_highest_score);
+													$('#point').text(jsonData[0].u_highest_score);
+													$('#noWrongAswer').text(jsonData[0].u_no_wrong_answer); 
+													$('#noOfGoodAnswer').text(jsonData[0].u_no_good_answer);
+													
+													saveUserPoint(jsonData[0].u_highest_score,jsonData[0].u_no_wrong_answer,jsonData[0].u_no_good_answer);
+													//getUserPointFromDb();
+												}
+										
+										}
+							});
+				}
+				function sendFeedback()
+				{
+					var feedback = $('textarea#feedbackpopup').val();
+					
+					if(feedback == "")
+					{
+						alertify.alert('please enter feedback');
+					}
+					else
+					{
+								$.ajax({url:APIURL + FEEDBACK,
+									type:"POST",
+									data: {"u_id" : userId ,"f_description": feedback},
+									dataType:"json",
+									error:function(jqXHR,text_status,strError)
+									{
+											alertify.alert("No connection");
+											
+									},
+									success:function(data)
+									{
+												var i = data;
+												var data_string = JSON.stringify(i);
+												var jsonData = JSON.parse(data_string);
+												//alert(data_string);
+												if(jsonData[0].success == 1)
+												{
+														alertify.alert('Feedback send successfully');
+														modal.style.display = "none";
+												}	
+												else
+												{
+													alertify.alert(jsonData[0].error);
+												}
+									}
+								});
+					}
+				}
+				function updateScore(score,noofgoodanswer,noofwronganswer)
+				{
+									var db = window.sqlitePlugin.openDatabase({name: "NovasyonQuiz.db", location: 'default'});
+									db.transaction(function(tx) 
+									{
+										tx.executeSql("UPDATE score1 SET point ='" + score +"',noof_good_answer='" + noofgoodanswer + "',no_wrong_answer='" + noofwronganswer + "' WHERE u_id=1", [], function(tx, rs)
+										{
+												console.log('update 1 record');
+												getUserPointFromDb();
+										},
+										function(tx, error) 
+										{
+												console.log('update error: ' + error.message);
+												getUserPointFromDb();
+										});
+									})
+				}
+				function saveUserPoint(score,wrongAnswer,GoodAnswer)
+				{
+							
+							var db = window.sqlitePlugin.openDatabase({name: "NovasyonQuiz.db", location: 'default'});
+							db.transaction(function(tx) 
+							{
+								tx.executeSql("CREATE TABLE IF NOT EXISTS score1(u_id unique,point,noof_good_answer,no_wrong_answer)", [], function(tx, rs)
+								{
+									console.log('score table create');
+								},
+								function(tx, error) 
+								{
+									 console.log('error in create score table: ' + error.message);
+								});
+								
+								tx.executeSql("INSERT INTO score1(u_id,point,noof_good_answer,no_wrong_answer) VALUES(1,'"+score+"','" + GoodAnswer + "','" + wrongAnswer + "')", [], function(tx, rs)
+								{
+									console.log('insert 1 record');
+									getUserPointFromDb();
+								},
+								function(tx, error) 
+								{
+										console.log('insert error: ' + error.message);
+										updateScore(score,GoodAnswer,wrongAnswer);
+								});
+							})
+				}
+				
+				function getUserPointFromDb()
+				{
+							var db = window.sqlitePlugin.openDatabase({name: "NovasyonQuiz.db", location: 'default'});
+							db.transaction(function(tx) 
+							{
+								tx.executeSql("SELECT * FROM score1", [], function(tx, rs)
+								{
+										console.log(rs.rows.item(0).point);
+										window.localStorage.setItem("currentPoint",rs.rows.item(0).point);
+										$('#userPoint').text(rs.rows.item(0).point);
+										$('#point').text(rs.rows.item(0).u_highest_points);
+										$('#noWrongAswer').text(rs.rows.item(0).no_wrong_answer); 
+										$('#noOfGoodAnswer').text(rs.rows.item(0).noof_good_answer);
+								},
+								function(tx, error) 
+								{
+										console.log('select error: ' + error.message);
+								});
+							})
+				}
+				function logout()
+				{
+									var retVal = alertify.confirm( "Do yo want to logout", function (e) {
+									if (e)
+									 {
+											//after clicking OK
+												window.localStorage.setItem("userId", "");
+												window.localStorage.setItem("userName", "");
+												window.location="login.html";
+									  } 
+									  else 
+									  {
+												// cancel click
+									  }
+									});
+									
+				}
+				function displayScore()
+				{
+						// Get the modal
+						var modal1 = document.getElementById('myModalScore');
+						$("textarea#feedbackpopup").val('');
+						modal1.style.display = "block";
+				}
+				function closeScorebord()
+				{
+						var modal1 = document.getElementById('myModalScore');
+						modal1.style.display = "none";
+				}
+				function ShareScore(id)
+				{
+					var scoreofUser = $("#point").text();
+					var userName = "";
+					userName = window.localStorage.getItem("userName");
+					window.plugins.socialsharing.share(userName + " score "+ scoreofUser + " points in Novasyon Quiz");
+				}
+				
+				// display old state
+				
+				function loadOldState()
+				{
+				
+					if(window.localStorage.getItem("noofPlayer") && window.localStorage.getItem("level1") && window.localStorage.getItem("gamesetting") && window.localStorage.getItem("timetoreafdquestion") && window.localStorage.getItem("timeanswerquestion") && window.localStorage.getItem("noofround") && window.localStorage.getItem("questionparround") && window.localStorage.getItem("numberofcategory"))
+					{
+									// set number of player
+									//alert(window.localStorage.getItem("noofPlayer"));
+									var noOfplayer = window.localStorage.getItem("noofPlayer");
+									
+									$('#containerPlayer').empty();
+									for(var i = 1; i <= noOfplayer ; i++  )
+									{
+										//$('#containerPlayer').append("<input type='text' class='txtplayer' id='txtplayername" + i + "' value='player " + i + "'>");window.localStorage.getItem("userName");
+										
+										if(i==1 && !window.localStorage.getItem("userId") == "")
+										$('#containerPlayer').append("<label class='col-xs-6 lblplayerName' id='playername'>Player Name :</label> <input type='text' class='txtplayer col-xs-6 ' id='txtplayername" + i + "' value='" + window.localStorage.getItem("playername"+i) + "'>");
+										else
+										$('#containerPlayer').append("<label class='col-xs-6 lblplayerName' id='playername'>Player Name :</label> <input type='text' class='txtplayer col-xs-6 ' id='txtplayername" + i + "' value='" + window.localStorage.getItem("playername"+i) + "'>");
+									}
+								languageChanged(window.localStorage.getItem("language"));
+									
+									// select level
+									
+									$("#level1").val(window.localStorage.getItem("level1")).change();
+									
+									
+									
+							  
+								  
+							  // =================================================== game settings ===========================================//
+							  
+							  var myRadio1 = $('input[name=setting]');
+							  var v = window.localStorage.getItem("gamesetting");
+							  myRadio1.filter("[value='"+v+"']").prop('checked', true);
+							   
+							 // =================================================== end game settings ===========================================// 
+							  //================================================== timing============================================//
+									
+									$("#timetoreafdquestion").val(window.localStorage.getItem("timetoreafdquestion")).change();
+									$("#timeanswerquestion").val(window.localStorage.getItem("timeanswerquestion")).change();
+									$("#noofround").val(window.localStorage.getItem("noofround")).change();
+									$("#questionparround").val(window.localStorage.getItem("questionparround")).change();
+									$("#numberofcategory").val(window.localStorage.getItem("numberofcategory")).change();
+									
+										
+									
+									// ============================================= get other option ==================================//
+									if(window.localStorage.getItem("explanations") == "true")
+									{
+										$('.explanations').prop('checked', true);
+									}
+									else
+									{
+										$('.explanations').prop('checked', false);
+									}						
+					}
+				}
+				
+  </script>
+    </body>
+</html>

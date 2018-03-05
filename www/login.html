@@ -1,0 +1,497 @@
+
+<html lang="en" style="height: 100%;">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+ <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+ <link href="css/sandbox.css" rel="stylesheet">
+  <link href="css/drawer.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <link href="css/bootstrap/bootstrap.css" rel="stylesheet">
+  <link href="css/bootstrap/bootstrap-theme.css" rel="stylesheet">
+  <script src="js/jqueryfile/jquery1113.js"></script>
+	<script type="text/javascript" src="js/index.js"></script>
+	<script type="text/javascript" src="cordova.js"></script>
+	<script type="text/javascript" src="js/SocialSharing.js"></script>
+	<script src="js/url_min.js"></script>
+	<style type="text/css">
+		@font-face {
+			font-family:ProximaNovaSoft-Bold;
+			src: url(ProximaNovaSoft-Bold.otf);
+			font-weight: normal;
+			font-style: normal;
+			}
+			@font-face {
+			font-family: "Roboto_Medium";
+				src: url("Roboto_Medium.ttf") format("opentype");
+				font-weight: normal;
+				font-style: normal;
+			}
+			body {
+				font-family: "Roboto_Medium";
+				background: rgba(246,255,219,1); /* For browsers that do not support gradients */
+				background: -webkit-linear-gradient(rgba(246,255,219,1) 30%, rgba(212,255,82,1) 100%); /* For Safari 5.1 to 6.0 */
+				background: -o-linear-gradient(rgba(246,255,219,1) 30%, rgba(212,255,82,1) 100%); /* For Opera 11.1 to 12.0 */
+				background: -moz-linear-gradient(rgba(246,255,219,1) 30%, rgba(212,255,82,1) 100%); /* For Firefox 3.6 to 15 */
+				background: linear-gradient(rgba(246,255,219,1) 30%, rgba(212,255,82,1) 100%); /* Standard syntax (must be last) */
+			}
+		</style>
+		
+		<script type="text/javascript">
+			  $(document).ready(function(){
+					  
+					$('#languages').val(window.localStorage.getItem("language")).trigger('change');	
+                   
+					$('#languages').change(function(){
+					var language = $(this).val();
+					 // alert(language); 
+							selectlanguage(language);
+					});
+					
+					languageChanged(window.localStorage.getItem("language"));
+					//alert('load');
+					setTimeout(function()
+					{
+						//alert('change color:==>');
+							StatusBar.backgroundColorByHexString('#3e3eb6');
+					},200);
+					
+			  });
+			
+				
+			
+			  function selectlanguage(id)
+				{
+					$("#english").removeClass("langactive");
+					$("#creole").removeClass("langactive");
+					$("#french").removeClass("langactive");
+					$("#spanish").removeClass("langactive");
+					$("#"+id).addClass("langactive");
+					window.localStorage.setItem("language",id);	
+					languageChanged(id);
+				}
+				document.addEventListener('backbutton', function(event){
+				 //alert("back");
+				  event.preventDefault(); // EDIT
+				  navigator.app.exitApp(); // exit the app
+				});
+		</script>
+</head>
+<body class="drawer drawer--left">
+
+ <!-- <header role="banner">
+    
+		<div class="row row2">
+			  <div class="hd_menu drawer-toggle "></div>
+				<div class="hd_group"></div>
+				<div class="hd_help" onclick="help();"></div>
+				<div class="hd_trophy"></div>
+				<div class="hd_title"><h3>Novasyon Quiz</h3></div>
+		</div>
+
+		<nav class="drawer-nav" role="navigation">
+			  <ul class="drawer-menu">
+							 <li><a href="settings.html" class="normaltext"><img src="img/settings_big_1x.png" class='drwericon'/><span id='setting'>Setting</span></a></li>
+							 <li><a  class="normaltext" id='feedbackpopup'><img src="img/feedback-icon.png" class='drwericon' /><span id="feedback">Feedback</span></a></li>
+							 <li><a href="#" class="normaltext" onclick="window.plugins.socialsharing.share('Novasyon Quiz')"><img src="img/Share-512.png" class='drwericon'/><span id="sharing">Sharing</span></a></li>
+							 <li><a href="#" class="normaltext" onclick="rate()"><img src="img/rating_star-512.png" class='drwericon'/><span id="rate">Rate</rate></a></li>
+								
+			  </ul>
+		</nav>
+  </header> -->
+
+  
+  
+ 
+  <!-- content -->
+  <main role="main">
+  
+		<div id='loading' style="display: none;top:0;left:0; position:fixed; width:100%; height:100%;z-index:2;opacity:0.5;background-color:black;" >
+			<img src="img/progresbarImg.gif" style="margin-top:50%;margin-left:35%;" width="100" height="100" title="Loading" />
+		</div>
+		
+			<div>
+				<div> 
+						<div  class="Welcometext" >
+							<br />
+							<div id='welcomettext'>Welcome to</div>
+							<div><span class="novasyontext" id='novasyon'>Novasyon</span> <span class='quiztext' id='quiztext'> Quiz</span></div>
+						</div>
+						<center><input class="txtemail" id="email" placeholder="Email" type="text" class="col-xs-12"></center>
+						<center><input class="txtpassword" id="password" placeholder="Password" type="password" class="col-xs-12"></center>
+						<input class="btnsignin" value="Sign In" type="submit" id="btnsignin" onclick='login();'>
+						<input class="btncreateaccount" value="Create account" type="submit" id="btncreateaccount" onclick="signin()">
+						<input class="btncontinueasguest" value="Continue as a guest" type="submit" id="btncontinueasaguest" onclick="playasgust()">
+						<div><u><a id='forgotpass' class="col-xs-12" style='text-decoration:underline;color:#797A7F;font-size:13px;font-weight:700;margin-top:15px;text-align:center;'>Forgot password </a></u></div>
+						
+						<div id="wrapper">
+							<label  id="selectlanguage" class="translate selectlanguagelogin">Select Language :</label>
+							<select id="languages" class="languagedrpdwnlogin">
+								<option value="">--Select--</option>
+								<option value="english" id="englishLanguage" class="translate" >English</option>
+								<option value="french" id="frenchLanguage" class="translate" selected>French</option>
+								<option value="creole" id="creoleLanguage" class="translate">Creole</option>
+								<option value="spanish" id="spanishLanguage" class="translate">Spanish</option>
+							</select>
+													
+						</div>
+						<div class="enjoytextlogin" id='enjoytext'>Enjoy playing while enriching your knowledge;-)</div>
+				</div>
+			</div>
+			
+			<!-- The Modal feedback-->
+				<div id="myModal" class="modal">
+
+					  <!-- Modal content -->
+					  <div class="modal-content">
+							<div class="modal-header">
+								  <span class="close">×</span>
+								  <h4 id='feedbackheader'>Feedback</h4>
+							</div>
+							<div class="modal-body">
+								 <input  id="txtforgotpass" placeholder="Email" type="text">
+								  <br>
+								  <input class='forgotpassbutton' value="send" type="button" id="btnsend" onclick="forgotPassword()">
+							</div>
+							
+					  </div>
+				</div>
+  </main>
+			
+ <script src="js/jqueryfile/jquery1113.js"></script>
+  <script src="js/iscroll.min.js"></script>
+  <!-- include the core styles -->
+		  <link rel="stylesheet" href="css/alertify.core.css" />
+		  <!-- include a theme, can be included into the core instead of 2 separate files -->
+		  <link rel="stylesheet" href="css/alertify.default.css" />
+			<script src="js/alertify.min.js"></script>
+ 
+  <script src="js/drawer.min.js" charset="utf-8"></script>
+  <script>
+  
+			function login()
+			{
+						dbcopy();
+						
+						var email = $('#email').val();
+						var password = $('#password').val();
+						
+						if(email == "")
+						{
+							alertify.alert("Please enter email address");
+						}
+						else if(password == "")
+						{
+							alertify.alert("Please enter password");
+						}
+						else
+						{
+								$("#loading").css("display","block");
+								$.ajax({url:APIURL + LOGIN,
+									type:"POST",
+									data: {"u_email": email, "u_password" : password},
+									dataType:"json",
+									error:function(jqXHR,text_status,strError)
+									{
+											alertify.alert("No connection");
+											$("#loading").css("display","none");
+									},
+										success:function(data)
+										{
+												
+												var i = data;
+					
+												var data_string = JSON.stringify(i);
+												var jsonData = JSON.parse(data_string);
+												//alert(data_string);
+																								
+												if(jsonData[0].status == 0)
+												{
+														alertify.alert(jsonData[0].error);
+														$("#loading").css("display","none");
+												}	
+												else
+												{
+													 //alert(jsonData[0].status + " " + jsonData[0].u_id  + " " +  jsonData[0].u_name  + " " + jsonData[0].u_email  + " " + jsonData[0].u_level);
+													// alertify.alert('Login success');
+													 // create table
+													 userEntry();
+													 $("#loading").css("display","none");
+													 window.localStorage.setItem("getQuiz1", "1");
+													 window.localStorage.setItem("userId", jsonData[0].u_id);
+													 window.localStorage.setItem("email", jsonData[0].u_email);
+													 window.localStorage.setItem("userName", jsonData[0].u_name);
+													 window.localStorage.setItem("fname", jsonData[0].u_fname);
+													 window.localStorage.setItem("lname", jsonData[0].u_lname);
+													 window.localStorage.setItem("uImage", jsonData[0].u_images);
+													 window.localStorage.setItem("password", jsonData[0].u_password);
+													  // insert record to lgin table
+													 insertLoginDetail(jsonData[0].u_id,jsonData[0].u_name,jsonData[0].u_email,jsonData[0].u_level,jsonData[0].u_poem_count,jsonData[0].u_jokes_count,jsonData[0].u_quotes_count,jsonData[0].u_quiz_ids,jsonData[0].u_bio,jsonData[0].u_location,jsonData[0].u_forum_id,jsonData[0].u_images,jsonData[0].u_note);
+													 setTimeout(function()
+													 {
+														window.location = 'home.html';
+													 },500);  
+													
+													
+												}
+										
+										}
+							   
+								});
+						}
+				
+			}
+			function signin()
+			{
+				window.location='signup.html';
+				dbcopy();
+			}
+			function playasgust()
+			{
+			
+				/*var db = window.sqlitePlugin.openDatabase({name: "NovasyonQuiz.db", location: 'default'});
+				db.transaction(queryDB, errorCB, querySuccess);
+					
+					function queryDB(tx) 
+					{
+						tx.executeSql("CREATE TABLE IF NOT EXISTS guestuser(uid unique,username,point)");					
+					}
+					function errorCB(err) 
+					{
+						//alert("Error processing SQL: "+err.code);
+						console.log("Error Code = "+JSON.stringify(err));
+					}
+					function querySuccess(tx, results)
+					{
+						alert('created');
+					}*/
+					
+					var db = window.sqlitePlugin.openDatabase({name: "NovasyonQuiz.db", location: 'default'});
+					db.transaction(function(tx) 
+					{
+						tx.executeSql("CREATE TABLE IF NOT EXISTS guestuser(uid unique,username,point)", [], function(tx, rs)
+						{
+							//alert('create table');
+						},
+						function(tx, error) 
+						{
+							// alert('SELECT error: ' + error.message);
+						});
+					})
+					
+				
+				dbcopy();
+				window.location = 'home.html';
+			}
+			function dbcopy()
+			{
+				
+					//Database filename to be copied is demo.db
+
+					//location = 0, will copy the db to default SQLite Database Directory
+					window.plugins.sqlDB.copy("NovasyonQuiz.db", 0, copysuccess,copyerror);
+
+					/*or
+
+					//location = 1, will copy the database to /Library folder
+					window.plugins.sqlDB.copy("demo.db", 1, copysuccess,copyerror);
+
+					or
+
+					//location = 2, will copy the database to /Library/LocalDatabase folder (Disable iCloud Backup)
+					window.plugins.sqlDB.copy("demo.db", 2, copysuccess,copyerror);
+					*/
+					//alert('copy');
+			}
+
+			
+			function copysuccess()
+			{
+					//open db and run your queries
+					var db = window.sqlitePlugin.openDatabase({name: "NovasyonQuiz.db"});	
+					 
+			}
+
+			function copyerror(e)
+			{
+					//db already exists or problem in copying the db file. Check the Log.
+					console.log("Error Code = "+JSON.stringify(e));
+					//e.code = 516 => if db exists
+					/*alert('copyerror');	
+					var db = window.sqlitePlugin.openDatabase({name: "NovasyonQuiz.db", location: 'default'});
+					db.transaction(function(tx) 
+						{
+						tx.executeSql('SELECT *FROM bibleQuestionsEN where Sequence=1580', [], function(tx, rs)
+						{
+						  alert('Record count (expected to be 2): ' );
+						  alert(rs.rows.length);
+						  alert(rs.rows.item(0).Question);
+						},
+						function(tx, error) 
+						{
+						  alert('SELECT error: ' + error.message);
+						});
+					  })*/
+			}
+			function userEntry()
+			{
+					var db = window.sqlitePlugin.openDatabase({name: "NovasyonQuiz.db", location: 'default'});
+					db.transaction(function(tx) 
+					{
+						tx.executeSql("CREATE TABLE IF NOT EXISTS login(u_id unique,u_name,u_email,u_level,u_poem_count,u_jokes_count,u_quotes_count,u_quiz_ids,u_bio,u_location,u_forum_id,u_images,u_note)", [], function(tx, rs)
+						{
+							console.log('login table create');
+						},
+						function(tx, error) 
+						{
+							 console.log('error in create login table: ' + error.message);
+						});
+						// delete record
+						tx.executeSql("DELETE FROM login", [], function(tx, rs)
+						{
+							console.log('login table record delete');
+						},
+						function(tx, error) 
+						{
+							 console.log('error in delete: ' + error.message);
+						});
+						tx.executeSql("CREATE TABLE IF NOT EXISTS score(u_id unique,point)", [], function(tx, rs)
+						{
+							console.log('score table create');
+						},
+						function(tx, error) 
+						{
+							 console.log('error in create score table: ' + error.message);
+						});
+						tx.executeSql("CREATE TABLE IF NOT EXISTS score1(u_id unique,point,noof_good_answer,no_wrong_answer)", [], function(tx, rs)
+						{
+							console.log('score table create');
+						},
+						function(tx, error) 
+						{
+							 console.log('error in create score table: ' + error.message);
+						});
+						tx.executeSql("CREATE TABLE IF NOT EXISTS Quiz(is_favourite,quize_id unique,q_title,q_image,q_description,u_jokes_count,q_numberOfCategories,q_categories,q_note)", [], function(tx, rs)
+						{
+								console.log('Quiz table create');
+						},
+						function(tx, error) 
+						{
+							console.log('error in create Quiz table: ' + error.message);
+						});
+						//create table
+						tx.executeSql("CREATE TABLE IF NOT EXISTS Questions(Sequence unique,quize_id,Topic,Topic2,Level,Question,CorrectAnswer,WrongAnswer1,WrongAnswer2,WrongAnswer3,Hint,Reference,Language)", [], function(tx, rs)
+						{
+								console.log('Questions table create');
+						},
+						function(tx, error) 
+						{
+							 console.log('error in create Question table: ' + error.message);
+						});			
+					})
+    		}
+			function insertLoginDetail(u_id,u_name,u_email,u_level,u_poem_count,u_jokes_count,u_quotes_count,u_quiz_ids,u_bio,u_location,u_forum_id,u_images,u_note)
+			{
+					var db = window.sqlitePlugin.openDatabase({name: "NovasyonQuiz.db", location: 'default'});
+					db.transaction(function(tx) 
+					{
+						tx.executeSql("INSERT INTO login(u_id,u_name,u_email,u_level,u_poem_count,u_jokes_count,u_quotes_count,u_quiz_ids,u_bio,u_location,u_forum_id,u_images,u_note) VALUES("+ u_id + ",'" +String(u_name) + "','" + String(u_email)+"','" + String(u_level) + "','" + String(u_poem_count) + "','" + String(u_jokes_count) + "','"+String(u_quotes_count)+"','"+String(u_quiz_ids)+"','"+String(u_bio)+"','"+String(u_location) + "','"+String(u_forum_id)+"','"+String(u_images)+"','" + String(u_note)+"')", [], function(tx, rs)
+						{
+							console.log('insert login');
+						},
+						function(tx, error) 
+						{
+							 console.log('error inserting login table data:  ' + error.message);
+						});
+						
+					})
+			}
+			function forgotPassword()
+			{
+					var txtforgotpass = $('#txtforgotpass').val();
+					var atpos = txtforgotpass.indexOf("@");
+					var dotpos = txtforgotpass.lastIndexOf(".");
+					
+					if(txtforgotpass == "")
+					{
+						alertify.alert('please enter email address');
+					}
+					else if (atpos<1 || dotpos<atpos+2 || dotpos+2>=txtforgotpass.length)
+					{
+						alertify.alert("Not a valid e-mail address");
+					}
+					else
+					{
+								$("#loading").css("display","block");
+								$.ajax({url:APIURL + FORGOTPASS,
+									type:"POST",
+									data: {"u_email": txtforgotpass},
+									dataType:"json",
+									error:function(jqXHR,text_status,strError)
+									{
+											alertify.alert("No connection");
+											$("#loading").css("display","none");
+									},
+									success:function(data)
+									{
+												
+												var i = data;
+					
+												var data_string = JSON.stringify(i);
+												var jsonData = JSON.parse(data_string);
+												//alert(data_string);
+																								
+												if(jsonData[0].status == 0)
+												{
+														alertify.alert(jsonData[0].error);
+														$("#loading").css("display","none");
+												}	
+												else
+												{
+													alertify.alert('Password send successfully');
+													modal.style.display = "none";
+													$("#loading").css("display","none");
+												}
+												$("#loading").css("display","none");
+										
+									}
+							   
+								});
+					}
+			}
+			// Get the modal
+				
+				var modal = document.getElementById('myModal');
+
+				// Get the button that opens the modal
+				var forgotpass = document.getElementById("forgotpass");
+				
+
+				// Get the <span> element that closes the modal
+				var span = document.getElementsByClassName("close")[0];
+
+				// When the user clicks the button, open the modal
+				forgotpass.onclick = function() {
+					$("textarea#forgotpass").val('');
+					modal.style.display = "block";
+					
+				}
+			// When the user clicks on <span> (x), close the modal
+			span.onclick = function() {
+				modal.style.display = "none";
+				
+			}
+
+			// When the user clicks anywhere outside of the modal, close it
+			window.onclick = function(event)
+			{
+				if (event.target == modal) {
+					modal.style.display = "none";
+					
+				}
+			}	
+</script>
+
+</body>
+</html>

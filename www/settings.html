@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+ 
+
+    
+   
+      <link href="css/bootstrap/bootstrap.css" rel="stylesheet">
+      <link href="css/bootstrap/bootstrap-theme.css" rel="stylesheet">
+      <link href="fonts/font-awesome/css/font-awesome.css" rel="stylesheet">
+	  
+      <link href="css/style.css" rel="stylesheet">
+      
+       <style type="text/css">
+		@font-face {
+			font-family:ProximaNovaSoft;
+			src: url(ProximaNovaSoft-Bold.otf);
+			font-weight: normal;
+			font-style: normal;
+			}
+			
+		</style>
+      
+        <script type="text/javascript" src="cordova.js"></script>
+      
+        <script src="js/jqueryfile/jquery1113.js"></script>
+		<script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript">
+		
+                $(document).ready(function(e) {
+                   
+				   $('#languages').val(window.localStorage.getItem("language")).trigger('change');	
+                   
+					$('#languages').change(function(){
+					var language = $(this).val();
+					 // alert(language); 
+							selectlanguage(language);
+					});
+					 if(window.localStorage.getItem("userId") == "")
+					 {
+							$('#profile').hide();
+							$('#logout').hide();
+					 }
+					 else
+					 {
+							$('#login').hide();
+					 }
+					languageChanged(window.localStorage.getItem("language"));
+					
+                });
+                function onBackKeyDown() 
+				{
+							//alert("back");
+						   // navigator.app.backHistory();
+							
+
+							window.history.back();
+							
+							
+						  //  navigator.app.backHistory();
+						
+						   // History.go(-1);
+							
+				}
+				function selectlanguage(id)
+				{
+					$("#english").removeClass("langactive");
+					$("#creole").removeClass("langactive");
+					$("#french").removeClass("langactive");
+					$("#spanish").removeClass("langactive");
+					$("#"+id).addClass("langactive");
+					window.localStorage.setItem("language",id);	
+					languageChanged(id);
+				}
+				
+			
+        </script>
+        
+    </head>
+
+  <body style='background-color: #FFF;'>
+ <header >
+           <div class="row row2">
+		     <div class="hd_back_static"><img src="img/back.png" onclick="onBackKeyDown();"/></div>
+			 <div class="hd_title"><h3>Settings</h3></div>
+		   </div>
+ </header>
+	
+<!-------------------------------------------------------------------------
+                          Container
+-------------------------------------------------------------------------->
+      
+	  
+	
+	  
+	    <div id="gameLandingPage" class="vertical-center">
+		<!--	<p style="height: 37px;"></p>-->
+		 <!-- *********************************************  -->
+			 <div class="row row2">		
+						
+						<div id="wrapper">
+							<label  id="selectlanguage" class="translate selectlanguage" style="font-family:ProximaNovaSoft;">Select Language :</label>
+							<select id="languages" class="languagedrpdwn">
+								<option value="">--Select--</option>
+								<option value="english" id="englishLanguage" class="translate" selected="selected">English</option>
+								<option value="french" id="frenchLanguage" class="translate">French</option>
+								<option value="creole" id="creoleLanguage" class="translate">Creole</option>
+								<option value="spanish" id="spanishLanguage" class="translate">Spanish</option>
+							</select>
+													
+						</div>
+			</div>
+		
+	   
+	   </div> 
+
+	
+
+		 
+		 <!---------------------js file ---------------------------------->
+     <script src="js/jqueryfile/jquery1113.js"></script>
+	 <script src="js/bootstrap/bootstrapmin.js"></script>
+     <script src="js/bootstrap/bootstraptheme.js"></script>
+	  <script type="text/javascript" src="local-notification.js"></script> 
+     <script src="js/develper.js"></script>
+  </body>
+</html>

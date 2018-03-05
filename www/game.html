@@ -1,0 +1,2571 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <!--
+        Customize this policy to fit your own app's needs. For more guidance, see:
+            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+        Some notes:
+            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+                * Enable inline JS: add 'unsafe-inline' to default-src
+        -->
+			<meta charset="utf-8">
+			<meta http-equiv="X-UA-Compatible" content="IE=edge">
+			
+			<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+			<meta name="description" content="">
+			<meta name="author" content="">
+        
+	
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<link href="css/bootstrap/bootstrap.css" rel="stylesheet">
+		<script src="js/jqueryfile/jquery1113.js"></script>
+		<!--popup css and js -->
+		
+		<link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css"> 
+		<script src="js/jqueryfile/jquery.mobile-1.4.5.min.js"></script>
+		<script src="js/jquery.countdown360.js" type="text/javascript" charset="utf-8"></script>
+		<link href="css/bootstrap/bootstrap-theme.css" rel="stylesheet">
+		
+		
+		<link href="css/sandbox.css" rel="stylesheet">
+		<link href="css/drawer.min.css" rel="stylesheet">
+		
+			<!-- include the core styles -->
+		  <link rel="stylesheet" href="css/alertify.core.css" />
+		  <!-- include a theme, can be included into the core instead of 2 separate files -->
+		  <link rel="stylesheet" href="css/alertify.default.css" />
+			<script src="js/alertify.min.js"></script>
+			<script src="js/bootstrap/bootstrapmin.js"></script>
+		<script type="text/javascript" src="js/index.js"></script>
+		 <script src="js/url_min.js"></script>
+		<style type="text/css">
+		@font-face {
+			font-family:ProximaNovaSoft1;
+			src: url(ProximaNovaSoft-Bold.otf);
+			font-weight: normal;
+			font-style: normal;
+			}
+			@font-face {
+			font-family: "Roboto_Medium";
+				src: url("Roboto_Medium.ttf") format("opentype");
+				font-weight: normal;
+				font-style: normal;
+			}
+			body {
+				font-family: "Roboto_Medium";
+
+				background: rgba(246,255,219,1); /* For browsers that do not support gradients */
+				background: -webkit-linear-gradient(rgba(246,255,219,1) 30%, rgba(212,255,82,1) 100%); /* For Safari 5.1 to 6.0 */
+				background: -o-linear-gradient(rgba(246,255,219,1) 30%, rgba(212,255,82,1) 100%); /* For Opera 11.1 to 12.0 */
+				background: -moz-linear-gradient(rgba(246,255,219,1) 30%, rgba(212,255,82,1) 100%); /* For Firefox 3.6 to 15 */
+				background: linear-gradient(rgba(246,255,219,1) 30%, rgba(212,255,82,1) 100%); /* Standard syntax (must be last) */
+			}
+			
+		</style>
+	
+
+		<script type="text/javascript">
+				var listvalues = localStorage.getItem('lists');
+				//var playername = JSON.parse(listvalues);
+				var interval;
+				var level;
+				var playerpoint = [ 0 , 0 , 0 , 0 ];
+				var noofanswer = 0;
+				var i = 0;
+				var globalQuestionId;
+				var currentPlayer = 0;
+				var interval1;
+				var counter = 0;
+				
+				
+				var level1,level2,level3,level4,timetoreadquestion,timeanswerquestion,questionparround,explanations,playername,gamesetting,numberofcategory;
+				var playerpoints = 0;
+				var readandanswertimeflag = 0;  // 0 read question, 1 time give answer
+				var readnoofquestion = 0; 
+				var isUseHint = 'false';
+				var noofcategory ;
+				var noofround;
+				var currentround = 1;
+				var sound;
+				var levelInt = 3;
+				var noCorrectAnswer = 0;
+				var noCorrectAnswerP1 = 0;
+				var noCorrectAnswerP2 = 0;
+				var noCorrectAnswerP3 = 0;
+				var noCorrectAnswerP4 = 0;
+				var noWrongAnswer = 0;
+				var noWrongAnswerP1 = 0;
+				var noWrongAnswerP2 = 0;
+				var noWrongAnswerP3 = 0;
+				var noWrongAnswerP4 = 0;
+				var bonusArray = []; 
+				var bonusArrayP1 = [];
+				var bonusArrayP2 = [];
+				var bonusArrayP3 = [];
+				var bonusArrayP4 = [];
+				var getBounsPoint = 0;
+				var getBonusPointPlayer1 = 0;
+				var getBonusPointPlayer2 = 0;
+				var getBonusPointPlayer3 = 0;
+				var getBonusPointPlayer4 = 0;
+				var noOfplayer = 1;
+				var playerNameArray = [];
+				var iis =0;
+				var userId = ""; 
+				var timeToRead = 0;
+				var databaseName = "bibleQuestionsEN";
+				var isHint = 0;
+				var alwaysDisplayExp;
+				var GLOBALQUIZID = 1;
+				$(document).ready(function(e)
+				{
+					
+					
+					/*var str = "\"abc's\" :;@3 1234567 8 _9 0-=+!|*~` . 4 { } ; ~% test#s";
+					alert(str);
+					alert(str +"\n"+str.replace(/[^a-zA-Z0-9 ]/g, "").replace( /\s/g, ""));*/
+					/*var categoryRandom =  Math.floor(Math.random() * (2 - 1 + 1)) + 1;
+					alert(categoryRandom);*/
+					
+					level1 = window.localStorage.getItem("level1");
+					level2 = window.localStorage.getItem("level2");
+					level3 = window.localStorage.getItem("level3");
+					level4 = window.localStorage.getItem("level4");
+					gamesetting = window.localStorage.getItem("gamesetting");
+					timetoreadquestion = window.localStorage.getItem("timetoreafdquestion");
+					timeanswerquestion = window.localStorage.getItem("timeanswerquestion");
+					noofround = window.localStorage.getItem("noofround");
+					questionparround = window.localStorage.getItem("questionparround");
+					explanations = window.localStorage.getItem("explanations");
+					playername = window.localStorage.getItem("playername");
+					numberofcategory = window.localStorage.getItem("numberofcategory");
+					sound = window.localStorage.getItem("sound");
+					noofcategory = numberofcategory;
+					noOfplayer = window.localStorage.getItem("noofPlayer");
+					alwaysDisplayExp = window.localStorage.getItem("displayexplanations");
+					GLOBALQUIZID = window.localStorage.getItem("quiz_id");
+				
+					
+					for(var i = 1 ; i <= noOfplayer; i++)
+					{
+						
+						playerNameArray.push(window.localStorage.getItem("playername"+i));
+						//alert(palyerName);
+					}
+					if(level1 == 'veryeasy')
+					{
+						levelInt = 1;
+					}
+					else if(level1 == 'easy')
+					{
+						levelInt = 2;
+					}
+					else if(level1 == 'medium')
+					{
+						levelInt = 3;
+					}
+					else if(level1 == 'hard')
+					{
+						levelInt = 4;
+					}
+					else if(level1 == 'surprise')
+					{
+						levelInt = 5;
+					}
+					
+					
+					//alert( playername+" " + level1 +" "+ level2 +" "+ level3 +" "+ level4 + " " + timetoreafdquestion + " " + timeanswerquestion + " " +noofround  + " " + questionparround + " " +explanations );
+					
+					
+					
+					/*for(var i=0;i<5;i++)
+					{
+						$('#containtdiv').append("<div class='gameCategoryColumn playGameCategoryColumn'>"+
+						"<span class='gameCategoryTitle playGameCategoryTitle' data-cat-num='1'  style='font-family:ProximaNovaSoft'><span class='translate' id='cat'>Ctg</span>-0" + (i+1) + "</span>"+
+						"<div class='gameQuestionBlock unAnsweredQuestion categoryColor"+i+"' id='cat_0" + i + "_1' data-points='1' data-cat-name='Ctg-0"+(i+1)+"' data-catid='" + i + "' onclick='quizQuestionAns(this)'>"+
+						"<span class='gamePointsBlock' style='font-family:ProximaNovaSoft'>1</span></div>"+
+						"<div class='gameQuestionBlock unAnsweredQuestion categoryColor"+i+"' id='cat_0" + i + "_2' data-points='2' data-cat-name='Ctg-0"+(i+1)+"' data-catid='" + i + "' onclick='quizQuestionAns(this)'>"+
+						"<span class='gamePointsBlock' style='font-family:ProximaNovaSoft'>2</span></div>"+
+						"<div class='gameQuestionBlock unAnsweredQuestion categoryColor"+i+"' id='cat_0" + i + "_3' data-points='3' data-cat-name='Ctg-0"+(i+1)+"' data-points='100' data-catid='" + i + "' onclick='quizQuestionAns(this)'>"+
+						"<span class='gamePointsBlock' style='font-family:ProximaNovaSoft'>3</span></div>"+
+						"<div class='gameQuestionBlock unAnsweredQuestion categoryColor"+i+"' id='cat_0" + i + "_4' data-points='4' data-cat-name='Ctg-0"+(i+1)+"' data-points='100' data-catid='" + i + "' onclick='quizQuestionAns(this)'>"+
+						"<span class='gamePointsBlock' style='font-family:ProximaNovaSoft'>4</span></div>"+
+						"<div class='gameQuestionBlock unAnsweredQuestion categoryColor"+i+"' id='cat_0" + i + "_5' data-points='5' data-cat-name='Ctg-0"+(i+1)+"' data-points='100' data-catid='" + i + "' onclick='quizQuestionAns(this)'>"+
+						"<span class='gamePointsBlock' style='font-family:ProximaNovaSoft'>5</span></div>"+
+						"<div class='gameQuestionBlock unAnsweredQuestion categoryColor"+i+"' id='cat_0" + i + "_6' data-points='6' data-cat-name='Ctg-0"+(i+1)+"' data-points='100' data-catid='" + i + "' onclick='quizQuestionAns(this)'>"+
+						"<span class='gamePointsBlock' style='font-family:ProximaNovaSoft'>6</span></div></div>");
+					}*/
+					
+					
+					// create number player box
+					
+					for(var i=0;i<noOfplayer;i++)
+					{
+						$('#teamcontainerdiv').append("<div class='characterPodium'>" +
+									"<div class='captantitle'>" +playerNameArray[i]+ "</div>"+
+									"<img class='characterRep onionOnPodium img-circle' src='img/onion.png'>" +
+									"<div class='podiumPortion'>" +
+										"<span class='moneyHolder' id='playerpointgame" + i + "' style='font-weight:100;'>"+playerpoint[i]+"</span>" +
+									"</div>" +
+								"</div>");
+								$(".groupimage"+(i+1)).removeClass("deactive");
+					}
+					
+					$('[data-toggle="popover"]').popover();
+					
+					//get ueser Point
+					if(!window.localStorage.getItem("userId") == "")
+					{
+						userId = window.localStorage.getItem("userId");
+							//getUserPoint(userId);
+
+					}
+					
+					
+					setTimeout(function()
+					{
+						//alert('change color:==>');
+							StatusBar.backgroundColorByHexString('#3e3eb6');
+					},200);
+					
+					
+					
+					
+						 
+				});
+				function displayToolTip(id)
+				{
+					//$('.tooltip-r').tooltip();
+					//alert(id);
+					  $("#"+id).tooltip('show');
+				}
+				
+				document.addEventListener('deviceready', function() 
+				{
+					 
+					 selectCategory();
+					
+					languageChanged(window.localStorage.getItem("language"));
+					
+					$("#noofround").html('0'+currentround);
+					//selectUserScore();
+					
+				});
+				function selectCategory()
+				{
+									
+							// =========================================select databaseName		
+									
+					if(window.localStorage.getItem("language") == "creole" )
+					{
+						//alert('c');
+						databaseName = "bibleQuestionsHt";
+						var db = window.sqlitePlugin.openDatabase({name: "NovasyonQuiz.db", location: 'default'});
+						db.transaction(function(tx) 
+						{
+								tx.executeSql("SELECT * FROM bibleQuestionsHt", [], function(tx, rs)
+								{
+										//alert('data');
+										
+								},
+								function(tx, error) 
+								{
+										//alert('select error: ' + error.message);
+										databaseName = "bibleQuestionsEN";
+								});
+						})
+						//alert('select');
+					}
+					else
+					{
+					//	alert('o');
+						databaseName = "bibleQuestionsEN";
+					}
+					//alert(databaseName);
+									
+							//============================================= select databaseName	
+							
+									// select category
+									//=================bibleQuestionsEN
+										var db = window.sqlitePlugin.openDatabase({name: "NovasyonQuiz.db", location: 'default'});
+										db.transaction(function(tx) 
+										{
+													
+																/*var selectRandomTopic = Math.floor(Math.random() * (2 - 1 + 1)) + 1;
+																var topicName = "Topic";
+																if(selectRandomTopic == 1)
+																{
+																	topicName = "Topic";
+																}
+																else
+																{
+																	topicName = "Topic2";
+																}*/
+																tx.executeSql("SELECT DISTINCT Topic FROM Questions where Level='" + levelInt + "' AND quize_id ='" + GLOBALQUIZID + "'", [], function(tx, rs)
+																{
+																		//alert(rs.rows.length);
+																	var sequence = [];
+																	/*if(selectRandomTopic == 1)
+																	{
+																		for(var r=0; r < rs.rows.length; r++)
+																		{
+																			sequence.push(rs.rows.item(r).Topic);
+																			
+																		}
+																		console.log("1==>" + sequence);
+																	}
+																	else
+																	{
+																		for(var r=0; r < rs.rows.length; r++)
+																		{
+																			sequence.push(rs.rows.item(r).Topic2);
+																			
+																		}
+																		console.log("2==>" + sequence);
+																	}*/
+																		for(var r=0; r < rs.rows.length; r++)
+																		{
+																			sequence.push(rs.rows.item(r).Topic);
+																			//console.log("==>" + rs.rows.item(r).Topic);
+																		}
+																			var min = 0;
+																			var max = rs.rows.length ;
+																			if(questionparround == 3)
+																			{
+																						for(var i = 0 ; i< numberofcategory ; i++)
+																						{
+																						
+																							var categoryRandom =  Math.floor(Math.random() * (max - min + 1)) + min;
+																							var categoryName;
+																							
+																							
+																							
+																								//console.log('number of category:'+sequence+i + " ===> "+sequence[categoryRandom] + "==>Random no:"+categoryRandom);
+																								
+																								categoryName = getCategoryName(sequence,categoryRandom);
+																								// console.log('number of category:'+i + " ===> " + categoryName);
+																								//remove space and add ","
+																								var str = categoryName.replace(/[\s,]+/g, ',');
+																								
+																								// convert , string to array
+																								
+																								var tokens = str.split(',');
+																								
+																							
+																							if(tokens.length == 2)
+																							{
+																								var command = tokens[0];
+																								var person = tokens[1];
+																								categoryName = command.substring(0, 2) + " " + person.substring(0, 2);
+																							}
+																							if(tokens.length == 3)
+																							{
+																								var command = tokens[0];
+																								var person = tokens[2];
+																								categoryName = command.substring(0, 2) + " " + person.substring(0, 2);
+																							}
+																							if(tokens.length == 4)
+																							{
+																								var command = tokens[0];
+																								var person = tokens[3];
+																								categoryName = command.substring(0, 2) +" "+ person.substring(0, 2);
+																							}
+																							if(tokens.length == 5)
+																							{	
+																								var command = tokens[0];
+																								var person = tokens[3];
+																								categoryName = command.substring(0, 2) +" "+ person.substring(0, 2);
+																							}
+																								if(sequence[categoryRandom]  === undefined ||sequence[categoryRandom] === null)
+																								{
+																									sequence[categoryRandom] = "General Knowledge";
+																								}
+																							// now do your processing
+																							
+																																																						
+																							$('#containtdiv').append("<div class='gameCategoryColumn playGameCategoryColumn'>"+
+																							"<span class='gameCategoryTitle playGameCategoryTitle' data-cat-num='1'  style='font-family:ProximaNovaSoft'><span class='translate' id='" + i +  "''" + getCategoryName(sequence,categoryRandom).replace(/[^a-zA-Z0-9 ]/g, "").replace( /\s/g, "") + "' data-toggle='tooltip' data-placement='top' title='" + getCategoryName(sequence,categoryRandom) + "' onclick='displayToolTip(this.id)'>" + categoryName + "</span></span>"+   
+																							"<div class='gameQuestionBlock unAnsweredQuestion categoryColor"+i+"' id='cat_0" + i + "_1' data-categoryname='"+sequence[categoryRandom] +"' data-points='1' data-cat-name='Ctg-0"+(i+1)+"' data-catid='" + i + "' onclick='quizQuestionAns(this)'>"+
+																							"<span class='gamePointsBlock' style='font-family:ProximaNovaSoft'>1</span></div>"+
+																							"<div class='gameQuestionBlock unAnsweredQuestion categoryColor"+i+"' id='cat_1" + i + "_2' data-categoryname='"+sequence[categoryRandom] +"' data-points='2' data-cat-name='Ctg-0"+(i+1)+"' data-catid='" + i + "' onclick='quizQuestionAns(this)'>"+
+																							"<span class='gamePointsBlock' style='font-family:ProximaNovaSoft'>2</span></div>"+
+																							"<div class='gameQuestionBlock unAnsweredQuestion categoryColor"+i+"' id='cat_2" + i + "_3' data-categoryname='"+sequence[categoryRandom] +"' data-points='3' data-cat-name='Ctg-0"+(i+1)+"'  data-catid='" + i + "' onclick='quizQuestionAns(this)'>"+
+																							"<span class='gamePointsBlock' style='font-family:ProximaNovaSoft'>3</span></div>");
+																						}
+																			}
+																				// 4 question  in round
+																				if(questionparround == 4)
+																				{
+																							for(var i = 0 ; i< numberofcategory ; i++)
+																							{
+																								var categoryRandom =  Math.floor(Math.random() * (max - min + 1)) + min;
+																								var categoryName;
+																								
+																								//console.log(sequence[categoryRandom] + " " +sequence);
+																								
+																								
+																								//	alert(getCategoryName(sequence,categoryRandom));
+																									categoryName = getCategoryName(sequence,categoryRandom);
+																									
+																									//remove space and add ","
+																									var str = categoryName.replace(/[\s,]+/g, ',');
+																									
+																									// convert , string to array
+																									
+																									var tokens = str.split(',');
+																									
+																								
+																								if(tokens.length == 2)
+																								{
+																									var command = tokens[0];
+																									var person = tokens[1];
+																									categoryName = command.substring(0, 2) + " " + person.substring(0, 2);
+																								}
+																								if(tokens.length == 3)
+																								{
+																									var command = tokens[0];
+																									var person = tokens[2];
+																									categoryName = command.substring(0, 2) + " " + person.substring(0, 2);
+																								}
+																								if(tokens.length == 4)
+																								{
+																									var command = tokens[0];
+																									var person = tokens[3];
+																									categoryName = command.substring(0, 2) +" "+ person.substring(0, 2);
+																								}
+																								if(tokens.length == 5)
+																								{	
+																									var command = tokens[0];
+																									var person = tokens[3];
+																									categoryName = command.substring(0, 2) +" "+ person.substring(0, 2);
+																								}
+																								if(sequence[categoryRandom]  === undefined ||sequence[categoryRandom] === null)
+																								{
+																									sequence[categoryRandom] = "General Knowledge";
+																								}
+																								// now do your processing 
+																								
+																														$('#containtdiv').append("<div class='gameCategoryColumn playGameCategoryColumn'>"+
+																														"<span class='gameCategoryTitle playGameCategoryTitle' data-cat-num='1'  style='font-family:ProximaNovaSoft'><span class='translate' id='cat'>" + categoryName + "</span></span>"+
+																														"<div class='gameQuestionBlock unAnsweredQuestion categoryColor"+i+"' id='cat_0" + i + "_1' data-categoryname='"+sequence[categoryRandom] +"' data-points='1' data-cat-name='Ctg-0"+(i+1)+"' data-catid='" + i + "' onclick='quizQuestionAns(this)'>"+
+																														"<span class='gamePointsBlock' style='font-family:ProximaNovaSoft'>1</span></div>"+
+																														"<div class='gameQuestionBlock unAnsweredQuestion categoryColor"+i+"' id='cat_1" + i + "_2' data-categoryname='"+sequence[categoryRandom] +"' data-points='2' data-cat-name='Ctg-0"+(i+1)+"' data-catid='" + i + "' onclick='quizQuestionAns(this)'>"+
+																														"<span class='gamePointsBlock' style='font-family:ProximaNovaSoft'>2</span></div>"+
+																														"<div class='gameQuestionBlock unAnsweredQuestion categoryColor"+i+"' id='cat_2" + i + "_3' data-categoryname='"+sequence[categoryRandom] +"' data-points='3' data-cat-name='Ctg-0"+(i+1)+"' data-catid='" + i + "' onclick='quizQuestionAns(this)'>"+
+																														"<span class='gamePointsBlock' style='font-family:ProximaNovaSoft'>3</span></div>"+
+																														"<div class='gameQuestionBlock unAnsweredQuestion categoryColor"+i+"' id='cat_3" + i + "_4' data-categoryname='"+sequence[categoryRandom] +"' data-points='4' data-cat-name='Ctg-0"+(i+1)+"' data-catid='" + i + "' onclick='quizQuestionAns(this)'>"+
+																														"<span class='gamePointsBlock' style='font-family:ProximaNovaSoft'>4</span></div>");
+																							}
+																				}
+																				// 5 question  in round
+																				if(questionparround == 5)
+																				{
+																							for(var i = 0 ; i< numberofcategory ; i++)
+																							{
+																								var categoryRandom =  Math.floor(Math.random() * (max - min + 1)) + min;
+																								var categoryName;
+																								
+																								//console.log(sequence[categoryRandom] + " " +sequence);
+																								
+																								
+																								//	alert(getCategoryName(sequence,categoryRandom));
+																									categoryName = getCategoryName(sequence,categoryRandom);
+																									
+																									//remove space and add ","
+																									var str = categoryName.replace(/[\s,]+/g, ',');
+																									
+																									// convert , string to array
+																									
+																									var tokens = str.split(',');
+																									
+																								
+																								if(tokens.length == 2)
+																								{
+																									var command = tokens[0];
+																									var person = tokens[1];
+																									categoryName = command.substring(0, 2) + " " + person.substring(0, 2);
+																								}
+																								if(tokens.length == 3)
+																								{
+																									var command = tokens[0];
+																									var person = tokens[2];
+																									categoryName = command.substring(0, 2) + " " + person.substring(0, 2);
+																								}
+																								if(tokens.length == 4)
+																								{
+																									var command = tokens[0];
+																									var person = tokens[3];
+																									categoryName = command.substring(0, 2) +" "+ person.substring(0, 2);
+																								}
+																								if(tokens.length == 5)
+																								{	
+																									var command = tokens[0];
+																									var person = tokens[3];
+																									categoryName = command.substring(0, 2) +" "+ person.substring(0, 2);
+																								}
+																								if(sequence[categoryRandom]  === undefined || sequence[categoryRandom] === null)
+																								{
+																									sequence[categoryRandom] = "General Knowledge";
+																								}
+																								// now do your processing  
+																								$('#containtdiv').append("<div class='gameCategoryColumn playGameCategoryColumn'>"+
+																								"<span class='gameCategoryTitle playGameCategoryTitle' data-cat-num='1'  style='font-family:ProximaNovaSoft'><span class='translate' id='cat'>" + categoryName + "</span></span>"+
+																								"<div class='gameQuestionBlock unAnsweredQuestion categoryColor"+i+"' id='cat_0" + i + "_1' data-points='1' data-categoryname='"+sequence[categoryRandom] +"' data-cat-name='Ctg-0"+(i+1)+"' data-catid='" + i + "' onclick='quizQuestionAns(this)'>"+
+																								"<span class='gamePointsBlock' style='font-family:ProximaNovaSoft'>1</span></div>"+
+																								"<div class='gameQuestionBlock unAnsweredQuestion categoryColor"+i+"' id='cat_1" + i + "_2' data-points='2' data-categoryname='"+sequence[categoryRandom] +"' data-cat-name='Ctg-0"+(i+1)+"' data-catid='" + i + "' onclick='quizQuestionAns(this)'>"+
+																								"<span class='gamePointsBlock' style='font-family:ProximaNovaSoft'>2</span></div>"+
+																								"<div class='gameQuestionBlock unAnsweredQuestion categoryColor"+i+"' id='cat_2" + i + "_3' data-points='3' data-categoryname='"+sequence[categoryRandom] +"' data-cat-name='Ctg-0"+(i+1)+"' data-catid='" + i + "' onclick='quizQuestionAns(this)'>"+
+																								"<span class='gamePointsBlock' style='font-family:ProximaNovaSoft'>3</span></div>"+
+																								"<div class='gameQuestionBlock unAnsweredQuestion categoryColor"+i+"' id='cat_3" + i + "_4' data-points='4' data-categoryname='"+sequence[categoryRandom] +"' data-cat-name='Ctg-0"+(i+1)+"' data-catid='" + i + "' onclick='quizQuestionAns(this)'>"+
+																								"<span class='gamePointsBlock' style='font-family:ProximaNovaSoft'>4</span></div>"+
+																								"<div class='gameQuestionBlock unAnsweredQuestion categoryColor"+i+"' id='cat_4" + i + "_5' data-points='5' data-categoryname='"+sequence[categoryRandom] +"' data-cat-name='Ctg-0"+(i+1)+"' data-catid='" + i + "' onclick='quizQuestionAns(this)'>"+
+																								"<span class='gamePointsBlock' style='font-family:ProximaNovaSoft'>5</span></div>	");
+																								
+																							}
+																				}
+																			
+																},
+																function(tx, error) 
+																{
+																	//alert('SELECT error: ' + error.message);
+																});
+										})
+										
+				}
+				function getCategoryName(sequence,categoryRandom)
+				{
+																							var catnm;
+																							if(sequence[categoryRandom]  == "??")
+																							{
+																								catnm = "??";
+																								return catnm;
+																							}
+																							if(sequence[categoryRandom]  == "ad")
+																							{
+																								catnm = "Apostles and Disciples";
+																								return catnm;
+																							}
+																							else if(sequence[categoryRandom]  == "bb")
+																							{
+																								catnm = "Bible Books";
+																								return catnm;
+																							}
+																							else if(sequence[categoryRandom]  == "bn")
+																							{
+																								catnm = "By the Numbers";
+																								return catnm;
+																							}
+																							else if(sequence[categoryRandom]  == "bs")
+																							{
+																								catnm = "Bible Stories & Parables";
+																								return catnm;
+																							}
+																							else if(sequence[categoryRandom]  == "ff")
+																							{
+																								catnm = "Famous Firsts";
+																								return catnm;
+																							}
+																							else if(sequence[categoryRandom]  == "gk")
+																							{
+																								catnm = "General Knowledge";
+																								return catnm;
+																							}
+																							else if(sequence[categoryRandom]  == "gs")
+																							{
+																								catnm = "Matthew to Revelation";
+																								return catnm;
+																							}
+																							else if(sequence[categoryRandom]  == "hs")
+																							{
+																								catnm = "Genesis to Malachi";
+																								return catnm;
+																							}
+																							else if(sequence[categoryRandom]  == "jc")
+																							{
+																								catnm = "Just for Children";
+																								return catnm;
+																							}
+																							else if(sequence[categoryRandom]  == "jj")
+																							{
+																								catnm = "Jehovah & Jesus";
+																								return catnm;
+																							}
+																							else if(sequence[categoryRandom]  == "jw")
+																							{
+																								catnm = "Jehovah's Witnesses";
+																								return catnm;
+																							}
+																							else if(sequence[categoryRandom]  == "jf")
+																							{
+																								catnm = "Just for Children";
+																								return catnm;
+																							}
+																							else if(sequence[categoryRandom]  == "kk")
+																							{
+																								catnm = "Kings & Kingdoms";
+																								return catnm;
+																							}
+																							else if(sequence[categoryRandom]  == "ml")
+																							{
+																								catnm = "Moses & the Mosaic Law";
+																								return catnm;
+																							}
+																							else if(sequence[categoryRandom]  == "ni")
+																							{
+																								catnm = "Nation of Israel";
+																								return catnm;
+																							}
+																							else if(sequence[categoryRandom]  == "pe")
+																							{
+																								catnm = "People";
+																								return catnm;
+																							}
+																							else if(sequence[categoryRandom]  == "pf")
+																							{
+																								catnm = "Prophets & Prophecy";
+																								return catnm;
+																							}
+																							else if(sequence[categoryRandom]  == "pl")
+																							{
+																								catnm = "Places";
+																								return catnm;
+																							}
+																							else if(sequence[categoryRandom]  == "pp")
+																							{
+																								catnm = "Psalms & Proverbs";
+																								return catnm;
+																							}
+																							else if(sequence[categoryRandom]  == "rs")
+																							{
+																								catnm = "Revelation Signs and Symbolism";
+																								return catnm;
+																							}
+																							else if(sequence[categoryRandom]  == "ss")
+																							{
+																								catnm = "Scripture Search";
+																								return catnm;
+																							}
+																							else if(sequence[categoryRandom]  == "sw")
+																							{
+																								catnm = "Say What";
+																								return catnm;
+																							}
+																							else if(sequence[categoryRandom]  == "to")
+																							{
+																								catnm = "Theocratic Order";
+																								return catnm;
+																							}
+																							else if(sequence[categoryRandom]  == "tt")
+																							{
+																								catnm = "Troubled Times";
+																								return catnm;
+																							}
+																							else if(sequence[categoryRandom]  == "ui")
+																							{
+																								catnm = "Unusual Items";
+																								return catnm;
+																							}
+																							else
+																							{
+																								catnm = "General Knowledge";
+																								return catnm;
+																							}
+				}
+				function quizQuestionAns(id)
+				{
+						//"<div id='questionMaindiv'><h5 class='timer' id='timer'>30:00  </h5>"+
+						//alert(playername.length);
+									
+
+									globalQuestionId = id;
+									var  scroebord_point =  $("#"+$(id).attr("id")).data("points");
+									var category_name = $("#"+$(id).attr("id")).data("categoryname");
+									
+									
+									
+									//checkBonus(id);
+									
+									var min = 1;
+									var max = 1579;
+									// and the formula is:
+									var random = Math.floor(Math.random() * (max - min + 1)) + min;
+									
+									//alert(category_name);
+									//alert('random no:' + random);
+								
+								//veryeasy,easy,media,hard,surprise
+								
+								//alert(level1);
+							var db = window.sqlitePlugin.openDatabase({name: "NovasyonQuiz.db", location: 'default'});
+							db.transaction(function(tx) 
+							{
+											
+												var nooflevel;
+												if(level1 == 'veryeasy')
+												{
+													if(category_name  === undefined || category_name === null)
+													{
+															category_name = "gk";
+													}
+													nooflevel = 1;//SELECT *FROM bibleQuestionsEN where (Topic='"+ category_name +"' OR Topic2='" + category_name + "') AND  Level='" + nooflevel + "'"
+													tx.executeSql("SELECT *FROM Questions where (Topic='"+ category_name +"' OR Topic2='" + category_name + "') AND  Level='" + nooflevel + "' AND quize_id ='" + GLOBALQUIZID + "'" , [], function(tx, rs)
+													{
+															//alert(rs.rows.length);
+															var sequence = [];
+															for(var r=0; r < rs.rows.length; r++)
+															{
+																sequence.push(rs.rows.item(r).Sequence);
+															}
+															
+															// select one question for these level
+																												
+															//random = rs.rows.item(0).Sequence;
+																						
+															
+															sequence = shuffle(sequence);
+														//	alert('random no2:' + random + " " + sequence);
+															random = sequence[0];
+															//alert("question level0 :"+random);
+													
+															genrateRandomQuetionBlock(random,scroebord_point,id);
+															
+															
+														
+													},
+													function(tx, error) 
+													{
+													 //	 alert('SELECT error: ' + error.message);
+													});
+												}
+												else if(level1 == 'easy')
+												{
+													if(category_name  === undefined || category_name === null)
+													{
+															category_name = "gk";
+													}
+													nooflevel = 2;
+													tx.executeSql("SELECT *FROM Questions where (Topic='"+ category_name +"' OR Topic2='" + category_name + "') AND  Level='" + nooflevel + "' AND quize_id ='" + GLOBALQUIZID + "'" , [], function(tx, rs)
+													{
+															//alert(rs.rows.length);
+															var sequence = [];
+															for(var r=0; r < rs.rows.length; r++)
+															{
+																sequence.push(rs.rows.item(r).Sequence);
+															}
+															
+															// select one question for these level
+															
+															
+															
+															//random = rs.rows.item(0).Sequence;
+																						
+															
+															sequence = shuffle(sequence);
+														//	alert('random no2:' + random + " " + sequence);
+															random = sequence[0];
+															//alert('random 2:'+random + " " + sequence[0]);
+															//alert("question 1 :"+random);
+															genrateRandomQuetionBlock(random,scroebord_point,id);		
+													},
+													function(tx, error) 
+													{
+														//alert('SELECT error: ' + error.message);
+													});
+													
+												}
+												else if(level1 == 'medium')
+												{
+													if(category_name  === undefined || category_name === null)
+													{
+															category_name = "gk";
+													}
+													nooflevel = 3;
+													tx.executeSql("SELECT *FROM Questions where (Topic='"+ category_name +"' OR Topic2='" + category_name + "') AND  Level='" + nooflevel + "' AND quize_id ='" + GLOBALQUIZID + "'" , [], function(tx, rs)
+													{
+															
+															//alert(rs.rows.length);
+															var sequence = [];
+															for(var r=0; r < rs.rows.length; r++)
+															{
+																sequence.push(rs.rows.item(r).Sequence);
+															}
+															
+															// select one question for these level
+															
+															
+															
+															//random = rs.rows.item(0).Sequence;
+																						
+															
+															sequence = shuffle(sequence);
+															//alert('random no2:' + random + " " + sequence);
+															random = sequence[0];
+															//alert("random 2:"+random + " " + sequence[0]);
+													
+															genrateRandomQuetionBlock(random,scroebord_point,id);
+													},
+													function(tx, error) 
+													{
+													 // alert('SELECT error: ' + error.message);
+													});
+													
+												}
+												else if(level1 == 'hard')
+												{
+													if(category_name  === undefined || category_name === null)
+													{
+															category_name = "gk";
+													}
+													nooflevel = 4;
+													tx.executeSql("SELECT *FROM Questions where (Topic='"+ category_name +"' OR Topic2='" + category_name + "') AND  Level='" + nooflevel + "' AND quize_id ='" + GLOBALQUIZID + "'" , [], function(tx, rs)
+													{
+															
+															//alert(rs.rows.length);
+															var sequence = [];
+															for(var r=0; r < rs.rows.length; r++)
+															{
+																sequence.push(rs.rows.item(r).Sequence);
+															}
+															
+															// select one question for these level
+															
+															
+															
+															//random = rs.rows.item(0).Sequence;
+																						
+															
+															sequence = shuffle(sequence);
+															
+															random = sequence[0];
+															//alert("random 3:"+random + " " + sequence[0]);
+													
+														genrateRandomQuetionBlock(random,scroebord_point,id);
+													},
+													function(tx, error) 
+													{
+													//  alert('SELECT error: ' + error.message);
+													});
+												}
+												else if(level1 == 'surprise')
+												{
+														nooflevel = 5;
+														//alert("random 4:"+random );
+														genrateRandomQuetionBlock(random,scroebord_point,id);										
+												}
+								
+											
+										
+										 
+							  })
+							
+						
+				}
+				
+				function genrateRandomQuetionBlock(random1,scroebord_point,id)
+				{
+										///--------------------------------------------		
+										var db = window.sqlitePlugin.openDatabase({name: "NovasyonQuiz.db", location: 'default'});
+										//alert(random1);
+										
+										db.transaction(function(tx) 
+										{
+																	tx.executeSql('SELECT *FROM Questions where Sequence='+random1, [], function(tx, rs)
+																				{
+																				 
+																							//alert('Record count (expected to be 2): ' );
+																							//alert(rs.rows.length);
+																							//alert(rs.rows.item(0).Question);
+																							
+																							
+																							//var answerarr = ["James", "Levi", "Simon", "Matthew"];
+																							
+																							var answerarr = [rs.rows.item(0).CorrectAnswer, rs.rows.item(0).WrongAnswer1, rs.rows.item(0).WrongAnswer2, rs.rows.item(0).WrongAnswer3];
+																							
+																							answerarr = shuffle(answerarr);
+																							//alert(answerarr);
+																							
+																							
+																							var correctanswerposition;	
+																							correctanswerposition = jQuery.inArray(rs.rows.item(0).CorrectAnswer, answerarr) ;						
+																							//alert(correctanswerposition);
+																							
+																							
+																						if($('#'+$(id).attr("id")).hasClass('unAnsweredQuestion'))
+																						{	
+																									//alert('reload')
+																								
+																									//readnoofquestion ++;
+																							
+																							var isHelp = "false";
+																														if(rs.rows.item(0).Hint != null)
+																														{
+																																	isHelp = "true";    //display hint
+																														}
+																							
+																										//=================timer start
+																										
+																											var question = rs.rows.item(0).Question;
+																											$(".QuestionDiv").show();
+																											/*$("#topheader").hide();
+																											$("#gamePlayPage").css('margin-top',"8vh");*/
+																											$(".QuestionDiv").empty();
+																											$('.QuestionDiv').append("<div id='questionMaindiv'>"+
+																											"<img src='img/feedback.png' width='30px' height='30px' style='float:right; margin-right:15px;' id='"+question+"' onclick='FeedbackClick(this.id)'/><p class='question'>Question for  "+playerNameArray[iis]+"</p>"+
+																											"<p class='question' style='font-weight:300' id='question1' data-answer='"+rs.rows.item(0).CorrectAnswer+"'>"+rs.rows.item(0).Question+"</p>"+
+																											"<div style='position:relative;min-height:100px;'>"+
+																											"<div style='margin-top:35px;position:absolute;'><img class='gamepagesound' style='border:0;' src='img/audiowhite.png'  id='sound'  height='30' width='30'  onclick='soundcheck(this.id)'/></div>"+
+																											"<div class='item html'>"+
+																												"<h2>"+timetoreadquestion+"</h2>"+
+																												"<svg width='80' height='80'>"+
+																												"<g>"+
+																												 "<title>Layer 1</title>"+
+																												  "<circle id='circle' class='circle_animation'  r='30.857' cy='40' cx='36' stroke-width='4' stroke='#25B3CE' fill='none'/>"+
+																												 "</g>"+
+																												"</svg>"+
+																											"</div>"+
+																											"<div class='countquestion' style='margin-top:35px;'>(<span class='noanswer'>"+(readnoofquestion + 1)+"</span>/<span class='totalquestion'>"+ (questionparround * noofcategory)+"</span>)</div></div>"+
+																											"<div class='hintdiv'><span class='hintlabel' onclick='displayhint();'>Show Hint</span> <span class='hinttext'>"+rs.rows.item(0).Hint+"</span></div>"+
+																											
+																	
+																																				"<div class='' id='answerblock' data-playerpoint='"+playerpoint[iis]+"' data-scorebordpoint='"+scroebord_point+"' data-correctanswerpostion='"+(correctanswerposition+1)+"' data-rightanswer='"+rs.rows.item(0).CorrectAnswer+"' >"+
+																																					"<div>"+																						
+																																						"<div  class='qborder containeranser answerhideshow' id='"+answerarr[0]+"'  onclick='answerClick(this.id);'>"+
+																																							"<div class='left' id='1'>A</div>"+
+																																							"<div class='center '>"+answerarr[0]+"</div>"+
+																																							"<div class='rightblock' id='ans"+answerarr[0].split(' ').join('')+"'><img src='img/right.jpg' width='20px' height='20px;' /></div>"+
+																																							"<div class='wrongblock' id='wrn"+answerarr[0].replace(/[^a-zA-Z0-9 ]/g, "").replace( /\s/g, "")+"'><img src='img/close.png' width='20px' height='20px;' /></div>"+
+																																						"</div>"+
+																																						"<div  class='qborder containeranser answerhideshow' id='"+answerarr[1]+"'  onclick='answerClick(this.id);'>"+
+																																							"<div class='left' id='2'>B</div>"+
+																																							"<div class='center '>"+answerarr[1]+"</div>"+
+																																							"<div class='rightblock' id='ans"+answerarr[1].split(' ').join('')+"'><img src='img/right.jpg' width='20px' height='20px;' /></div>"+
+																																							"<div class='wrongblock' id='wrn"+answerarr[1].replace(/[^a-zA-Z0-9 ]/g, "").replace( /\s/g, "")+"'><img src='img/close.png' width='20px' height='20px;' /></div>"+
+																																						"</div>"+
+																																						"<div  class='qborder containeranser answerhideshow' id='"+answerarr[2]+"' onclick='answerClick(this.id);'>"+
+																																							"<div class='left' id='3'>C</div>"+
+																																							"<div class='center '>"+answerarr[2]+"</div>"+
+																																							"<div class='rightblock' id='ans"+answerarr[2].split(' ').join('')+"'><img src='img/right.jpg' width='20px' height='20px;' /></div>"+
+																																							"<div class='wrongblock' id='wrn"+answerarr[2].replace(/[^a-zA-Z0-9 ]/g, "").replace( /\s/g, "")+"'><img src='img/close.png' width='20px' height='20px;' /></div>"+
+																																						"</div>"+
+																																						"<div  class='qborder containeranser answerhideshow' id='"+answerarr[3]+"'  onclick='answerClick(this.id);'>"+
+																																							"<div class='left' id='4'>D</div>"+
+																																							"<div class='center '>"+answerarr[3]+"</div>"+
+																																							"<div class='rightblock' id='ans"+answerarr[3].split(' ').join('')+"'><img src='img/right.jpg' width='20px' height='20px;' /></div>"+
+																																							"<div class='wrongblock' id='wrn"+answerarr[3].replace(/[^a-zA-Z0-9 ]/g, "").replace( /\s/g, "")+"'><img src='img/close.png' width='20px' height='20px;' /></div>"+
+																																						"</div>"+
+																																					"</div>"+
+																																					"</div>"+
+																																				"</div>"+
+																																				"<button class='btncontinue' id='" + isHelp +  "' onclick='clickContinue(this.id);' value='"+Messages.continuetxt+"'><span id='btnContinue'>Contniue</span></button>"+
+																																				"<div class='gamePodiums' id='teamcontainerdiv1'>"+
+																																				"</div>"+
+																																	"</div>");
+																										// first hint hide 						
+																									$(".hintdiv").css("display","none");
+																									
+																									$("#hintPopup").html(rs.rows.item(0).Hint);
+																									if(rs.rows.item(0).Hint != null)
+																									{
+																										isHint=1;
+																									}
+																									else
+																									{
+																										isHint=0;
+																									}
+																									// add background color
+																										
+																									var cnm = $(globalQuestionId).attr("id");
+																																																																													
+																									if(cnm.indexOf("cat_00_1") > -1 || cnm.indexOf("cat_10_2")> -1 || cnm.indexOf("cat_20_3")> -1 || cnm.indexOf("cat_30_4")> -1 || cnm.indexOf("cat_40_5")> -1)
+																									{
+																										$(".QuestionDiv").css('background','#FF8A80');
+																									}
+																									else if(cnm.indexOf("cat_01_1") > -1 || cnm.indexOf("cat_11_2")> -1 || cnm.indexOf("cat_21_3")> -1 || cnm.indexOf("cat_31_4")> -1 || cnm.indexOf("cat_41_5")> -1)
+																									{
+																										$(".QuestionDiv").css('background','#FF9800');
+													
+																									}
+																									else if(cnm.indexOf("cat_02_1") > -1 || cnm.indexOf("cat_12_2") > -1 || cnm.indexOf("cat_22_3") > -1 || cnm.indexOf("cat_32_4") > -1 || cnm.indexOf("cat_42_5") > -1)
+																									{
+																										$(".QuestionDiv").css('background','#FFEB3B');
+																										
+																									}
+																									else if(cnm.indexOf("cat_03_1") > -1 || cnm.indexOf("cat_13_2")> -1 || cnm.indexOf("cat_23_3")> -1 || cnm.indexOf("cat_33_4")> -1 || cnm.indexOf("cat_43_5")> -1)
+																									{
+																										$(".QuestionDiv").css('background','#4CAF50');
+																									}
+																									else if(cnm.indexOf("cat_04_1") > -1 || cnm.indexOf("cat_14_2") > -1 || cnm.indexOf("cat_24_3")> -1 || cnm.indexOf("cat_34_4")> -1 || cnm.indexOf("cat_44_5")> -1)
+																									{
+																										$(".QuestionDiv").css('background','#29B6F6');
+																										
+																									}
+																									else if(cnm.indexOf("cat_05_1") > -1 || cnm.indexOf("cat_15_2") > -1 || cnm.indexOf("cat_25_3")> -1 || cnm.indexOf("cat_35_4")> -1 || cnm.indexOf("cat_45_5")> -1)
+																									{
+																											$(".QuestionDiv").css('background','#EA80FC');
+																									}
+							
+																									$("#btnContinue").html(Messages.answer);
+																									
+																									sound = window.localStorage.getItem("sound");
+																									
+																									
+																									
+																									// set sound
+																									if(sound == null || sound == "sound" )
+																									{
+																										$('#sound').attr('src', 'img/audiowhite.png');
+																										
+																									}
+																									else
+																									{
+																										
+																										$('#sound').attr('src', 'img/mutewhite.png');
+																									}
+																											
+																								// =========================timer start======================================//			
+																								//var time = 60; /* how long the timer runs for */
+																								
+																								timer(timetoreadquestion);
+																								
+																								function timer(timespeed)
+																								{
+																										var time = timespeed * 2;
+																										var initialOffset = '440';
+																										var icounter = 1;
+																										//counter = 30;
+																										counter = timespeed; 
+																										interval1 = setInterval(function() {
+																											$('.circle_animation').css('stroke-dashoffset', initialOffset-(icounter*(initialOffset/time)));
+																											$('h2').text(counter);
+																											counter--;
+																											// change timer color
+																											
+																											if(counter <=30 && counter >= 16 && timeToRead == 2)
+																											{
+																												circle.style.stroke="white";
+																											}
+																											else if(counter <= 15 && counter >=8 && timeToRead == 2)
+																											{
+																													circle.style.stroke="orange ";
+																											}
+																											else if(counter <= 7 && counter >=0 && timeToRead == 2)
+																											{
+																													circle.style.stroke="red ";
+																											}
+																											
+																											if (counter == 0) 
+																											{
+																												 $("#btnContinue").html(Messages.continuetxt); 
+																												clearInterval(interval1);
+																											//	setTimeout(function()
+																												//{
+																													$('h2').text(counter);
+																													if(readandanswertimeflag == 0 || timeToRead == 1)
+																													{
+																														readandanswertimeflag = 1;
+																														timeToRead = 2;
+																														//alert('aaa');
+																														timer(timeanswerquestion);
+																														$(".containeranser").removeClass("answerhideshow");
+																														
+																														//alert(rs.rows.item(0).Hint);
+																														if(rs.rows.item(0).Hint != null)
+																														{
+																																	$(".hintdiv").css("display","block");    //display hint
+																														}
+																														
+																													}
+																													else if(readandanswertimeflag == 1)  // change timer color after fnish time
+																													{
+																														circle.style.stroke="red";
+																														$(("#ans"+$('#answerblock').data("rightanswer")).split(' ').join('')).css("display","block");
+																													}
+																												//},1000);
+																												
+																													// time to give answer
+																													
+																											}
+																											icounter++;  
+																										}, 1000);
+																								}
+																								
+																							
+																								//=================timer end =========================================//
+																												
+																									languageChanged(window.localStorage.getItem("language"));
+																									$("#gamemaincontainer").hide();
+																									//$("#"+$(id).attr("id")).removeClass("unAnsweredQuestion");
+																									$("#"+$(id).attr("id")).addClass("answersQuestionBlock");											
+																						}
+																							
+																					
+																				},
+																				function(tx, error) 
+																				{
+																				 // alert('SELECT error: ' + error.message);
+																				});
+																	//------------------------------------------------
+										})
+				}
+				
+				// ====================================== click on question  ================================ //
+				function answerClick(id)
+				{	
+					if(gamesetting == 1)          // 2 tries; no penalty for wrong answer. Hints take one turn.
+					{
+						_2try_nopenalty(id);
+						
+					}
+					else if(gamesetting == 2)     // 2 tries; loss of point for wrong answer. Hints reduce value by 50%.
+					{
+							_2try_penalty_HintsreduceValue(id);
+							
+							
+					}
+					else if(gamesetting == 3)   // 1 try; loss of points for wrong answer. Hints cost 50% of question points.
+					{
+						_1try_penalty_HintsreduceValue(id);
+						
+						
+					}
+					
+				}
+				
+				/////================================================ // 2 tries; no penalty for wrong answer. Hints take one turn.  ================================
+				function _2try_nopenalty(id)
+				{
+					
+					var rightanswer = $('#answerblock').data("rightanswer");
+					var correctanswerpostion = $('#answerblock').data("correctanswerpostion");
+					var point = $('#answerblock').data("playerpoint");
+					var scorebordpoint = $('#answerblock').data("scorebordpoint");
+					
+					
+					if(noofanswer <= 2 && counter != '0' && readandanswertimeflag != 0 && !$('#wrn'+(id.replace(/[^a-zA-Z0-9 ]/g, "").replace( /\s/g, ""))).is(':visible') )   // two tries
+					{
+						noofanswer++;
+						if(rightanswer == id)  // correct answer click
+						{
+							
+							
+							//$("#ans"+$(('#answerblock').data("rightanswer")).replace(/[^A-Z0-9]/ig, "_")).css("display","block");
+							//$("#ans"+$('#answerblock').data("rightanswer")).css("display","block");
+							
+							// bonus count 
+										
+							checkBonus(globalQuestionId);
+							
+							//noCorrectAnswer++;
+							// calculate wrong answer
+							if(iis==0)
+							{
+								 noCorrectAnswerP1++;
+							}
+							else if(iis == 1)
+							{
+								 noCorrectAnswerP2++;
+							}
+							else if(iis == 2)
+							{
+								noCorrectAnswerP3++;
+							}
+							else if(iis == 3)
+							{
+								noCorrectAnswerP4++;
+							}
+							
+							
+							$(("#ans"+$('#answerblock').data("rightanswer")).split(' ').join('')).css("display","block");
+							
+							
+							$("#"+correctanswerpostion).addClass("rightanswerofquestion");	
+							clearInterval(interval1);
+							noofanswer = 2;
+							readandanswertimeflag = 0;
+							
+							// single player score
+							//playerpoints = point + scorebordpoint;
+							//$('#playerpointgame').text(playerpoints);
+							
+							// multipler score
+							playerpoint[iis] = playerpoint[iis] + scorebordpoint;
+							$('#playerpointgame'+iis).text(playerpoint[iis]);
+							
+							
+							//display explanations
+								if(isHint == 1 && alwaysDisplayExp == "true")
+								{
+									$('#myPopup').popup('open', {positionTo: 'window'});
+								}
+							
+							
+						//	insertupdateScore(playerpoints);
+							// play wrigth answer sound
+							  playAudio('successSound');
+							
+							//continueaftersometime(1000);
+						}
+						else  // wrong answer
+						{
+							 
+							$("#wrn"+(id.replace(/[^a-zA-Z0-9 ]/g, "").replace( /\s/g, ""))).css("display","block");
+							playAudio('errorSound');
+							// hide hint on first try
+							
+							//$(".hintdiv").css("display","none");
+							//$("#answerblock").css('margin-top','45px');
+							$(".hintdiv").css('visibility', 'hidden');
+							if(noofanswer == 2)
+							{
+								//alert('two try over');
+								//noWrongAnswer++;
+								// calculate wrong answer
+								if(iis==0)
+								{
+									 noWrongAnswerP1++;
+								}
+								else if(iis == 1)
+								{
+									 noWrongAnswerP2++;
+								}
+								else if(iis == 2)
+								{
+									noWrongAnswerP3++;
+								}
+								else if(iis == 3)
+								{
+									noWrongAnswerP4++;
+								}	
+								//$("#ans"+$('#answerblock').data("rightanswer")).css("display","block");
+								$(("#ans"+$('#answerblock').data("rightanswer")).split(' ').join('')).css("display","block");
+								 //$("#ans"+$(('#answerblock').data("rightanswer")).replace(/[^A-Z0-9]/ig, "_")).css("display","block");
+								clearInterval(interval1);
+								$("#"+correctanswerpostion).addClass("rightanswerofquestion");
+								readandanswertimeflag = 0;
+								//continueaftersometime(1500);
+								
+								if(isHint == 1 && alwaysDisplayExp == "true")
+								{
+									$('#myPopup').popup('open', {positionTo: 'window'});
+								}
+							}
+						}
+					}
+				}
+				
+				/////================================================ //  2 tries; loss of point for wrong answer. Hints reduce value by 50%..  ================================
+				function _2try_penalty_HintsreduceValue(id)
+				{
+					
+					var rightanswer = $('#answerblock').data("rightanswer");
+					var correctanswerpostion = $('#answerblock').data("correctanswerpostion");
+					var point = $('#answerblock').data("playerpoint");
+					var scorebordpoint = $('#answerblock').data("scorebordpoint");
+					
+					
+					if(noofanswer <= 2 && counter != '0' && readandanswertimeflag != 0 && !$('#wrn'+(id.replace(/[^a-zA-Z0-9 ]/g, "").replace( /\s/g, ""))).is(':visible'))   // two tries
+					{
+						noofanswer++;
+						if(rightanswer == id)  // correct answer click
+						{
+							//$("#ans"+$('#answerblock').data("rightanswer")).css("display","block");
+							$(("#ans"+$('#answerblock').data("rightanswer")).split(' ').join('')).css("display","block");
+							
+							// noCorrectAnswer++;
+							if(iis==0)
+							{
+								 noCorrectAnswerP1++;
+							}
+							else if(iis == 1)
+							{
+								 noCorrectAnswerP2++;
+							}
+							else if(iis == 2)
+							{
+								noCorrectAnswerP3++;
+							}
+							else if(iis == 3)
+							{
+								noCorrectAnswerP4++;
+							}		
+							 checkBonus(globalQuestionId);
+							 $("#"+correctanswerpostion).addClass("rightanswerofquestion");	
+							clearInterval(interval1);
+							noofanswer = 2;
+							readandanswertimeflag = 0;
+							if(isUseHint == 'true')
+							{
+								playerpoint[iis] = playerpoint[iis] + (scorebordpoint/2);
+							}
+							else
+							{
+									playerpoint[iis] = playerpoint[iis] + scorebordpoint;
+							}
+							
+							$('#playerpointgame'+iis).text(playerpoint[iis]);
+							
+							//display explanations
+								if(isHint == 1 && alwaysDisplayExp == "true")
+								{
+									$('#myPopup').popup('open', {positionTo: 'window'});
+								}
+							
+							
+							//insertupdateScore(playerpoints);
+							// play wrigth answer sound
+							  playAudio('successSound');
+							  
+							//continueaftersometime(1000);
+						}
+						else  // wrong answer
+						{
+							
+							//$("#wrn"+id).css("display","block");
+							
+							$("#wrn"+(id.replace(/[^a-zA-Z0-9 ]/g, "").replace( /\s/g, ""))).css("display","block");
+							
+							playAudio('errorSound');
+							// hide hint on first try
+							
+							//$(".hintdiv").css("display","none");
+							//$("#answerblock").css('margin-top','45px');
+								$(".hintdiv").css('visibility', 'hidden');
+							if(noofanswer == 2)
+							{
+								//alert('two try over');
+							  //  $("#ans"+$('#answerblock').data("rightanswer")).css("display","block");
+								$(("#ans"+$('#answerblock').data("rightanswer")).split(' ').join('')).css("display","block");
+								//noWrongAnswer++;
+								// calculate wrong answer
+								if(iis==0)
+								{
+									 noWrongAnswerP1++;
+								}
+								else if(iis == 1)
+								{
+									 noWrongAnswerP2++;
+								}
+								else if(iis == 2)
+								{
+									noWrongAnswerP3++;
+								}
+								else if(iis == 3)
+								{
+									noWrongAnswerP4++;
+								}	
+								clearInterval(interval1);
+								$("#"+correctanswerpostion).addClass("rightanswerofquestion");
+								readandanswertimeflag = 0;
+								//continueaftersometime(1500);
+								if(playerpoint[iis] != 0)
+								{
+										playerpoint[iis] = playerpoint[iis] - scorebordpoint;	
+										$('#playerpointgame'+iis).text(playerpoint[iis]);
+										//insertupdateScore(playerpoints);
+								}
+								//display explanations
+								if(isHint == 1 && alwaysDisplayExp == "true")
+								{
+									$('#myPopup').popup('open', {positionTo: 'window'});
+								}
+							
+							}
+						}
+					}
+				}
+				function FeedbackClick(question)
+				{
+					//alert(question);
+					$("textarea#feedbackpopup").val(question);
+					modal.style.display = "block";
+					
+				}
+				/////================================================ //  1 try; loss of points for wrong answer. Hints cost 50% of question points...  ================================
+				function _1try_penalty_HintsreduceValue(id)
+				{
+					
+					var rightanswer = $('#answerblock').data("rightanswer");
+					var correctanswerpostion = $('#answerblock').data("correctanswerpostion");
+					var point = $('#answerblock').data("playerpoint");
+					var scorebordpoint = $('#answerblock').data("scorebordpoint");
+					
+					
+					if(noofanswer <= 1 && counter != '0' && readandanswertimeflag != 0 && !$('#wrn'+(id.replace(/[^a-zA-Z0-9 ]/g, "").replace( /\s/g, ""))).is(':visible'))   // two tries
+					{
+						noofanswer++;
+						if(rightanswer == id)  // correct answer click
+						{
+							$("#ans"+$('#answerblock').data("rightanswer")).css("display","block");
+							//noCorrectAnswer++;
+							if(iis==0)
+							{
+								 noCorrectAnswerP1++;
+							}
+							else if(iis == 1)
+							{
+								 noCorrectAnswerP2++;
+							}
+							else if(iis == 2)
+							{
+								noCorrectAnswerP3++;
+							}
+							else if(iis == 3)
+							{
+								noCorrectAnswerP4++;
+							}		
+							checkBonus(globalQuestionId);
+							
+							//  $("#ans"+$(('#answerblock').data("rightanswer")).replace(/[^A-Z0-9]/ig, "_")).css("display","block");
+							 $("#"+correctanswerpostion).addClass("rightanswerofquestion");	
+							
+							clearInterval(interval1);
+							noofanswer = 1;
+							readandanswertimeflag = 0;
+							if(playerpoint[iis] != 0)
+							{
+									if(isUseHint == 'true')
+									{
+										playerpoint[iis] = playerpoint[iis] + (scorebordpoint/2);
+									}
+									else
+									{
+											playerpoint[iis] = playerpoint[iis] + scorebordpoint;
+									}
+							}
+							$('#playerpointgame'+iis).text(playerpoint[iis]);
+							//insertupdateScore(playerpoints);
+							
+							//display explanations
+								if(isHint == 1 && alwaysDisplayExp == "true")
+								{
+									$('#myPopup').popup('open', {positionTo: 'window'});
+								}
+							
+							
+							// play wrigth answer sound
+							 playAudio('successSound');
+							//continueaftersometime(1000);
+						}
+						else  // wrong answer
+						{
+							
+							$("#wrn"+(id.replace(/[^a-zA-Z0-9 ]/g, "").replace( /\s/g, ""))).css("display","block");
+							//$("#wrn"+id).css("display","block");
+							playAudio('errorSound');
+							// hide hint on first try
+							
+						//	$(".hintdiv").css("display","none");
+						//	$("#answerblock").css('margin-top','45px');
+							$(".hintdiv").css('visibility', 'hidden');
+							if(noofanswer == 1)
+							{
+								//alert('two try over');
+								//$("#ans"+$('#answerblock').data("rightanswer")).css("display","block");
+								 
+								 $(("#ans"+$('#answerblock').data("rightanswer")).split(' ').join('')).css("display","block");
+								//noWrongAnswer++;
+								// calculate wrong answer
+								if(iis==0)
+								{
+									 noWrongAnswerP1++;
+								}
+								else if(iis == 1)
+								{
+									 noWrongAnswerP2++;
+								}
+								else if(iis == 2)
+								{
+									noWrongAnswerP3++;
+								}
+								else if(iis == 3)
+								{
+									noWrongAnswerP4++;
+								}	
+								clearInterval(interval1);
+								$("#"+correctanswerpostion).addClass("rightanswerofquestion");
+								readandanswertimeflag = 0;
+								//continueaftersometime(1500);
+								if(playerpoint[iis] != 0)
+								{
+										playerpoint[iis] = playerpoint[iis] - scorebordpoint;	
+										$('#playerpointgame'+iis).text(playerpoint[iis]);
+										//insertupdateScore(playerpoints);
+								}
+								//display explanations
+								if(isHint == 1 && alwaysDisplayExp == "true")
+								{
+									$('#myPopup').popup('open', {positionTo: 'window'});
+								}
+							
+							}
+						}
+					}
+				}
+				function clickContinue(ishelp)
+				{
+							//alert(iis + ' ' + playerNameArray.length +" " +noofanswer + " " + currentPlayer );
+							
+							if(readandanswertimeflag == 0 && timeToRead == 0)
+							{	
+								
+								readandanswertimeflag = 1;
+								
+							
+								//$("#btnContinue").html(Messages.answer);
+								$("#btnContinue").html(Messages.continuetxt);
+								$(".containeranser").removeClass("answerhideshow");
+																											
+								if(ishelp == "true")
+								{
+										$(".hintdiv").css("display","block");    //display hint
+								}
+								//alert('time to read');
+								timeToRead = 1;
+								
+							}
+							else
+							{
+								$("#btnContinue").html(Messages.continuetxt);
+								//alert('continue');
+								if(iis + 1 != playerNameArray.length)
+								{
+									clearInterval(interval1);
+									$(".QuestionDiv").hide();
+									$("#gamemaincontainer").show();
+									/*$("#topheader").show();
+									$("#gamePlayPage").css('margin-top',"0px");*/
+									//clearInterval(interval);
+									
+									noofanswer = 0;
+									currentPlayer = 0 ; 
+									readandanswertimeflag = 0;
+									i = 0;		
+									isUseHint = 'false';	
+									iis ++;	
+									
+									setTimeout(function(){quizQuestionAns(globalQuestionId);},100);  
+									$("#gamemaincontainer").hide();
+									$(".QuestionDiv").show();
+									/*$("#topheader").hide();	
+									$("#gamePlayPage").css('margin-top',"8vh");*/
+									roundCompletebox();									
+								}
+								else
+								{
+									clearInterval(interval1);
+									$(".QuestionDiv").hide();
+									$("#gamemaincontainer").show();
+									//clearInterval(interval);
+									
+									noofanswer = 0;
+									currentPlayer = 0 ; 
+									readandanswertimeflag = 0;
+									i = 0;		
+									isUseHint = 'false';	
+										
+									
+									iis  = 0;	
+									readnoofquestion ++;
+									
+									$("#"+$(globalQuestionId).attr("id")).removeClass("unAnsweredQuestion");		
+									roundCompletebox();									
+								}
+								timeToRead = 0;
+							}
+							
+							//alert(iis + ' ' + playerNameArray.length +" " +noofanswer + " " + currentPlayer );
+				}
+				function continueaftersometime(milisecond)
+				{
+							
+						/*	setTimeout(function()
+							{
+									$(".QuestionDiv").hide();
+									$("#gamemaincontainer").show();
+									clearInterval(interval);
+									clearInterval(interval1);
+									noofanswer = 0;
+									currentPlayer = 0 ; 
+									i = 0;
+									isUseHint = 'false';	
+									roundCompletebox();
+							},milisecond);	*/						
+				}
+				function help()
+				{
+						window.location = "help.html";
+				}
+				function home()
+				{
+						
+							var retVal = alertify.confirm( "Do you want to start a new game?”", function (e) {
+											if (e)
+											 {
+													
+														window.location = "home.html";
+											  } else 
+											  {
+														// cancel click
+											  }
+											});
+				}
+				function displayhint()
+				{
+					if(gamesetting == 1)          // 2 tries; no penalty for wrong answer. Hints take one turn.
+					{
+							$(".hinttext").css("display", "block");
+							$(".hintlabel").css("display","none");
+							noofanswer++;
+					}
+					else if(gamesetting == 2)     // 2 tries; loss of point for wrong answer. Hints reduce value by 50%.
+					{
+								//alert('aaa');
+								$(".hinttext").css("display", "block");
+								$(".hintlabel").css("display","none");
+								noofanswer++;
+								isUseHint = 'true';
+								
+					}
+					else if(gamesetting == 3)   // 1 try; loss of points for wrong answer. Hints cost 50% of question points.
+					{
+								$(".hinttext").css("display", "block");
+								$(".hintlabel").css("display","none");
+								isUseHint = 'true';
+								var point = $('#answerblock').data("playerpoint");
+								var scorebordpoint = $('#answerblock').data("scorebordpoint");
+								playerpoint[iis] = playerpoint[iis] - (scorebordpoint/2);
+					}
+					
+					
+				}
+				
+				function roundCompletebox()
+				{
+					
+					var totalnoofquestion = questionparround * noofcategory;
+					
+					//alert(readnoofquestion + "=="  + totalnoofquestion +" && " + noofround + " >= " + currentround);
+					if(readnoofquestion  == totalnoofquestion  && noofround >= currentround)
+					{
+						
+						clearInterval(interval);
+						clearInterval(interval1);
+						noofanswer = 0;
+						currentPlayer = 0 ; 
+						readandanswertimeflag = 0;
+						i = 0;		
+						isUseHint = 'false';
+						readnoofquestion = 0;
+						//alert('0'+currentround+' Round complete\n Your point :'+playerpoints);
+						calculateAndAddBonus();
+							
+								
+								//alert(noCorrectAnswerP1);
+								//alert(noCorrectAnswerP2);
+								//alert(noCorrectAnswerP3);
+							    //alert(noCorrectAnswerP4);
+								// calculate wrong answer
+							
+								//	 noWrongAnswerP1++;
+								//	 noWrongAnswerP2++;
+								//	 noWrongAnswerP3++;
+								//	 noWrongAnswerP4++;
+									var msg ='';
+									var calculateTotalCorrectAnswer = noCorrectAnswerP1 + noCorrectAnswerP2 + noCorrectAnswerP3 + noCorrectAnswerP4;
+									
+									var calculate50perCA = (questionparround	* numberofcategory)/2;
+									
+									for(var i=0 ; i < playerNameArray.length; i++)
+									{
+										
+										msg = msg +"<br><br><b>" + playerNameArray[i] + " won " + playerpoint[i] + "</b><br>\r\n";
+										if(i==0)
+										{
+											msg += "Correct Answer : " + noCorrectAnswerP1 + "<br>\r\n";
+											msg += "Wrong Answer : " + noWrongAnswerP1 + "\r\n";
+											if(getBonusPointPlayer1 != 0)
+												msg += "Congratulations " + playerNameArray[0] + ", you gave 5 good answers in a row. BONUS + " + getBonusPointPlayer1 + " point!" +  "\r\n";	
+										}
+										else if(i==1)
+										{
+											msg += "Correct Answer : " + noCorrectAnswerP2 + "<br>\r\n";
+											msg += "Wrong Answer : " + noWrongAnswerP2 + "<br>\r\n";
+											if(getBonusPointPlayer2 != 0)
+												msg += "Congratulations " + playerNameArray[1] + ", you gave 5 good answers in a row. BONUS + " + getBonusPointPlayer1 + " point!" + "\r\n";	
+										}else if(i==2)
+										{
+											msg += "Correct Answer : " + noCorrectAnswerP3 + "<br>\r\n";
+											msg += "Wrong Answer : " + noWrongAnswerP3 + "<br>\r\n";
+											if(getBonusPointPlayer3 != 0)
+												msg += "Congratulations " + playerNameArray[2] + ", you gave 5 good answers in a row. BONUS + " + getBonusPointPlayer1 + " point!" + "\r\n";
+										}
+										else if(i==3)
+										{
+											msg += "Correct Answer : " + noCorrectAnswerP4 + "<br>\r\n";
+											msg += "Wrong Answer : " + noWrongAnswerP4 + "<br>\r\n";
+											if(getBonusPointPlayer4 != 0)
+												msg += "Congratulations " + playerNameArray[3] + ", you gave 5 good answers in a row. BONUS + " + getBonusPointPlayer1 + " point!" + "\r\n";
+										}
+										
+									}
+									
+						//alertify.alert(' Round-0'+currentround+' complete.\r\n Your Point :'+playerpoints + "\r\n Correct Answer : "+noCorrectAnswer + "\r\n Wrong Answer : "+noWrongAnswer);
+						//alertify.alert(' Round-0'+currentround+' complete.\r\n ' + msg);
+						if(calculateTotalCorrectAnswer < calculate50perCA)
+						{
+							alertify.alert('GAME OVER! \r\n ' + msg + '\r\n Please keep on playing and get more good answers to go to level ' + (currentround + 1) + '.');
+						}
+						else
+						{
+							alertify.alert('Congratulations \r\n ' + msg + '\r\n Now you’re in level ' + (currentround + 1) +'.');
+							 
+						}
+						currentround++;
+						getBounsPoint = 0;
+						$("#noofround").html('0'+currentround);
+						$(".gameQuestionBlock").addClass("unAnsweredQuestion");	
+						$(".gameQuestionBlock").removeClass("answersQuestionBlock");
+						
+						/*noCorrectAnswerP1.length = 0;
+						noCorrectAnswerP2.length = 0;
+						noCorrectAnswerP3.length = 0;
+						noCorrectAnswerP4.length = 0;
+						noWrongAnswerP1.length = 0;
+						noWrongAnswerP2.length = 0;
+						noWrongAnswerP3.length = 0;
+						noWrongAnswerP4.length = 0;*/
+					}
+					if(noofround < currentround)
+					{
+							//alert('gameover');
+							//alertify.alert('Round Complete.Your point :'+playerpoints);
+							var playerPointTotal = 0;
+							for(var i=0 ; i < playerNameArray.length; i++)
+							{
+									playerPointTotal += playerpoint[i];
+							}
+							var retVal = alertify.confirm( "Congratulations! \n Round Complete.\n Your point :"+playerPointTotal, function (e) {
+	                        if (e)
+	                         {
+									sendUserPoint(playerPointTotal,noCorrectAnswerP1,noWrongAnswerP1);
+	                          		//after clicking OK
+	                               
+	                          } else 
+	                          {
+	                                 	/* setTimeout(function()
+										{				
+											window.location='home.html';
+										},2000);*/
+										sendUserPoint(playerPointTotal,noCorrectAnswerP1.length,noWrongAnswerP1.length);
+	          			      }		
+                         });
+							
+					}
+						noCorrectAnswerP1.length = 0;
+						noCorrectAnswerP2.length = 0;
+						noCorrectAnswerP3.length = 0;
+						noCorrectAnswerP4.length = 0;
+						noWrongAnswerP1.length = 0;
+						noWrongAnswerP2.length = 0;
+						noWrongAnswerP3.length = 0;
+						noWrongAnswerP4.length = 0;
+				}
+				
+				// play sound if sound is on
+				
+				 
+				  function playAudio(id)
+				  {
+						if(window.localStorage.getItem("sound") == 'sound' || window.localStorage.getItem("sound") == null)
+						{
+								
+								var audioElement = document.getElementById(id);
+								var url = audioElement.getAttribute('src');
+								var my_media = new Media(url,
+										// success callback
+										 function () { console.log("playAudio():Audio Success"); },
+										// error callback
+										 function (err) { console.log("playAudio():Audio Error: " + err.message); }
+								);
+									   // Play audio
+								my_media.play();
+						}
+				}
+				
+				
+				function checkBonus(id)
+				{
+					//alert($(id).attr("id"));
+					var arrayId = $(id).attr("id");
+					bonusArray.push(arrayId);
+					if(iis==0)   //iis indicate current player state
+					{
+							 bonusArrayP1.push(arrayId);
+					}
+					else if(iis == 1)   // 
+					{
+							 bonusArrayP2.push(arrayId);
+					}
+					else if(iis == 2)
+					{
+							bonusArrayP3.push(arrayId);
+					}
+					else if(iis == 3)
+					{
+							bonusArrayP4.push(arrayId);
+					}	
+					
+					console.log(bonusArray);
+				}
+				function calculateAndAddBonus()
+				{
+						var count_100 = 0;
+						var count_150 = 0;
+						var count_200 = 0;
+						var count_300 = 0;
+						var count_400 = 0;
+						for(var i=0;i<playerNameArray.length;i++)
+						{
+							getBonusPlayerWise(i);
+						}
+				}
+				// send user point
+				function sendUserPoint(playerPointTotal,goodanswer,wronganswer)
+				{
+						//alert("u_id" + userId + "u_highest_points" + playerPointTotal  + "u_no_good_answer" + goodanswer  + "u_no_wrong_answer" + wronganswer);
+						$.ajax({url:APIURL + MAINTAIN_SCORE,
+									type:"POST",
+									data: {"u_id" : userId,"u_highest_points" : playerPointTotal ,"u_no_good_answer" : goodanswer ,"u_no_wrong_answer" : wronganswer },
+									dataType:"json",
+									error:function(jqXHR,text_status,strError)
+									{
+											alertify.alert("No connection");
+											updateScoreInDb(playerPointTotal);
+											 setTimeout(function()
+											{
+													window.location='home.html';
+											 },1000);  
+									},
+										success:function(data)
+										{
+												var i = data;
+												var data_string = JSON.stringify(i);
+												var jsonData = JSON.parse(data_string);
+												//alert(data_string);
+																								
+												if(jsonData[0].status == 0)
+												{
+														//alertify.alert(jsonData[0].error);
+															window.location='home.html';
+												}	
+												else
+												{
+													 
+														//alert(jsonData[0].result);
+													 	window.location='home.html';
+												}
+										
+										}
+							});
+				}
+				function getBonusPlayerWise(playerId)
+				{
+					//alert(getBonusPointPlayer1 + " " + bonusArrayP1);
+					
+					var count_100 = 0;
+					var count_150 = 0;
+					var count_200 = 0;
+					var count_300 = 0;
+					var count_400 = 0;
+					
+					// first player get bonus
+					
+					if(playerId == 0)
+					{
+						//alert(getBonusPointPlayer1 + " " + bonusArrayP1);
+						for(var i = 0 ; i < questionparround ; i++)
+						{
+							for(var j = 0 ; j <  noofcategory; j++)
+							{
+								if(jQuery.inArray("cat_"+i+""+j+"_100", bonusArrayP1) !== -1)
+								{
+									count_100++;
+								}
+								else if(jQuery.inArray("cat_"+i+""+j+"_150", bonusArrayP1) !== -1)
+								{
+									count_150++;
+								}
+								else if(jQuery.inArray("cat_"+i+""+j+"_200", bonusArrayP1) !== -1)
+								{
+									count_200++;
+								}
+								else if(jQuery.inArray("cat_"+i+""+j+"_300", bonusArrayP1) !== -1)
+								{
+									count_300++;
+								}
+								else if(jQuery.inArray("cat_"+i+""+j+"_400", bonusArrayP1) !== -1)
+								{
+									count_400++;
+								}
+							}
+						}
+					}
+					else if(playerId == 1)  // check for second player bonus
+					{
+						//alert(getBonusPointPlayer2 + " " + bonusArrayP2);
+						for(var i = 0 ; i < questionparround ; i++)
+						{
+							for(var j = 0 ; j <  noofcategory; j++)
+							{
+								if(jQuery.inArray("cat_"+i+""+j+"_100", bonusArrayP2) !== -1)
+								{
+									count_100++;
+								}
+								else if(jQuery.inArray("cat_"+i+""+j+"_150", bonusArrayP2) !== -1)
+								{
+									count_150++;
+								}
+								else if(jQuery.inArray("cat_"+i+""+j+"_200", bonusArrayP2) !== -1)
+								{
+									count_200++;
+								}
+								else if(jQuery.inArray("cat_"+i+""+j+"_300", bonusArrayP2) !== -1)
+								{
+									count_300++;
+								}
+								else if(jQuery.inArray("cat_"+i+""+j+"_400", bonusArrayP2) !== -1)
+								{
+									count_400++;
+								}
+							}
+						}
+					}
+					else if(playerId == 2) // check for 3rd player bonus
+					{
+						//alert(getBonusPointPlayer3 + " " + bonusArrayP3);
+						for(var i = 0 ; i < questionparround ; i++)
+						{
+							for(var j = 0 ; j <  noofcategory; j++)
+							{
+								if(jQuery.inArray("cat_"+i+""+j+"_100", bonusArrayP3) !== -1)
+								{
+									count_100++;
+								}
+								else if(jQuery.inArray("cat_"+i+""+j+"_150", bonusArrayP3) !== -1)
+								{
+									count_150++;
+								}
+								else if(jQuery.inArray("cat_"+i+""+j+"_200", bonusArrayP3) !== -1)
+								{
+									count_200++;
+								}
+								else if(jQuery.inArray("cat_"+i+""+j+"_300", bonusArrayP3) !== -1)
+								{
+									count_300++;
+								}
+								else if(jQuery.inArray("cat_"+i+""+j+"_400", bonusArrayP3) !== -1)
+								{
+									count_400++;
+								}
+							}
+						}
+					}else if(playerId == 3) // check for 4th player bonus
+					{
+						//alert(getBonusPointPlayer4 + " " + bonusArrayP4);
+						for(var i = 0 ; i < questionparround ; i++)
+						{
+							for(var j = 0 ; j <  noofcategory; j++)
+							{
+								if(jQuery.inArray("cat_"+i+""+j+"_100", bonusArrayP4) !== -1)
+								{
+									count_100++;
+								}
+								else if(jQuery.inArray("cat_"+i+""+j+"_150", bonusArrayP4) !== -1)
+								{
+									count_150++;
+								}
+								else if(jQuery.inArray("cat_"+i+""+j+"_200", bonusArrayP4) !== -1)
+								{
+									count_200++;
+								}
+								else if(jQuery.inArray("cat_"+i+""+j+"_300", bonusArrayP4) !== -1)
+								{
+									count_300++;
+								}
+								else if(jQuery.inArray("cat_"+i+""+j+"_400", bonusArrayP4) !== -1)
+								{
+									count_400++;
+								}
+							}
+						}
+					}
+						/*console.log("100==>" + count_100);
+						console.log("150==>" + count_150);
+						console.log("200==>" + count_200);
+						console.log("300==>" + count_300);
+						console.log("400==>" + count_400);*/
+						if(count_100 == 5)
+						{
+						//	alert('100 bonusPoint:50');
+							playerpoint[0] += 50;
+							$('#playerpointgame').text(playerpoints);
+							getBounsPoint += 50;
+							alert('playerpoint' + playerId + "get bonus point 100");
+							addBonusPointToPlayer(playerId,1);
+						}
+						if(count_150 == 5)
+						{
+						//	alert('200 bonusPoint:50');
+							playerpoint[0] += 50;
+							$('#playerpointgame').text(playerpoints);
+							getBounsPoint += 50;
+							alert('playerpoint' + playerId + "get bonus point 150");
+							addBonusPointToPlayer(playerId,2);
+						}
+						if(count_200 == 5)
+						{
+						//	alert('200 bonusPoint:50');
+							playerpoint[0] += 50;
+							$('#playerpointgame').text(playerpoints);
+							getBounsPoint += 50;
+							alert('playerpoint' + playerId + "get bonus point 200");
+							addBonusPointToPlayer(playerId,3);
+						}
+						if(count_300 == 5)
+						{
+						//	alert('300 bonusPoint:50');
+							playerpoint[0] += 50;
+							$('#playerpointgame').text(playerpoints);
+							getBounsPoint += 50;
+							alert('playerpoint' + playerId + "get bonus point 300");
+							addBonusPointToPlayer(playerId,4);
+						}
+						if(count_400 == 5)
+						{
+							//alert('300 bonusPoint:50');
+							playerpoint[0] += 50;
+							$('#playerpointgame').text(playerpoints);
+							getBounsPoint += 50;
+							alert('playerpoint' + playerId + "get bonus point 400");
+							addBonusPointToPlayer(playerId,5);
+						}
+						bonusArray.length = 0;
+						bonusArrayP1.length = 0;
+						bonusArrayP2.length = 0;
+						bonusArrayP3.length = 0;
+						bonusArrayP4.length = 0;
+						
+				}
+				function addBonusPointToPlayer(playerId,bonusPoint)
+				{
+					if(playerId == 0)
+					{
+						
+						getBonusPointPlayer1 += (bonusPoint*2);
+						alert('add bonus to the payer1 bounus'+ getBonusPointPlayer1);
+					}
+					else if(playerId == 1)
+					{
+						
+						getBonusPointPlayer2 += (bonusPoint*2);
+						alert('add bonus to the payer 2 bonus'+ getBonusPointPlayer2);
+					}
+					else if(playerId == 2)
+					{
+						
+						getBonusPointPlayer3 += (bonusPoint*2);
+						alert('add bonus to the payer 3 bonus'+ getBonusPointPlayer3);
+					}
+					else if(playerId == 3)
+					{
+						
+						getBonusPointPlayer4 += (bonusPoint*2);
+						alert('add bonus to the payer 4 bonus'+ getBonusPointPlayer4);
+					}
+				}
+				function login()
+				{
+					window.location="login.html";
+				}
+		</script>
+    </head>
+    <body class="drawer drawer--left">
+      
+	
+			
+			 <header role="banner" id='topheader'>
+    
+					<div class="row row2">
+						  <div class="hd_menu drawer-toggle "></div>
+							<div class="hd_group" onclick="home();">
+					<img src="img/groupicon.png" class="groupimage1 deactive"/>
+					<img src="img/groupicon.png" class="groupimage2 deactive"/>
+					<img src="img/groupicon.png" class="groupimage3 deactive"/>
+					<img src="img/groupicon.png" class="groupimage4 deactive"/>
+				</div>
+							
+							<div class="hd_help" onclick="help();"></div>
+							<div class="hd_trophy"></div>
+							<div class="hd_title"><h3>Novasyon Quiz</h3></div>
+					</div>
+
+					<nav class="drawer-nav" role="navigation">
+						  <ul class="drawer-menu">
+							 <li id='profileMenu' ><a href="#"  class="normaltext" onclick='profile()'><img src="img/profile.png" class='drwericon'/><span id='profile'>Profile</span></a></li>
+							 <li><a onclick="gameSetting()" class="normaltext"><img src="img/settings_big_1x.png" class='drwericon'/><span id='setting'>Setting</span></a></li>
+							 <li><a  class="normaltext" id='feedbackpopup'><img src="img/feedback-icon.png" class='drwericon' /><span id="feedback">Feedback</span></a></li>
+							 <li><a href="sendQuestion()sendQuestion.html" class="normaltext"><img src="img/feedback-icon.png" class='drwericon' /><span id="shareQuestion">Share Question</span></a></li>
+							 <li><a href="#" class="normaltext" onclick="window.plugins.socialsharing.share('Novasyon Quiz')"><img src="img/Share-512.png" class='drwericon'/><span id="sharing">Sharing</span></a></li>
+							 <li><a href="#" class="normaltext" onclick="rate()"><img src="img/rating_star-512.png" class='drwericon'/><span id="rate">Rate</span></a></li>
+							  <li id='loginMenu'><a href="#" class="normaltext" onclick="login()"><img src="img/login-256.png" class='drwericon'/><span id="login">Login</span></a></li>	
+							 <li id='logoutMenu'><a href="#" class="normaltext" onclick="logout()"><img src="img/logout-256.png" class='drwericon'/><span id="logout">Logout</span></a></li>	
+						</ul>
+					</nav>
+			</header>
+			
+			
+			<div id="gamePlayPage">
+			
+									
+			
+			<div class="QuestionDiv">
+			
+			
+			</div> 
+				 
+				 					
+				<!--   player container   -->
+			
+			<div id="gamemaincontainer"> 
+				
+	 <div data-role="main" class="ui-content" style='padding-top:0 !important;'>
+		<!-- <a href="#myPopup" data-rel="popup" class="ui-btn ui-btn-inline ui-corner-all">Show Popup</a> -->
+		
+		<div data-role="popup" id="myPopup">
+			<p id='hintPopup'>This is a simple popup.</p>
+		</div>
+	</div>
+					
+			<audio id="successSound" src="/android_asset/www/sounds/correctans.mp3" type="audio/mpeg" ></audio>
+			<audio id="errorSound" src="/android_asset/www/sounds/wrongans.mp3" type="audio/mpeg" ></audio>
+			<!-- answerhideshow -->
+				
+				
+
+				<div class="gamePodiums" id="teamcontainerdiv">
+						
+						
+						
+				</div>	
+			
+				<div class="gameContainer">
+				<div class="roundtitle translate" >
+				
+				
+
+	
+					
+					<div class='roundtext'><span  id='round'>Round: </span><span id='noofround'></span> </div>
+					
+					
+				</div>
+					<div class="jeopardyBoard">
+						
+						
+						
+						
+						
+						<div class="gameCategories playGameCategories" id="containtdiv">
+						
+							
+						
+							<div class="questionOrAnswerScreen animated zoomIn inactive">
+								<div class="gameQuestion" style="white-space: nowrap; position: relative;">
+									<span class="textFitted textFitAlignVert" style="display: inline-block; font-size: 150px; height: 180px;">ia</span>
+								</div>
+							</div>
+							
+						</div> 
+						
+						
+						
+					</div>
+					
+				
+				</div>
+			  </div>		
+			</div>
+		<!-- The Modal -->
+				<div id="myModal" class="modal">
+
+					  <!-- Modal content -->
+					  <div class="modal-content">
+							<div class="modal-header">
+								  <span class="close">×</span>
+								  <h4 id='feedbackheader'>Feedback</h4>
+							</div>
+							<div class="modal-body">
+								 
+								  <textarea class="txtfeedback" cols="40" value="" rows="5" id="feedbackpopup"></textarea>
+								  <input class='buttonsubmit' value="send" type="button" id="btnsend" onclick="sendFeedback()">
+							</div>
+							
+					  </div>
+				</div>
+				
+		
+		
+		
+		
+		
+        <script type="text/javascript" src="cordova.js"></script>
+		<!-- navigation drawer script -->	
+		 
+		  <script src="js/iscroll.min.js"></script>
+		 
+		  <script src="js/drawer.min.js" charset="utf-8"></script>
+		  <script>
+			$(document).ready(function() {
+			  $('.drawer').drawer();
+				
+				if(window.localStorage.getItem("userId") == "")
+				 {
+						$('#profileMenu').hide();
+						$('#logoutMenu').hide();
+				 }
+				 else
+				 {
+						$('#loginMenu').hide();
+				 }
+				  
+			});
+			// Get the modal
+			var modal = document.getElementById('myModal');
+
+			// Get the button that opens the modal
+			var feedbackpopup = document.getElementById("feedbackpopup");
+
+
+			// Get the <span> element that closes the modal
+			var span = document.getElementsByClassName("close")[0];
+
+			// When the user clicks the button, open the modal
+			feedbackpopup.onclick = function() {
+				$("textarea#feedbackpopup").val('');
+				modal.style.display = "block";
+				
+			}
+
+			// When the user clicks on <span> (x), close the modal
+			span.onclick = function() {
+				modal.style.display = "none";
+				
+			}
+
+			// When the user clicks anywhere outside of the modal, close it
+			window.onclick = function(event) {
+				if (event.target == modal) {
+					modal.style.display = "none";
+					
+				}
+			}
+			$('#yourLink').click(function(){
+				  $('#tooltip').toggle();
+				});
+			function rate()
+			{
+					AppRate.preferences = {
+					  openStoreInApp: true,
+					  displayAppName: 'My custom app title',
+					  usesUntilPrompt: 5,
+					  promptAgainForEachNewVersion: false,
+					  storeAppURL: {
+						
+						android: 'market://details?id=com.example.jeopardy',
+						
+					  },
+					  customLocale: {
+						title: "Rate Novasyon Quiz",
+						message: "If you enjoy using Novasyon Quiz, would you mind taking a moment to rate it? It won’t take more than a minute. Thanks for your support!",
+						cancelButtonLabel: "No, Thanks",
+						laterButtonLabel: "Remind Me Later",
+						rateButtonLabel: "Rate It Now"
+					  }
+					};
+					AppRate.promptForRating();
+			}
+			function soundcheck(id)
+			{
+			
+				sound = window.localStorage.getItem("sound");
+				if(sound == "mute" )
+				{
+					$('#sound').attr('src', 'img/audiowhite.png');
+					window.localStorage.setItem("sound", "sound");
+				}
+				else
+				{
+					$('#sound').attr('src', 'img/mutewhite.png');
+					window.localStorage.setItem("sound", "mute");
+				}
+			}
+			function shuffle(array) 
+			{
+				  var currentIndex = array.length, temporaryValue, randomIndex;
+
+				  // While there remain elements to shuffle...
+				  while (0 !== currentIndex) {
+
+					// Pick a remaining element...
+					randomIndex = Math.floor(Math.random() * currentIndex);
+					currentIndex -= 1;
+
+					// And swap it with the current element.
+					temporaryValue = array[currentIndex];
+					array[currentIndex] = array[randomIndex];
+					array[randomIndex] = temporaryValue;
+				  }
+
+				  return array;
+			}
+			function insertupdateScore(pointtable)
+			{
+				alert('call');
+				var db = window.sqlitePlugin.openDatabase({name: "NovasyonQuiz.db", location: 'default'});
+				db.transaction(function(tx) 
+				{
+					tx.executeSql("SELECT *FROM guestuser", [], function(tx, rs)
+					{
+						alert('length:'+rs.rows.length);
+						if(rs.rows.length == 0)
+						{
+							//db.transaction(queryInsert, errorInsert, querySuccessInsert);
+							// ============================ insert record first time
+								insertPlayerScore();
+						}
+						else
+						{
+							//db.transaction(queryUpdatet, errorUpdate, querySuccessUpdate);
+							//=== update
+							updateScore(pointtable);
+						}
+					},
+					function(tx, error) 
+					{
+									alert('error: ' + error.message);
+					});
+				})					
+			}
+			
+			//============== insert record
+			function insertPlayerScore()
+			{
+					var db = window.sqlitePlugin.openDatabase({name: "NovasyonQuiz.db", location: 'default'});
+					db.transaction(function(tx) 
+					{
+						tx.executeSql("INSERT INTO guestuser(uid,username,point) VALUES('1','"+String(playername)+"','0')", [], function(tx, rs)
+						{
+							alert('insert 1 record');
+						},
+						function(tx, error) 
+						{
+								alert('insert error: ' + error.message);
+						});
+					})
+			}
+			
+			// ===============update score
+			function updateScore(pointtable)
+			{
+			
+					var db = window.sqlitePlugin.openDatabase({name: "NovasyonQuiz.db", location: 'default'});
+					db.transaction(function(tx) 
+					{
+						tx.executeSql("UPDATE guestuser SET point='"+pointtable+"',username='"+playername+"' WHERE uid='1'", [], function(tx, rs)
+						{
+							alert('update 1 record score is:'+pointtable);
+							selectUserScore();
+						},
+						function(tx, error) 
+						{
+								alert('update error: ' + error.message);
+						});
+					})
+			}
+			function selectUserScore()
+			{
+				var db = window.sqlitePlugin.openDatabase({name: "NovasyonQuiz.db", location: 'default'});
+				db.transaction(function(tx) 
+				{
+					tx.executeSql("SELECT *FROM guestuser", [], function(tx, rs)
+					{
+						alert(' select length:'+rs.rows.length);
+						if(rs.rows.length == 0)
+						{
+							$('#playerpointgame').text('0');
+						}
+						else
+						{
+							alert(rs.rows.item(0).point + " " +rs.rows.item(0).username);
+							$('#playerpointgame').text(rs.rows.item(0).point);
+						}
+					},
+					function(tx, error) 
+					{
+									alert('SELECT error: ' + error.message);
+					});
+				})	
+			}
+			function sendFeedback()
+				{
+					var feedback = $('textarea#feedbackpopup').val();
+					
+					
+					if(feedback == "")
+					{
+						alertify.alert('please enter feedback');
+					}
+					else
+					{
+								$.ajax({url:APIURL + FEEDBACK,
+									type:"POST",
+									data: {"u_id" : userId ,"f_description": feedback},
+									dataType:"json",
+									error:function(jqXHR,text_status,strError)
+									{
+											alertify.alert("No connection");
+											
+									},
+									success:function(data)
+									{
+												
+												var i = data;
+					
+												var data_string = JSON.stringify(i);
+												var jsonData = JSON.parse(data_string);
+												//alert(data_string);
+																								
+												if(jsonData[0].success == 1)
+												{
+														alertify.alert('Feedback send successfully');
+														modal.style.display = "none";
+														
+												}	
+												else
+												{
+													alertify.alert(jsonData[0].error);
+												}
+										
+									}
+							   
+								});
+					}
+				}
+				
+				function updateScoreInDb(score)
+				{
+									var userCurrPoint = 0;
+									userCurrPoint = parseInt(window.localStorage.getItem("currentPoint")) + parseInt(score);
+									//alert(userCurrPoint);
+									var db = window.sqlitePlugin.openDatabase({name: "NovasyonQuiz.db", location: 'default'});
+									db.transaction(function(tx) 
+									{
+										tx.executeSql("UPDATE score SET point ='" + userCurrPoint +"' WHERE u_id=1", [], function(tx, rs)
+										{
+												console.log('update 1 record');
+												
+										},
+										function(tx, error) 
+										{
+												console.log('update error: ' + error.message);
+												
+										});
+									})
+				}
+				function logout()
+				{
+									var retVal = alertify.confirm( "Do yo want to logout", function (e) {
+									if (e)
+									 {
+											//after clicking OK
+												window.localStorage.setItem("userId", "");
+												window.localStorage.setItem("userName", "");
+												window.location="login.html";
+									  } else 
+									  {
+												// cancel click
+									  }
+									});
+									
+				}
+									
+									function profile()
+									{
+										
+											var retVal = alertify.confirm( "Do you want to start a new game?”", function (e) {
+											if (e)
+											 {
+													
+														window.location="profile.html";
+											  } else 
+											  {
+														// cancel click
+											  }
+											});
+									}
+									function gameSetting()
+									{
+										
+										var retVal = alertify.confirm( "Do you want to start a new game?”", function (e) {
+											if (e)
+											 {
+													
+														window.location="gamesetting.html";
+											  } else 
+											  {
+														// cancel click
+											  }
+											});
+									}
+									function sendQuestion()
+									{
+										
+										var retVal = alertify.confirm( "Do you want to start a new game?”", function (e) {
+											if (e)
+											 {
+													
+														window.location="sendQuestion.html";
+											  } else 
+											  {
+														// cancel click
+											  }
+											});
+									}
+									
+			</script>
+			<script type="text/javascript" >
+			
+		  </script>
+		
+    </body>
+</html>

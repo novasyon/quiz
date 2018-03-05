@@ -1,0 +1,82 @@
+<html>
+    <head>
+	
+        <!--
+        Customize this policy to fit your own app's needs. For more guidance, see:
+            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+        Some notes:
+            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+                * Enable inline JS: add 'unsafe-inline' to default-src
+        -->
+			<meta charset="utf-8">
+			<meta http-equiv="X-UA-Compatible" content="IE=edge">
+			
+			<meta name="viewport" content="width=device-width,  initial-scale=1, maximum-scale=1, user-scalable=no">
+			<meta name="viewport" content="height=device-height, initial-scale=1 , maximum-scale=1, user-scalable=no">
+			<meta name="description" content="">
+			<meta name="author" content="">
+        
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<link href="css/bootstrap/bootstrap.css" rel="stylesheet">
+		<link href="css/bootstrap/bootstrap-theme.css" rel="stylesheet">
+		
+		
+
+		<script type="text/javascript">
+		
+		
+		  $(document).ready(function(){
+				  
+				  function init() {
+					window.addEventListener("orientationchange", orientationChange, true);
+
+				}
+		  });
+</script>
+    </head>
+    <body style="line-height: 1;background-color:#1E8BC3;">
+	<header>
+			   <div class="row row2">
+			  <div class="hd_menu"></div>
+				<div class="hd_group"></div>
+				<div class="hd_help"></div>
+				<div class="hd_trophy"></div>
+				
+				 <div class="hd_title"><h3>Novasyon Quiz</h3></div>
+				 
+			   </div>
+				
+			</header>
+
+		<div id="gameLandingPage" class="allcenter standardBack">
+			<img class="landingLogo" src="img/jeopardyrockslogo.png">
+			<br />
+			<br />
+			<br />
+			
+			<div class="container container-table" >
+				<div class="row vertical-center-row">
+				<div>
+					<div class="text-center">
+					
+						<h2 class="playNowTitledul" style="font-family:ProximaNovaSoft-Bold">Jepadi</h2>
+							<a class="signinButton" href="signin.html" style="font-family:ProximaNovaSoft-Bold">Sing In</a>
+							<a class="signinButton" href="playpage.html" style="font-family:ProximaNovaSoft-Bold">Play as Guest</a>
+					</div>
+					<div class="col-xs-12 languagediv" style="font-family:ProximaNovaSoft-Bold"> 
+						<div class="lanuagetitle col-xs-3 langactive">English</div>
+						<div class="lanuagetitle col-xs-3">Creole</div>
+						<div class="lanuagetitle col-xs-3">French</div>
+						<div class="lanuagetitle col-xs-3">Spanish</div>
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>
+	
+		 <script src="js/jquery.fittext.js"></script>
+	</body>
+</html>
+	

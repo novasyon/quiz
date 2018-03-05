@@ -1,0 +1,221 @@
+
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html style="height: 100%;">
+    <head>
+	<link href="//db.onlinewebfonts.com/c/7ad138835c0cf9f05a9f0ab343247612?family=ProximaNovaSoftW03-Bold" rel="stylesheet" type="text/css"/>
+        <!--
+        Customize this policy to fit your own app's needs. For more guidance, see:
+            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+        Some notes:
+            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+                * Enable inline JS: add 'unsafe-inline' to default-src
+        -->
+			<meta charset="utf-8">
+			<meta http-equiv="X-UA-Compatible" content="IE=edge">
+			
+			<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"/> -->
+			<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />			
+
+			<meta name="description" content="">
+			<meta name="author" content="">
+			
+			
+			
+	<link href="css/sandbox.css" rel="stylesheet">
+	<link href="css/drawer.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link href="css/bootstrap/bootstrap.css" rel="stylesheet">
+	<link href="css/bootstrap/bootstrap-theme.css" rel="stylesheet">
+	<!-- include the core styles -->
+		  <link rel="stylesheet" href="css/alertify.core.css" />
+		  <!-- include a theme, can be included into the core instead of 2 separate files -->
+		  <link rel="stylesheet" href="css/alertify.default.css" />
+			<script src="js/alertify.min.js"></script>
+	<script src="js/jqueryfile/jquery1113.js"></script>
+	<script type="text/javascript" src="js/index.js"></script>
+	<script type="text/javascript" src="cordova.js"></script>
+	 <script src="js/url_min.js"></script>
+			
+		<style type="text/css">
+		@font-face {
+			font-family:ProximaNovaSoft;
+			src: url(ProximaNovaSoft-Bold.otf);
+			font-weight: normal;
+			font-style: normal;
+			}
+			@font-face {
+			font-family: "Roboto_Medium";
+				src: url("Roboto_Medium.ttf") format("opentype");
+				font-weight: normal;
+				font-style: normal;
+			}
+			body {
+				font-family: "Roboto_Medium";
+				background: rgba(246,255,219,1); /* For browsers that do not support gradients */
+				background: -webkit-linear-gradient(rgba(246,255,219,1) 30%, rgba(212,255,82,1) 100%); /* For Safari 5.1 to 6.0 */
+				background: -o-linear-gradient(rgba(246,255,219,1) 30%, rgba(212,255,82,1) 100%); /* For Opera 11.1 to 12.0 */
+			  background: -moz-linear-gradient(rgba(246,255,219,1) 30%, rgba(212,255,82,1) 100%); /* For Firefox 3.6 to 15 */
+			  background: linear-gradient(rgba(246,255,219,1) 30%, rgba(212,255,82,1) 100%); /* Standard syntax (must be last) */
+			}
+		</style>
+		
+		 
+		<script type="text/javascript">
+			var step = "1";
+			var captain = 0;
+			var noofteam ;
+			var userId = "";
+              
+			  $( document ).ready(function() 
+			  {
+					//alert('load');
+					// set current language
+					userId = window.localStorage.getItem("userId");
+			});
+				
+			
+			function clickSend()
+			{
+					
+					var txtQuestion = $('textarea#txtQuestion').val();
+					var txtCorrextionAnswer = $('#correctAnswer').val();
+					var txtwronganser1 = $('#wronganser1').val();
+					var txtwronganser2 = $('#wronganser2').val();
+					var txtwronganser3 = $('#wronganser3').val();
+					var txthint = $('#hint').val();
+					if(txtQuestion == "")
+					{
+						alertify.alert("Please enter question");
+					}
+					else if(txtCorrextionAnswer == "")
+					{
+						alertify.alert("Please enter Corrrect answer");
+					}
+					else if(txtwronganser1 == "")
+					{
+						alertify.alert("Please enter wronganswer1");
+					}
+					else if(txtwronganser2 == "")
+					{
+						alertify.alert("Please enter wronganswer2");
+					}
+					else if(txtwronganser3 == "")
+					{
+						alertify.alert("Please enter wronganswer3");
+					}
+					else
+					{
+						//alert(userId +" "+txtQuestion + " "+txtCorrextionAnswer + " " + txtwronganser1+ " " + txtwronganser2 + " " + txtwronganser3);
+								$.ajax({url:APIURL + USER_QUESTION,
+									type:"POST",
+									data: {"u_id" : userId,"que_question" : txtQuestion, "que_correctanser": txtCorrextionAnswer , "que_wronganswer1": txtwronganser1, "que_wronganswer2": txtwronganser2,"que_wronganswer3": txtwronganser3, "que_hint" : txthint},
+									dataType:"json",
+									error:function(jqXHR,text_status,strError)
+									{
+											alertify.alert("No connection");
+											
+									},
+									success:function(data)
+									{
+												
+												var i = data;
+					
+												var data_string = JSON.stringify(i);
+												var jsonData = JSON.parse(data_string);
+												//alert(data_string);
+																								
+												if(jsonData[0].success == 1)
+												{
+														alertify.alert('Question send successfully');													
+												}	
+												else
+												{
+															alertify.alert("Error sending question");
+												}
+										
+									}
+							   
+								});
+					}
+			}
+			function backButton()
+		  {
+				 window.history.back();
+		  }
+        </script>
+    </head>
+    <body style="line-height: 1;background-color:#FFF;" class="drawer drawer--left">
+       	
+		 <header>
+			   <div class="row row2">
+				<div class="hd_back_static"><img src="img/back.png" onclick="backButton();"/></div>
+				 <div class="hd_title"><h3>Novasyon Quiz</h3></div>
+				 
+			   </div>
+				
+			</header>
+		  <!-- content -->
+		<main role="main">
+	
+		<div id='questionMaindiv'>
+			<div class='sendQuestion col-xs-12'>
+				<div id="ID_playerorteam" class="lblsareQuestion">Share Question</div>
+				<div class='qborder' style='margin-left:14px;'><textarea placeholder='Question' class="txtQuestion"  value="" rows="2" id="txtQuestion"></textarea></div>
+				<div class='' id='answerblock'>
+					<div>																					
+						<div  class='qborder txtcontaineranwser'>
+									<div class='txtAnswerBlock'><input class ='txtanswer' id='correctAnswer' type='text' placeholder='Right answer'></div>
+						</div>
+						<div  class='qborder txtcontaineranwser'>
+									<div class='txtAnswerBlock'><input class ='txtanswer' id='wronganser1' type='text' placeholder='Wrong answers'></div>
+						</div>
+						<div  class='qborder txtcontaineranwser'>
+									<div class='txtAnswerBlock'><input class ='txtanswer' id='wronganser2' type='text' placeholder='Wrong answers'></div>
+						</div>
+						<div  class='qborder txtcontaineranwser'>
+								<div class='txtAnswerBlock'><input class ='txtanswer' id='wronganser3' type='text' placeholder='Wrong answers'></div>
+						</div>
+						<div  class='qborder txtcontaineranwser'>
+								<div class='txtAnswerBlock'><input class ='txtanswer' id='hint' type='text' placeholder='Hint'></div>
+						</div>
+					</div>
+					<button class='btncontinue'  onclick='clickSend();' value=''>Send</button>
+					<div class='gamePodiums' id='teamcontainerdiv1'>
+					</div>
+				</div>
+			</div>
+		</div>
+		</main>  
+       
+    
+	 <script src="js/iscroll.min.js"></script>
+	 <script src="js/drawer.min.js" charset="utf-8"></script>
+	
+	 
+  
+    </body>
+</html>
+	
+
+
+
+																											

@@ -1,0 +1,159 @@
+	<html>
+    <head>
+	
+        <!--
+        Customize this policy to fit your own app's needs. For more guidance, see:
+            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+        Some notes:
+            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+                * Enable inline JS: add 'unsafe-inline' to default-src
+        -->
+			<meta charset="utf-8">
+			<meta http-equiv="X-UA-Compatible" content="IE=edge">
+			
+			<meta name="viewport" content="width=device-width,  initial-scale=1, maximum-scale=1, user-scalable=no">
+			<meta name="viewport" content="height=device-height, initial-scale=1 , maximum-scale=1, user-scalable=no">
+			<meta name="description" content="">
+			<meta name="author" content="">
+        
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<link href="css/bootstrap/bootstrap.css" rel="stylesheet">
+		<link href="css/bootstrap/bootstrap-theme.css" rel="stylesheet">
+		
+		
+		<style type="text/css">
+		@font-face
+		{
+			font-family:museo-sans1;
+			src: url(museo-sans.ttf);
+			font-weight: normal;
+			font-style: normal;
+		}
+		@font-face {
+			font-family: "Roboto_Medium";
+				src: url("Roboto_Medium.ttf") format("opentype");
+				font-weight: normal;
+				font-style: normal;
+			}
+			body {
+				font-family: "Roboto_Medium";
+
+				background: rgba(246,255,219,1); /* For browsers that do not support gradients */
+				background: -webkit-linear-gradient(rgba(246,255,219,1) 30%, rgba(212,255,82,1) 100%); /* For Safari 5.1 to 6.0 */
+				background: -o-linear-gradient(rgba(246,255,219,1) 30%, rgba(212,255,82,1) 100%); /* For Opera 11.1 to 12.0 */
+				background: -moz-linear-gradient(rgba(246,255,219,1) 30%, rgba(212,255,82,1) 100%); /* For Firefox 3.6 to 15 */
+				background: linear-gradient(rgba(246,255,219,1) 30%, rgba(212,255,82,1) 100%); /* Standard syntax (must be last) */
+			}
+		</style>
+		<script src="js/jqueryfile/jquery1113.js"></script>
+		<script type="text/javascript" src="js/index.js"></script>
+		<script type="text/javascript">
+		
+		
+		  $(document).ready(function(){
+				  
+				  function init() {
+					window.addEventListener("orientationchange", orientationChange, true);
+
+				}
+				languageChanged(window.localStorage.getItem("language"));
+				setTimeout(function()
+				{
+					//alert('change color:==>');
+						StatusBar.backgroundColorByHexString('#3e3eb6');
+				},200);
+		  });
+		  function backButton()
+		  {
+				 window.history.back();
+		  }
+</script>
+    </head>
+    <body style=" line-height: 1;">
+	<header>
+			   <div class="row row2">
+				<div class="hd_back_static"><img src="img/back.png" onclick="backButton();"/></div>
+				 <div class="hd_title"><h3>Novasyon Quiz</h3></div>
+				 
+			   </div>
+				
+			</header>
+
+		<div id="signinPage" class="allcenter">
+			<!-- <img class="landingLogo" src="img/jeopardyrockslogo.png"> -->
+			<div class="container container-table" >
+				<div class="row vertical-center-row">
+					<form class="accountsForm col-xs-11">
+						<h1 class="accountsHeader col-xs-12" style="font-family:museo-sans,sans-serif,font-weight:400" id="signinheader">Sign In</h1>
+						<span class="error-class"></span>
+						<input id="email" placeholder="Email address" type="text" class="col-xs-12">
+						<input id="password" placeholder="Password" type="password" class="col-xs-12">
+						<input class="accountActionButton" value="Sign In" type="submit" id="btnsignin">
+						<p class="alreadyAccount col-xs-12">
+							<span id="donthaveaccount">Don't have an account?</span>
+							<a class="accountLoginLink" href="signup.html" id='signup'>Sign up</a>
+						</p>
+						 <p class="alreadyAccount col-xs-12">
+							<span id="forgotyourpassword">Forgot Your Password?</span>
+							<a class="accountLoginLink"  id="clickhere">Click here</a>
+						</p> 
+					</form>
+				</div>
+			</div>
+		</div>
+		<!-- The Modal -->
+				<div id="myModal" class="modal" >
+
+					  <!-- Modal content -->
+					  <div class="modal-content" style="margin-top:30%;">
+							<div class="modal-header">
+								  <span class="close">×</span>
+								  <h4 id="forgotyourpassword">Forgot password</h4>
+							</div>
+							<div class="modal-body" style="margin-top:35px;">
+								 
+								  <input id="email" placeholder="Email address" type="text" class="col-xs-12" style="margin-top:-20px;">
+								  <input class='buttonsubmit' value="send" type="send" id="btnsend">
+							</div>
+							
+					  </div>
+				</div>
+		 <script src="js/jquery.fittext.js"></script>
+		 <script>
+		
+		// Get the modal
+			var modal = document.getElementById('myModal');
+
+			// Get the button that opens the modal
+			var clickhere = document.getElementById("clickhere");
+
+
+			// Get the <span> element that closes the modal
+			var span = document.getElementsByClassName("close")[0];
+
+			// When the user clicks the button, open the modal
+			clickhere.onclick = function() {
+				$("textarea#feedbackpopup").val('');
+				modal.style.display = "block";
+				
+			}
+
+			// When the user clicks on <span> (x), close the modal
+			span.onclick = function() {
+				modal.style.display = "none";
+				
+			}
+
+			// When the user clicks anywhere outside of the modal, close it
+			window.onclick = function(event) {
+				if (event.target == modal) {
+					modal.style.display = "none";
+					
+				}
+			}
+			</script>
+	</body>
+</html>
+	

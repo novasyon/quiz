@@ -1,0 +1,152 @@
+<html>
+    <head>
+	
+        <!--
+        Customize this policy to fit your own app's needs. For more guidance, see:
+            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+        Some notes:
+            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+                * Enable inline JS: add 'unsafe-inline' to default-src
+        -->
+		
+			<meta charset="utf-8">
+			<meta http-equiv="X-UA-Compatible" content="IE=edge">
+			
+			<meta name="viewport" content="width=device-width,  initial-scale=1, maximum-scale=1, user-scalable=no">
+			
+			<meta name="description" content="">
+			<meta name="author" content="">
+        
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<link href="css/bootstrap/bootstrap.css" rel="stylesheet">
+		<link href="css/bootstrap/bootstrap-theme.css" rel="stylesheet">
+		 <script src="js/jqueryfile/jquery1113.js"></script>
+		
+		 <script type="text/javascript" src="js/index.js"></script>
+
+		
+		<style type="text/css">
+		@font-face {
+			font-family:ProximaNovaSoft-Bold;
+			src: url(ProximaNovaSoft-Bold.otf);
+			font-weight: normal;
+			font-style: normal;
+			}
+			
+		</style>
+		
+		  <script type="text/javascript" src="cordova.js"></script>
+		<script type="text/javascript">
+			  $(document).ready(function(){
+					  
+					/*  function init() {
+						window.addEventListener("orientationchange", orientationChange, true);
+
+					}*/
+					
+					languageChanged(window.localStorage.getItem("language"));
+					
+					var language = window.localStorage.getItem("language");
+					if(language == null)
+					{
+						$("#english").addClass("langactive");
+					}
+					else
+					{
+						$("#"+language).addClass("langactive");
+					}
+			  });
+			  function help()
+				{
+							window.location = "help.html";
+				}
+				document.addEventListener('backbutton', function(event)
+				{
+					//alert("back");
+				  event.preventDefault(); // EDIT
+				  navigator.app.exitApp(); // exit the app
+				});
+				function selectlanguage(id)
+				{
+					$("#english").removeClass("langactive");
+					$("#creole").removeClass("langactive");
+					$("#french").removeClass("langactive");
+					$("#spanish").removeClass("langactive");
+					$("#"+id).addClass("langactive");
+					window.localStorage.setItem("language",id);	
+					languageChanged(id);
+				}
+		</script>
+    </head>
+    <body style="line-height: 1;background-color:#1E8BC3;">
+	<header>
+			   <div class="row row2">
+			  <div class="hd_menu"></div>
+				<div class="hd_group"></div>
+				<div class="hd_help" onclick="help();"></div>
+				<div class="hd_trophy"></div>
+				
+				 <div class="hd_title"><h3>Nova Quiz</h3></div>
+				 
+			   </div>
+				
+			</header>
+			
+			
+			<!-- navigation drawer -->
+			
+				<div class="leftmenup">
+				  <div class="leftmenucontaint">
+						<div class="menublk">
+						<p style="height:40px;">&nbsp;</p>
+							<div class="boxline"></div>
+								<ul id="menunmli" class="top-menu-ul">
+									<li><img src="img/settings_big_1x.png" /><a href="settings.html">Setting</a></li>
+									 <li><img src="img/feedback-icon.png" /><a href="#">Feddback</a></li>
+									 <li><img src="img/Share-512.png" /><a href="#">Sharing</a></li>
+									 <li><img src="img/rating_star-512.png" /><a href="#">Rate</a></li>
+									
+								</ul>					
+								
+						 </div>
+					</div>
+				</div>
+
+		<div id="gameLandingPage" class="allcenter standardBack">
+			<!--<img class="landingLogo" src="img/jeopardyrockslogo.png">  -->
+			<br />
+			<br />
+			<br />
+			
+			<div class="container container-table containertop" >
+				<div class="row vertical-center-row">
+				<div>
+					<div class="text-center">
+					
+						 <h2 class="playNowTitledul translate" style="font-family:ProximaNovaSoft-Bold"></h2>
+						
+							<a class="signinButton translate" href="signin.html" style="font-family:ProximaNovaSoft-Bold" id="signin"><!--Sing In --></a>
+							<a class="signinButton translate" href="playpage.html" style="font-family:ProximaNovaSoft-Bold" id="continueasguest"><!-- Play as Guest --></a>
+					</div>
+					<div class="col-xs-12 languagediv" style="font-family:ProximaNovaSoft-Bold"> 
+						<div class="lanuagetitle col-xs-3 translate"  id="english"  onclick="selectlanguage(this.id);">English</div>
+						<div class="lanuagetitle col-xs-3 translate" id="creole" onclick="selectlanguage(this.id);">Creole</div>
+						<div class="lanuagetitle col-xs-3 translate" id="french" onclick="selectlanguage(this.id);">French</div>
+						<div class="lanuagetitle col-xs-3 translate" id="spanish" onclick="selectlanguage(this.id);">Spanish</div>
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>
+	
+		 <script src="js/jquery.fittext.js"></script>
+		   <script src="js/jqueryfile/jquery1113.js"></script>
+			<script src="js/bootstrap/bootstrapmin.js"></script>
+			<script src="js/bootstrap/bootstraptheme.js"></script>
+		  <script src="js/developer.js"></script>
+		 
+	</body>
+</html>
+	

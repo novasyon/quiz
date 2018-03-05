@@ -1,0 +1,132 @@
+<html>
+    <head>
+	
+        <!--
+        Customize this policy to fit your own app's needs. For more guidance, see:
+            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+        Some notes:
+            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+                * Enable inline JS: add 'unsafe-inline' to default-src
+        -->
+			<meta charset="utf-8">
+			<meta http-equiv="X-UA-Compatible" content="IE=edge">
+			
+			<meta name="viewport" content="width=device-width,  initial-scale=1, maximum-scale=1, user-scalable=no">
+			<meta name="viewport" content="height=device-height, initial-scale=1 , maximum-scale=1, user-scalable=no">
+			<meta name="description" content="">
+			<meta name="author" content="">
+        
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<link href="css/bootstrap/bootstrap.css" rel="stylesheet">
+		<link href="css/bootstrap/bootstrap-theme.css" rel="stylesheet">
+		<script src="js/jqueryfile/jquery1113.js"></script>
+		<script type="text/javascript" src="js/index.js"></script>
+		<style type="text/css">
+		@font-face {
+			font-family:ProximaNovaSoft;
+			src: url(ProximaNovaSoft-Bold.otf);
+			font-weight: normal;
+			font-style: normal;
+			}
+			@font-face {
+			font-family: "Roboto_Medium";
+				src: url("Roboto_Medium.ttf") format("opentype");
+				font-weight: normal;
+				font-style: normal;
+			}
+			body {
+				font-family: "Roboto_Medium";
+				background: rgba(246,255,219,1); /* For browsers that do not support gradients */
+				background: -webkit-linear-gradient(rgba(246,255,219,1) 30%, rgba(212,255,82,1) 100%); /* For Safari 5.1 to 6.0 */
+				background: -o-linear-gradient(rgba(246,255,219,1) 30%, rgba(212,255,82,1) 100%); /* For Opera 11.1 to 12.0 */
+				background: -moz-linear-gradient(rgba(246,255,219,1) 30%, rgba(212,255,82,1) 100%); /* For Firefox 3.6 to 15 */
+				background: linear-gradient(rgba(246,255,219,1) 30%, rgba(212,255,82,1) 100%); /* Standard syntax (must be last) */
+			}
+		</style>
+		
+		<script type="text/javascript">
+		
+		
+		  $(document).ready(function(){
+				  languageChanged(window.localStorage.getItem("language"));
+				  setTimeout(function()
+					{
+						//alert('change color:==>');
+							StatusBar.backgroundColorByHexString('#3e3eb6');
+					},200);
+			  
+		  });
+		  	
+			function backclick()
+			{
+				 window.history.back();
+			}
+</script>
+    </head>
+    <body style=" line-height: 1;">
+		<header>
+			    <div class="hd_title"><h3>Novasyon Quiz</h3></div>
+				<div class="hd_back" onclick="backclick();"></div>				
+		</header>
+
+		<div id="gameLandingPage">
+			<!-- <img class="landingLogo" src="img/jeopardyrockslogo.png"> -->
+			<!--<div class="container container-table centerLogo" >
+				
+					 <div class="vertical-center-row vertical-center fulldiv">
+						<h3 class="setupTitle" style="font-family:ProximaNovaSoft;">Help</h3>
+					</div> 
+				
+			</div> -->
+				<div>
+						<h4 class="helptitle translate"  id="helptitle">HELP FOR NOVASYON QUIZ</h4>
+					<br>
+						<div>	
+							<div class="whatisnovasyonquiz" id="whatisnovasyonquiz"> 1 - WHAT IS NOVASYON QUIZ? </div>
+							<div>
+									<div class="nqrules1" id="help_line3">Novasyon Quiz is a game based upon the poplar jeopardy game. We want the settings to be easy, so you can fully enjoy it. </div>
+									<div class="nqrules1" id="help_line4">We will have a lot of quizzes. But we started with Bible quizzes. Later on, we will have other types of quizzes: history, sciences, languages. </div>
+							</div>
+						</div>
+					<hr style="border-top: 1px solid #cccccc;">
+						<div>
+							<div class="whatisnovasyonquiz" id="help_line5"> 2 - HOW DO WE CALCULATE THE SCORE? </div>
+							<div>
+									<div class="nqrules1" id="help_line6">The scoring is based on the setting. Setting your preferred settings according to difficulty.</div>
+							</div>
+							
+						</div>
+					<hr style="border-top: 1px solid #cccccc;">
+						<div>
+							<div class="whatisnovasyonquiz" id="help_line7"> 3 - PLAYING BIBLE QUIZ</div>
+							<div>
+									<div class="nqrules1" id="help_line8">i - ENTERING NAMES AND SELECTING OPTIONS Enter the player’s name and level on this screen. There are 5 suggested levels:</div>
+									<div class="level" id="help_line9">a) Very easy – As the name suggest. </div>
+									<div class="level" id="help_line10">b) Easy </div>
+									<div class="level" id="help_line11">c) Medium (The default level) </div>
+									<div class="level" id="help_line12">d) Hard </div>
+									<div class="level" id="help_line13">e) Surprise! Anything goes here. Select questions from all of the above categories. </div>
+									<div class="nqrules1" id="help_line14">This screen also has the following fields:</div>
+									<div class="nqrules1" id="help_line15">ii - PLAYER'S NAME, LEVEL</div>
+									<div class="nqrules1" id="help_line16">Enter the name of each player and choose a level. The default level is Medium</div>
+									<div class="nqrules1" id="help_line17">iii - GAME SETTINGS</div>
+									<div class="nqrules1" id="help_line18">These modes allow you to find the most interesting and exciting method of playing the quiz</div>
+							</div>
+						</div>
+
+						<div>
+								<div class="nqrules1" id="help_line19"> I) 2 tries; no penalty for wrong answer. Hints take one turn. </div>
+								<div class="nqrules1" id="help_line20">2 opportunities to answer the question with no penalty for wrong answers. However, a hint uses 1 of your tries.</div>
+								<div class="nqrules1" id="help_line21">In this mode, the player can try 2 times to answer a question. If the first try is wrong, the player will be able to make a second try. If the second try is still wrong, the player will not lose any points. </div>
+								<div class="nqrules1" id="help_line22">NB: The player will be able to see the hint only before the 1st try. If the player uses the hint (if hint is available for this answer) the player will not be able to make a second, try.</div>
+						</div>
+					<hr style="border-top: 1px solid #cccccc;">
+				</div>
+		</div>
+	
+		 <script src="js/jquery.fittext.js"></script>
+	</body>
+</html>
+	

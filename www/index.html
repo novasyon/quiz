@@ -1,0 +1,131 @@
+<html>
+    <head>
+	
+        <!--
+        Customize this policy to fit your own app's needs. For more guidance, see:
+            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+        Some notes:
+            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+                * Enable inline JS: add 'unsafe-inline' to default-src
+        -->
+			<meta charset="utf-8">
+			<meta http-equiv="X-UA-Compatible" content="IE=edge">
+			
+			<meta name="viewport" content="width=device-width,  initial-scale=1, maximum-scale=1, user-scalable=no">
+			<meta name="viewport" content="height=device-height, initial-scale=1 , maximum-scale=1, user-scalable=no">
+			<meta name="description" content="">
+			<meta name="author" content="">
+        
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<link href="css/bootstrap/bootstrap.css" rel="stylesheet">
+		<link href="css/bootstrap/bootstrap-theme.css" rel="stylesheet">
+		<script src="js/jqueryfile/jquery1113.js"></script>
+		 <script type="text/javascript" src="cordova.js"></script>
+		 <script type="text/javascript" src="js/index.js"></script>
+       
+		<style type="text/css">
+		@font-face 
+		{
+			font-family:ProximaNovaSoft;
+			src: url(ProximaNovaSoft-Bold.otf);
+			font-weight: normal;
+			font-style: normal;
+		}
+		@font-face {
+			font-family: "Roboto_Medium";
+				src: url("Roboto_Medium.ttf") format("opentype");
+				font-weight: normal;
+				font-style: normal;
+			}
+			body
+			{
+				font-family: "Roboto_Medium";
+				
+				background: rgba(246,255,219,1); /* For browsers that do not support gradients */
+				background: -webkit-linear-gradient(rgba(246,255,219,1) 30%, rgba(212,255,82,1) 100%); /* For Safari 5.1 to 6.0 */
+				background: -o-linear-gradient(rgba(246,255,219,1) 30%, rgba(212,255,82,1) 100%); /* For Opera 11.1 to 12.0 */
+				background: -moz-linear-gradient(rgba(246,255,219,1) 30%, rgba(212,255,82,1) 100%); /* For Firefox 3.6 to 15 */
+				background: linear-gradient(rgba(246,255,219,1) 30%, rgba(212,255,82,1) 100%); /* Standard syntax (must be last) */		
+			}
+		</style>
+		
+		<script type="text/javascript">
+		
+		
+		  $(document).ready(function(){
+				var width = window.screen.availWidth;	
+
+					var height = window.screen.availHeight;
+					
+					//alert("get Screen:"+width + "X" + +height);  
+					// change statusbar color
+				setTimeout(function()
+				{
+					//alert('change color:==>');
+						StatusBar.backgroundColorByHexString('#3e3eb6');
+				},200);
+			  languageChanged(window.localStorage.getItem("language"));
+			  
+		  });
+		  
+		  setTimeout(function()
+		  {
+					
+							
+					
+					if(!window.localStorage.getItem("userId") == "")
+					{
+						//alert(window.localStorage.getItem("userId"));
+						window.localStorage.setItem("appFirst","1");
+						window.location = 'home.html';
+
+					}
+					else
+					{
+						window.location="login.html";
+					}
+		  },2000);  
+			
+			
+</script>
+    </head>
+    <body style=" line-height: 1;">
+	
+
+		<div>
+			<!-- <img class="landingLogo" src="img/jeopardyrockslogo.png"> -->
+			<div class="container container-table centerLogo" >
+				
+					<div class="vertical-center-row vertical-center fulldiv">
+					 
+					 
+					 <div id="header">
+							<!--<h1 id="headerText" class="translate"></h1> -->
+					</div>			
+						
+						
+						<!--<h3 class="setupTitle translate" style="font-family:ProximaNovaSoft;" id="novaquiztilte">Novasyon Quiz</h3>-->
+						<div  class="Welcometext" >
+							<div id='welcomettext'>Welcome to</div>
+							<div><span class="novasyontext" id='novasyon'>Novasyon</span> <span class='quiztext' id='quiztext'> Quiz</span></div>
+							<div class="enjoytext" id='enjoytext'>Enjoy playing while enriching your knowledge;-)</div>
+													
+							<div class="spinner">
+								<div class="double-bounce1"></div>
+								<div class="double-bounce2"></div>
+							</div>
+						</div>
+						<!--<button onclick="window.location='login.html'" >button</button> -->
+						
+						
+					</div>
+				
+			</div>
+		</div>
+	
+		 
+	</body>
+</html>
+	

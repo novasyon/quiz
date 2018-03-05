@@ -1,0 +1,342 @@
+<html>
+<head>
+
+	<!--
+    Customize this policy to fit your own app's needs. For more guidance, see:
+        https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+    Some notes:
+        * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+        * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+        * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+            * Enable inline JS: add 'unsafe-inline' to default-src
+    -->
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<meta name="viewport" content="width=device-width,  initial-scale=1, maximum-scale=1, user-scalable=no">
+	<meta name="viewport" content="height=device-height, initial-scale=1 , maximum-scale=1, user-scalable=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link href="css/bootstrap/bootstrap.css" rel="stylesheet">
+	<link href="css/bootstrap/bootstrap-theme.css" rel="stylesheet">
+
+
+	<style type="text/css">
+		@font-face
+		{
+		font-family:museo-sans1;
+		src: url(museo-sans.ttf);
+		font-weight: normal;
+		font-style: normal;
+		}
+		@font-face {
+		font-family: "Roboto_Medium";
+		src: url("Roboto_Medium.ttf") format("opentype");
+		font-weight: normal;
+		font-style: normal;
+		}
+		body {
+		font-family: "Roboto_Medium";
+		//------
+		background: rgba(246,255,219,1); /* For browsers that do not support gradients */
+		background: -webkit-linear-gradient(rgba(246,255,219,1) 30%, rgba(212,255,82,1) 100%); /* For Safari 5.1 to 6.0 */
+		background: -o-linear-gradient(rgba(246,255,219,1) 30%, rgba(212,255,82,1) 100%); /* For Opera 11.1 to 12.0 */
+		background: -moz-linear-gradient(rgba(246,255,219,1) 30%, rgba(212,255,82,1) 100%); /* For Firefox 3.6 to 15 */
+		background: linear-gradient(rgba(246,255,219,1) 30%, rgba(212,255,82,1) 100%); /* Standard syntax (must be last) */
+		}
+	</style>
+	<script src="js/jqueryfile/jquery1113.js"></script>
+	<script type="text/javascript" src="js/index.js"></script>
+	<!-- include the core styles -->
+	<link rel="stylesheet" href="css/alertify.core.css" />
+	<!-- include a theme, can be included into the core instead of 2 separate files -->
+	<link rel="stylesheet" href="css/alertify.default.css" />
+	<script src="js/alertify.min.js"></script>
+	<script src="js/url_min.js"></script>
+	<script type="text/javascript" src="cordova.js"></script>
+	<script type="text/javascript">
+		
+		
+		  $(document).ready(function(){
+				  
+				  function init() {
+					window.addEventListener("orientationchange", orientationChange, true);
+					document.getElementById("editImage").innerHTML="";
+				}
+				languageChanged(window.localStorage.getItem("language"));
+				$(".signupForm").submit(function(e) {
+					e.preventDefault();
+				});
+
+				  window.localStorage.getItem("userId");
+				var userName = window.localStorage.getItem("userName");
+				var email =  window.localStorage.getItem("email");
+				 var fname =  window.localStorage.getItem("fname");
+				 var lname =  window.localStorage.getItem("lname");
+				 var pwd =  window.localStorage.getItem("password");
+
+				 document.getElementById("firstname").value = fname;
+				 document.getElementById("lastname").value = lname;
+				 document.getElementById("username").value = userName;
+				 document.getElementById("email").value = email;
+				 document.getElementById("password").value = pwd;
+				 document.getElementById("confirmpassword").value = pwd;
+		  });
+		  function backButton()
+		  {
+				 window.history.back();
+		  }
+
+
+</script>
+</head>
+<body style=" line-height: 1;">
+<header>
+	<div class="row row2">
+		<div class="hd_back_static"><img src="img/back.png" onclick="backButton();"/></div>
+		<div class="hd_title"><h3>Novasyon Quiz</h3></div>
+
+	</div>
+
+</header>
+
+<div id="signinPage" class="allcenter">
+	<!-- <img class="landingLogo" src="img/jeopardyrockslogo.png"> -->
+	<div class="container container-table" >
+		<div class="row vertical-center-row">
+			<form class="signupForm col-xs-11">
+				<h1 class="accountsHeader col-xs-12" style="font-family:museo-sans,sans-serif,font-weight:400" id="profile">Profile</h1>
+				<span class="error-class"></span>
+				<div >
+					<img src='img/profileimg.png' id='profilePic' class='profileimage' />
+					<div id="editImage" style="color: 0000ff;" onclick='clickEdit();'></div>
+				</div>
+				<br/>
+				<input id="firstname" placeholder="First name" type="text" class="col-xs-12" readonly>
+				<input id="lastname" placeholder="Last name" type="text" class="col-xs-12" readonly>
+				<input id="username" placeholder="Username" type="text" class="col-xs-12" readonly>
+				<input id="email" placeholder="Email address" type="text" class="col-xs-12" readonly>
+				<input id="password" placeholder="Password" type="password" class="col-xs-12" readonly>
+				<input id="confirmpassword" placeholder="Confirm Password" type="password" class="col-xs-12" readonly>
+				<input type="hidden" value="0" id="isEdit">
+				<input type="hidden" value="0" id="isEditProfile">
+				<input class="accountActionButton" value="Edit Profile" type="submit" id="btnprofile" onclick='clickEditProfile()'>
+				<!-- <input id="password" placeholder="Password" type="password" class="col-xs-12" readonly>
+                 <input class="accountActionButton" value="Sign up" type="submit" id="btnsignup" onclick='signup()'> -->
+
+			</form>
+		</div>
+	</div>
+</div>
+
+<script src="js/jquery.fittext.js"></script>
+<script type="text/javascript">
+
+			$(document).ready(function(e)
+			{
+						document.getElementById("profilePic").src = window.localStorage.getItem("uImage");
+
+			});
+
+			function clickEdit()
+			{
+			var isEditable=document.getElementById('isEdit').value;
+				if(isEditable==1){
+				navigator.camera.getPicture(onPhotoURISuccess,
+										function(message) { alert('get picture failed'); },
+					{
+									quality: 100,
+				destinationType: Camera.DestinationType.FILE_URI,
+				sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+				encodingType: Camera.EncodingType.JPEG,
+				targetWidth: 300,
+				targetHeight: 300}
+										);
+				}
+			}
+
+			function onPhotoURISuccess(imageURI)
+			{
+
+					console.error(imageURI);
+					document.getElementById("profilePic").src=imageURI;
+					document.getElementById('isEditProfile').value="1";
+			}
+
+			function onFail(message)
+			{
+				alert("Getting image failed");
+			}
+
+			function clickEditProfile()
+			{
+				var isEditable=document.getElementById('isEdit').value;
+				if(isEditable==1){
+					var u_id=window.localStorage.getItem("userId");
+					var fname = document.getElementById('firstname').value;
+					var lname = document.getElementById('lastname').value;
+					var uname = document.getElementById('username').value;
+					var email = document.getElementById('email').value;
+					var pwd = document.getElementById('password').value;
+					var re_pwd = document.getElementById('confirmpassword').value;
+
+					if(fname == "")
+					{
+						alertify.alert("Please enter first name");
+					}
+					else if(lname == "")
+					{
+						alertify.alert("Please enter last name");
+					}
+					else if(uname == "")
+					{
+						alertify.alert("Please enter user name");
+					}
+					else if(email == "")
+					{
+						alertify.alert("Please enter email");
+					}
+					else if(pwd == "" || re_pwd == "")
+					{
+						alertify.alert("Please enter password");
+					}
+					else if(pwd != re_pwd)
+					{
+						alertify.alert("Please enter valid password");
+					}
+					else{
+						var isUpload=document.getElementById('isEditProfile').value;
+						var img=document.getElementById('profilePic').src;
+						console.error("upload error img " + img.length);
+						console.error("upload error img " + img);
+						if(isUpload==1){
+								var fail = function (error) {
+								alertify.alert("Your profile not updated");
+								console.error("upload error source " + error.source);
+								console.error("upload error target " + error.target);
+									}
+							var img=document.getElementById('profilePic').src;
+
+							var upld_img=img.substring(0,img.lastIndexOf('?'));
+							var type="image/"+upld_img.substring(upld_img.lastIndexOf('.')+1);
+							var fileURL= upld_img;
+							console.error("File Url--->"+fileURL);
+							var options = new FileUploadOptions();
+							options.fileKey = "u_images";
+							console.error("upload data--> " + fileURL.substr(fileURL.lastIndexOf('/') + 1));
+							options.fileName = fileURL.substr(fileURL.lastIndexOf('/') + 1);
+							options.mimeType = type;
+							options.chunkedMode = false;
+
+							var params = {};
+
+							params.u_id = u_id;
+							params.u_name = uname;
+							params.u_lname = lname;
+							params.u_fname = fname;
+							params.u_email = email;
+							params.u_password = pwd;
+							options.params = params;
+							var ft = new FileTransfer();
+							ft.upload(fileURL, encodeURI(APIURL + UPDATE_PROFILE), function (data) {
+								console.error(data.response);
+
+								//var data_string = JSON.stringify(data.response);
+								var jsonData = JSON.parse(data.response);
+								//alert(data_string);
+								//console.error("Response ---> "+data_string.replace("/", ""));
+								//data_string=data_string.replace("/", "");
+													console.error("Response ---> "+jsonData[0].u_id);
+								if(jsonData[0].success == 0)
+								{
+										alertify.alert(jsonData[0].error);
+
+								}
+								else
+								{
+									document.getElementById('isEdit').value="0";
+									console.error("-->"+jsonData[0].u_id);
+									 //window.localStorage.setItem("getQuiz1", "1");
+									 //window.localStorage.setItem("userId", jsonData[0].u_id);
+									 window.localStorage.setItem("email", jsonData[0].u_email);
+									 window.localStorage.setItem("userName", jsonData[0].u_name);
+									 window.localStorage.setItem("fname", jsonData[0].u_fname);
+									 window.localStorage.setItem("lname", jsonData[0].u_lname);
+									 window.localStorage.setItem("uImage", jsonData[0].u_images);
+									 window.localStorage.setItem("password", jsonData[0].u_password);
+
+									 setTimeout(function()
+									 {
+										window.location = 'home.html';
+									 },500);
+								}
+							}, fail, options);
+						}else{
+							$.ajax({url:APIURL + UPDATE_PROFILE,
+									type:"POST",
+									data: {"u_id" : u_id,
+									"u_name" : uname,
+									"u_lname" : lname,
+									"u_fname" : fname,
+									"u_email" : email,
+									"u_password" : pwd
+									},
+									dataType:"json",
+									error:function(jqXHR,text_status,strError)
+									{
+											alertify.alert("No connection");
+
+									},
+										success:function(data)
+										{
+												var i = data;
+												var data_string = JSON.stringify(i);
+												var jsonData = JSON.parse(data_string);
+												console.error(data_string);
+												if(jsonData[0].success == 0)
+												{
+														alertify.alert(jsonData[0].error);
+
+												}
+												else
+												{
+													document.getElementById('isEdit').value="0";
+													console.error("-->"+jsonData[0].u_id);
+													 //window.localStorage.setItem("getQuiz1", "1");
+													 //window.localStorage.setItem("userId", jsonData[0].u_id);
+													 window.localStorage.setItem("email", jsonData[0].u_email);
+													 window.localStorage.setItem("userName", jsonData[0].u_name);
+													 window.localStorage.setItem("fname", jsonData[0].u_fname);
+													 window.localStorage.setItem("lname", jsonData[0].u_lname);
+													 window.localStorage.setItem("uImage", jsonData[0].u_images);
+													 window.localStorage.setItem("password", jsonData[0].u_password);
+
+													 setTimeout(function()
+													 {
+													 	alertify.alert("Profile Updated");
+														window.location = 'home.html';
+													 },500);
+												}
+										}
+								});
+						}
+					}
+
+				}else{
+					document.getElementById('isEdit').value="1";
+					document.getElementById('firstname').readOnly = false;
+					document.getElementById('lastname').readOnly = false;
+					document.getElementById('username').readOnly = false;
+					document.getElementById('email').readOnly = false;
+					document.getElementById('password').readOnly = false;
+					document.getElementById('confirmpassword').readOnly = false;
+					document.getElementById('btnprofile').value = "Update Profile";
+					document.getElementById("editImage").innerHTML="Edit";
+				}
+			}
+		 </script>
+
+</body>
+</html>
